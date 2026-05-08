@@ -46,6 +46,7 @@ class JanelaPrincipal(tkinter.Tk):
         menu_arquivo = tkinter.Menu(barra_menu, tearoff=0)
         menu_arquivo.add_command(
             label="Abrir série temporal",
+            command=lambda: controller.abrir_arquivo_serie_temporal(),
         )
         barra_menu.add_cascade(label="Arquivo", menu=menu_arquivo)
 
