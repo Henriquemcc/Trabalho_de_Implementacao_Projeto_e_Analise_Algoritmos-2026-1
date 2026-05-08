@@ -66,6 +66,9 @@ class FrameSerieTemporal(tkinter.Frame):
         canvas.draw()
         canvas.get_tk_widget().pack(fill=tkinter.BOTH, expand=True)
 
+
+        self.pack()
+
 class JanelaPrincipal(tkinter.Tk):
     """
     Janela principal de interface gráfica.
@@ -126,6 +129,7 @@ class Controlador:
         """
         caminho = filedialog.askopenfilename(filetypes=self.tipos_arquivos_serie_temporal)
         serie_temporal = SerieTemporal.abrir_arquivo(caminho)
+        frame_serie_temporal = FrameSerieTemporal(self.janela, serie_temporal)
 
 
 if __name__ == "__main__":
