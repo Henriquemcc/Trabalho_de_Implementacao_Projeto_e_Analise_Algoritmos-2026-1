@@ -12,6 +12,19 @@ class SerieTemporal:
         """
         self.dados = dados
 
+    @staticmethod
+    def abrir_arquivo(caminho) -> SerieTemporal:
+        """
+        Realiza a abertura de um arquivo de uma série temporal.
+        :param caminho: Caminho do arquivo da série temporal.
+        :return: SerieTemporal obtida a partir do arquivo.
+        """
+        dados = []
+        with open(caminho, "r") as arquivo:
+            for linha in arquivo:
+                dados.append(float(linha.strip()))
+        return SerieTemporal(dados)
+
 class FramePrincipal(tkinter.Frame):
     """
     Frame principal da interface gráfica.
