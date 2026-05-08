@@ -48,6 +48,9 @@ class JanelaPrincipal(tkinter.Tk):
         )
         barra_menu.add_cascade(label="Arquivo", menu=menu_arquivo)
 
+        # Adicionando menu
+        self.config(menu=barra_menu)
+
 class Controlador:
     """
     Controlador principal do programa.
