@@ -1,6 +1,10 @@
 import tkinter
 from tkinter import filedialog
 
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
+
 class SerieTemporal:
     """
     Estrutura de dados para armazenamento de uma série temporal.
@@ -41,6 +45,26 @@ class FramePrincipal(tkinter.Frame):
         titulo.pack(side="top", fill="x", pady=10)
         autor = tkinter.Label(self, text="Henrique Mendonça Castelar Campos")
         autor.pack(side="top", fill="x", pady=10)
+
+class FrameSerieTemporal(tkinter.Frame):
+    """
+    Frame utilizado para exibição das séries temporais.
+    """
+    def __init__(self, parent, serie_temporal: SerieTemporal):
+        tkinter.Frame.__init__(self, parent, bg="white")
+        fig = Figure(figsize=(6, 4), dpi=100)
+        ax = fig.add_subplot(111)
+
+        # Plotando os dados
+        ax.plot(serie_temporal.dados, marker="o", linestyle="-", color="#2c3e50")
+        ax.set_title("Série Temporal")
+        ax.set_xlabel("Tempo")
+        ax.set_ylabel("Valor")
+
+        # Adicionando gráfico ao frame
+        canvas = FigureCanvasTkAgg(fig, master=self)
+        canvas.draw()
+        canvas.get_tk_widget().pack(fill=tkinter.BOTH, expand=True)
 
 class JanelaPrincipal(tkinter.Tk):
     """
