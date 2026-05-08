@@ -101,6 +101,7 @@ class Controlador:
         :return:
         """
         caminho = filedialog.askopenfilename(filetypes=self.tipos_arquivos_serie_temporal)
+        serie_temporal = SerieTemporal.abrir_arquivo(caminho)
 
 
 if __name__ == "__main__":
