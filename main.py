@@ -69,6 +69,15 @@ class FrameSerieTemporal(tkinter.Frame):
 
         self.pack()
 
+class JanelaInternaSerieTemporal(tkinter.Toplevel):
+    """
+    Janela interna utilizada para exibir uma série temporal.
+    """
+    def __init__(self, parent: tkinter.Tk):
+        tkinter.Toplevel.__init__(self, parent)
+        self.title("Série Temporal")
+        self.geometry("250x175")
+
 class JanelaPrincipal(tkinter.Tk):
     """
     Janela principal de interface gráfica.
@@ -129,7 +138,8 @@ class Controlador:
         """
         caminho = filedialog.askopenfilename(filetypes=self.tipos_arquivos_serie_temporal)
         serie_temporal = SerieTemporal.abrir_arquivo(caminho)
-        frame_serie_temporal = FrameSerieTemporal(self.janela, serie_temporal)
+        janela_interna_serie_temporal = JanelaInternaSerieTemporal(self.janela)
+        frame_serie_temporal = FrameSerieTemporal(janela_interna_serie_temporal, serie_temporal)
 
 
 if __name__ == "__main__":
