@@ -137,8 +137,9 @@ class Controlador:
             ("Arquivos de séries temporais", ".txt" ),
         ]
 
-        self.janela = JanelaPrincipal(self)
-        self.janela.mainloop()
+        self.janela_principal = JanelaPrincipal(self)
+        self.frame_principal = FramePrincipal(self.janela_principal, self)
+        self.janela_principal.mainloop()
 
     def abrir_arquivo_serie_temporal(self):
         """
