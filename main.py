@@ -50,17 +50,31 @@ class FramePrincipal(tkinter.Frame):
         autor = tkinter.Label(self, text="Henrique Mendonça Castelar Campos")
         autor.pack(side="top", fill="x", pady=10)
 
-class FrameSerieTemporal(tkinter.Frame):
+class JanelaSerieTemporal(tkinter.Tk):
     """
-    Frame utilizado para exibição das séries temporais.
+    Janela utilizada para exibir uma série temporal.
     """
-    def __init__(self, parent, serie_temporal: SerieTemporal):
-        tkinter.Frame.__init__(self, parent, bg="white")
+    def __init__(self, serie_temporal: SerieTemporal):
+        tkinter.Tk.__init__(self)
+        self.title("Série Temporal")
+        self.geometry("250x175")
+        self.serie_temporal = serie_temporal
+
+        # Criando frame
+        self.criar_frame()
+
+    def criar_frame(self):
+        """
+        Cria o frame da série temporal.
+        :return:
+        """
+        self.frame = tkinter.Frame(self, bg="white")
+
         fig = Figure(figsize=(6, 4), dpi=100)
         ax = fig.add_subplot(111)
 
         # Plotando os dados
-        ax.plot(serie_temporal.dados, marker="o", linestyle="-", color="#2c3e50")
+        ax.plot(self.serie_temporal.dados, marker="o", linestyle="-", color="#2c3e50")
         ax.set_title("Série Temporal")
         ax.set_xlabel("Tempo")
         ax.set_ylabel("Valor")
@@ -70,17 +84,8 @@ class FrameSerieTemporal(tkinter.Frame):
         canvas.draw()
         canvas.get_tk_widget().pack(fill=tkinter.BOTH, expand=True)
 
+        self.frame.pack()
 
-        self.pack()
-
-class JanelaInternaSerieTemporal(tkinter.Toplevel):
-    """
-    Janela interna utilizada para exibir uma série temporal.
-    """
-    def __init__(self, parent: tkinter.Tk):
-        tkinter.Toplevel.__init__(self, parent)
-        self.title("Série Temporal")
-        self.geometry("250x175")
 
 class JanelaPrincipal(tkinter.Tk):
     """
@@ -142,8 +147,7 @@ class Controlador:
         """
         caminho = filedialog.askopenfilename(filetypes=self.tipos_arquivos_serie_temporal)
         serie_temporal = SerieTemporal.abrir_arquivo(caminho)
-        janela_interna_serie_temporal = JanelaInternaSerieTemporal(self.janela)
-        frame_serie_temporal = FrameSerieTemporal(janela_interna_serie_temporal, serie_temporal)
+        janela_interna_serie_temporal = JanelaSerieTemporal(serie_temporal)
 
 
 if __name__ == "__main__":
