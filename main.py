@@ -1,3 +1,4 @@
+import os
 import tkinter
 from tkinter import filedialog
 
@@ -9,12 +10,14 @@ class SerieTemporal:
     """
     Estrutura de dados para armazenamento de uma série temporal.
     """
-    def __init__(self, dados: list[float]):
+    def __init__(self, dados: list[float], nome:str):
         """
         Constrói uma nova instância da SerieTemporal.
         :param dados: Dados da série temporal.
+        :param nome: Nome da série temporal.
         """
         self.dados = dados
+        self.nome = nome
 
     @staticmethod
     def abrir_arquivo(caminho) -> SerieTemporal:
@@ -24,10 +27,11 @@ class SerieTemporal:
         :return: SerieTemporal obtida a partir do arquivo.
         """
         dados = []
+        nome = os.path.basename(caminho)
         with open(caminho, "r") as arquivo:
             for linha in arquivo:
                 dados.append(float(linha.strip()))
-        return SerieTemporal(dados)
+        return SerieTemporal(dados, nome)
 
 class FramePrincipal(tkinter.Frame):
     """
