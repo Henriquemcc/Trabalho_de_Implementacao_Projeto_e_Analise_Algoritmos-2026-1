@@ -56,7 +56,7 @@ class JanelaSerieTemporal(tkinter.Tk):
     """
     def __init__(self, serie_temporal: SerieTemporal):
         tkinter.Tk.__init__(self)
-        self.title("Série Temporal")
+        self.title(serie_temporal.nome)
         self.geometry("250x175")
         self.serie_temporal = serie_temporal
 
@@ -75,7 +75,7 @@ class JanelaSerieTemporal(tkinter.Tk):
 
         # Plotando os dados
         ax.plot(self.serie_temporal.dados, marker="o", linestyle="-", color="#2c3e50")
-        ax.set_title("Série Temporal")
+        ax.set_title(self.serie_temporal.nome)
         ax.set_xlabel("Tempo")
         ax.set_ylabel("Valor")
 
