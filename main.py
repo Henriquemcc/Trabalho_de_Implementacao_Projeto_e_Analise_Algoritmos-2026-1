@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import filedialog
 
 class FramePrincipal(tkinter.Frame):
     """
@@ -59,8 +60,23 @@ class Controlador:
         """
         Constrói uma nova instância de Controlador.
         """
+
+        # Tipos de arquivos de série temporal
+        self.tipos_arquivos_serie_temporal = [
+            ("Todos os arquivos compatíveis", [".txt"]),
+            ("Arquivos de séries temporais", ".txt" ),
+        ]
+
         self.janela = JanelaPrincipal(self)
         self.janela.mainloop()
+
+    def abrir_arquivo_serie_temporal(self):
+        """
+        Realiza a abertura de um arquivo de uma séria temporal.
+        :return:
+        """
+        caminho = filedialog.askopenfilename(filetypes=self.tipos_arquivos_serie_temporal)
+
 
 if __name__ == "__main__":
     controller = Controlador()
