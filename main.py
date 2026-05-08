@@ -49,6 +49,7 @@ class FramePrincipal(tkinter.Frame):
         titulo.pack(side="top", fill="x", pady=10)
         autor = tkinter.Label(self, text="Henrique Mendonça Castelar Campos")
         autor.pack(side="top", fill="x", pady=10)
+        self.pack()
 
 class JanelaSerieTemporal(tkinter.Tk):
     """
