@@ -1,6 +1,17 @@
 import tkinter
 from tkinter import filedialog
 
+class SerieTemporal:
+    """
+    Estrutura de dados para armazenamento de uma série temporal.
+    """
+    def __init__(self, dados: list[float]):
+        """
+        Constrói uma nova instância da SerieTemporal.
+        :param dados: Dados da série temporal.
+        """
+        self.dados = dados
+
 class FramePrincipal(tkinter.Frame):
     """
     Frame principal da interface gráfica.
