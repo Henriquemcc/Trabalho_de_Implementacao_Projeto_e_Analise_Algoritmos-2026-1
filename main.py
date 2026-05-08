@@ -45,7 +45,7 @@ class FramePrincipal(tkinter.Frame):
         """
         tkinter.Frame.__init__(self, parent)
         self.controller = controller
-        titulo = tkinter.Label(self, text="Trabalho de Implementação - Projeto e Análise de Algoritmos - Mestrado em Informática - PUC Minas")
+        titulo = tkinter.Label(self, text="Trabalho de Implementação - Projeto e Análise de Algoritmos - 2026-1")
         titulo.pack(side="top", fill="x", pady=10)
         autor = tkinter.Label(self, text="Henrique Mendonça Castelar Campos")
         autor.pack(side="top", fill="x", pady=10)
