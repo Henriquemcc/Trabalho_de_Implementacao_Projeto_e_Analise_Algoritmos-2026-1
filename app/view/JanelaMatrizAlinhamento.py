@@ -39,7 +39,6 @@ class JanelaMatrizAlinhamento(tkinter.Tk):
         # Plotando matriz de alinhamento
         distancia, matriz_custo = dtw.warping_paths(self.matriz_alinhamento.serie_1, self.matriz_alinhamento.serie_2)
         melhor_caminho = dtw.warping_path(self.matriz_alinhamento.serie_1.dados, self.matriz_alinhamento.serie_2.dados)
-        fig = plt.figure(figsize=(8, 8))
         gs = fig.add_gridspec(2, 2, width_ratios=[1, 4], height_ratios=[1, 4],
                               wspace=0.05, hspace=0.05)
 
