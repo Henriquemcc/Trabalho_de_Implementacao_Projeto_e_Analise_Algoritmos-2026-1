@@ -65,7 +65,7 @@ class JanelaMatrizAlinhamento(tkinter.Tk):
         ax_matriz.set_ylabel("Série A")
 
         # Adicionando gráfico ao frame
-        canvas = FigureCanvasTkAgg(fig, master=self)
+        canvas = FigureCanvasTkAgg(fig, master=self.frame)
         canvas.draw()
         canvas.get_tk_widget().pack(fill=tkinter.BOTH, expand=True)
 
