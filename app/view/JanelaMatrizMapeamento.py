@@ -35,6 +35,7 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
         self.frame = tkinter.Frame(self, bg="white")
 
         fig = Figure(figsize=(6, 4), dpi=100)
+        ax = fig.add_subplot(111) # Cria eixo explicitamente
 
         # Obtendo os dados
         s1 = self.matriz_mapeamento.serie_1.dados
@@ -44,9 +45,9 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
         melhor_caminho = dtw.warping_path(s1, s2)
 
         # Plotando a série 1 no topo e a série 2 abaixo (com um offset vertical)
-        offset = 5
-        plt.plot(s1 + offset, label="Série A", color="blue", marker="o")
-        plt.plot(s2, label="Série B", color="red", marker="o")
+        offset = np.max(s2) + (np.max(s1) - np.min(s1))
+        ax.plot(s1 + offset, label=self.matriz_mapeamento.serie_1.nome, color="blue", marker="o")
+        ax.plot(s2, label=self.matriz_mapeamento.serie_2.nome, color="red", marker="o")
 
         # Desenhando as linhas de mapeamento (conexões)
         # O caminho contém tuplas (índice_s1, índice_s2)
@@ -55,11 +56,10 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
             # Coordenadas: [x1, x2], [y1, y2]
             plt.plot([idx1, idx2], [s1[idx1] + offset, s2[idx2]], color='gray', linestyle='--', alpha=0.4, linewidth=1)
 
-        plt.title("Mapeamento de Alinhamento (DTW Warping)")
-        plt.yticks([0, offset], [self.matriz_mapeamento.serie_2.nome, self.matriz_mapeamento.serie_1.nome])
-        plt.legend()
-        plt.grid(axis='x', alpha=0.2)
-        plt.show()
+        ax.set_title("Mapeamento de Alinhamento (DTW Warping)")
+        ax.set_yticks([np.mean(s2), np.mean(s1) + offset])
+        ax.set_yticklabels([self.matriz_mapeamento.serie_2.nome, self.matriz_mapeamento.serie_1.nome])
+        ax.legend()
 
         # Adicionando gráfico ao frame
         canvas = FigureCanvasTkAgg(fig, master=self.frame)
