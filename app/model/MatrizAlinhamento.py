@@ -1,4 +1,4 @@
-from SerieTemporal import SerieTemporal
+from model.SerieTemporal import SerieTemporal
 
 
 class MatrizAlinhamento:
