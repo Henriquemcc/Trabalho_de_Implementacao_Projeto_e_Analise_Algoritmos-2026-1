@@ -15,7 +15,9 @@ class JanelaSelecionarSerieTemporal(tkinter.Toplevel):
 
         # Definindo janela
         self.title(titulo)
-        self.geometry("300x200")
+        screen_width = 800
+        screen_height = 600
+        self.geometry(f"{screen_width}x{screen_height}+0+0")
         self.grab_set()
 
         self.variavel_serie_temporal = tkinter.StringVar(value=series_temporais[0].nome if series_temporais else "")
