@@ -17,9 +17,9 @@ class JanelaSelecionarSerieTemporal(tkinter.Tk):
         self.geometry("300x200")
 
         # Criando frame
-        self.criar_frame()
+        self.criar_botoes()
 
-    def criar_frame(self):
+    def criar_botoes(self):
         """
         Cria o frame da série temporal.
         :return:
