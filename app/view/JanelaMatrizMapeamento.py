@@ -33,6 +33,7 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
         :return:
         """
         self.frame = tkinter.Frame(self, bg="white")
+        self.frame.pack(fill=tkinter.BOTH, expand=True)
 
         fig = Figure(figsize=(6, 4), dpi=100)
         ax = fig.add_subplot(111) # Cria eixo explicitamente
@@ -65,6 +66,7 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
         # Adicionando gráfico ao frame
         canvas = FigureCanvasTkAgg(fig, master=self.frame)
         canvas.draw()
-        canvas.get_tk_widget().pack(fill=tkinter.BOTH, expand=True)
+        canvas_widget = canvas.get_tk_widget()
+        canvas_widget.pack(fill=tkinter.BOTH, expand=True)
 
         self.frame.pack()
