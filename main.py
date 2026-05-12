@@ -1,6 +1,8 @@
 import os
 import tkinter
 from tkinter import filedialog
+import pandas as pd
+from pathlib import Path
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -10,7 +12,7 @@ class SerieTemporal:
     """
     Estrutura de dados para armazenamento de uma série temporal.
     """
-    def __init__(self, dados: list[float], nome:str):
+    def __init__(self, dados, nome:str):
         """
         Constrói uma nova instância da SerieTemporal.
         :param dados: Dados da série temporal.
@@ -22,8 +24,8 @@ class SerieTemporal:
     @staticmethod
     def abrir_arquivo_txt(caminho) -> SerieTemporal:
         """
-        Realiza a abertura de um arquivo de uma série temporal.
-        :param caminho: Caminho do arquivo da série temporal.
+        Realiza a abertura de um arquivo de uma série temporal em txt.
+        :param caminho: Caminho do arquivo da série temporal em txt.
         :return: SerieTemporal obtida a partir do arquivo.
         """
         dados = []
@@ -32,6 +34,17 @@ class SerieTemporal:
             for linha in arquivo:
                 dados.append(float(linha.strip()))
         return SerieTemporal(dados, nome)
+
+    @staticmethod
+    def abrir_arquivo_tsv(caminho) -> SerieTemporal:
+        """
+        Realiza a abertura de um arquivo de uma série temporal em tsv.
+        :param caminho: Caminho do arquivo da série temporal em tsv.
+        :return: SerieTemporal obtida a partir do arquivo.
+        """
+        df = pd.read_csv(caminho, sep='\t')
+        nome = os.path.basename(caminho)
+        return SerieTemporal(df, nome)
 
 class FramePrincipal(tkinter.Frame):
     """
@@ -79,7 +92,11 @@ class JanelaSerieTemporal(tkinter.Tk):
         ax = fig.add_subplot(111)
 
         # Plotando os dados
-        ax.plot(self.serie_temporal.dados, marker="o", linestyle="-", color="#2c3e50")
+        if type(self.serie_temporal.dados) is pd.DataFrame:
+            dados = self.serie_temporal.dados.iloc[0, 1:].values
+        elif type(self.serie_temporal.dados) is list:
+            dados = self.serie_temporal.dados
+        ax.plot(dados, marker="o", linestyle="-", color="#2c3e50")
         ax.set_title(self.serie_temporal.nome)
         ax.set_xlabel("Tempo")
         ax.set_ylabel("Valor")
@@ -138,8 +155,9 @@ class Controlador:
 
         # Tipos de arquivos de série temporal
         self.tipos_arquivos_serie_temporal = [
-            ("Todos os arquivos compatíveis", [".txt"]),
-            ("Arquivos de séries temporais", ".txt" ),
+            ("Todos os arquivos compatíveis", [".txt", ".tsv"]),
+            ("Arquivos de séries temporais", ".txt"),
+            ("Arquivos de séries temporais", ".tsv")
         ]
 
         self.janela_principal = JanelaPrincipal(self)
@@ -152,7 +170,10 @@ class Controlador:
         :return:
         """
         caminho = filedialog.askopenfilename(filetypes=self.tipos_arquivos_serie_temporal)
-        serie_temporal = SerieTemporal.abrir_arquivo_txt(caminho)
+        if Path(caminho).suffix == ".txt":
+            serie_temporal = SerieTemporal.abrir_arquivo_txt(caminho)
+        elif Path(caminho).suffix == ".tsv":
+            serie_temporal = SerieTemporal.abrir_arquivo_tsv(caminho)
         janela_interna_serie_temporal = JanelaSerieTemporal(serie_temporal)
 
 
