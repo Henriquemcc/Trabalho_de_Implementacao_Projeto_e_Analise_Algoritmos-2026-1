@@ -20,7 +20,7 @@ class SerieTemporal:
         self.nome = nome
 
     @staticmethod
-    def abrir_arquivo(caminho) -> SerieTemporal:
+    def abrir_arquivo_txt(caminho) -> SerieTemporal:
         """
         Realiza a abertura de um arquivo de uma série temporal.
         :param caminho: Caminho do arquivo da série temporal.
@@ -152,7 +152,7 @@ class Controlador:
         :return:
         """
         caminho = filedialog.askopenfilename(filetypes=self.tipos_arquivos_serie_temporal)
-        serie_temporal = SerieTemporal.abrir_arquivo(caminho)
+        serie_temporal = SerieTemporal.abrir_arquivo_txt(caminho)
         janela_interna_serie_temporal = JanelaSerieTemporal(serie_temporal)
 
 
