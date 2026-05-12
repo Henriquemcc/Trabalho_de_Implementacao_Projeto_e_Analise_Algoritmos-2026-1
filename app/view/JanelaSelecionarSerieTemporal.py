@@ -1,7 +1,5 @@
 import tkinter
 
-from pandas.core.reshape import tile
-
 
 class JanelaSelecionarSerieTemporal(tkinter.Toplevel):
     def __init__(self, titulo, mensagem, series_temporais: list):
@@ -10,6 +8,7 @@ class JanelaSelecionarSerieTemporal(tkinter.Toplevel):
         """
         tkinter.Toplevel.__init__(self)
         self.series_temporais = series_temporais
+        self.mapa_series = {s.nome: s for s in series_temporais}
         self.resultado = None
         self.titulo = titulo
         self.mensagem = mensagem
@@ -24,7 +23,8 @@ class JanelaSelecionarSerieTemporal(tkinter.Toplevel):
         self.criar_widgets()
 
     def confirmar(self):
-        self.resultado = self.variavel_serie_temporal.get()
+        nome_escolhido = self.variavel_serie_temporal.get()
+        self.resultado = self.mapa_series.get(nome_escolhido)
         self.destroy()
 
     def criar_widgets(self):
