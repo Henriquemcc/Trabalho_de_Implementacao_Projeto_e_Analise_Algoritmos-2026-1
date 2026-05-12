@@ -39,6 +39,10 @@ class JanelaPrincipal(tkinter.Tk):
             label="Gerar matriz de alinhamento",
             command=lambda: controller.gerar_matriz_alinhamento(),
         )
+        menu_transformar.add_command(
+            label="Gerar matriz de mapeamento",
+            command=lambda: controller.gerar_matriz_mapeamento(),
+        )
         barra_menu.add_cascade(label="Transformar", menu=menu_transformar)
 
         # Adicionando menu
