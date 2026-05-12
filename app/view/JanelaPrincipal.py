@@ -18,7 +18,7 @@ class JanelaPrincipal(tkinter.Tk):
         self.title("Trabalho de Implementação - Projeto e Análise de Algoritmos - Mestrado em Informática - PUC Minas")
 
         # Configurando o tamanho da janela
-        screen_width = 500
+        screen_width = 1000
         screen_height = 350
         self.geometry(f"{screen_width}x{screen_height}+0+0")
 
