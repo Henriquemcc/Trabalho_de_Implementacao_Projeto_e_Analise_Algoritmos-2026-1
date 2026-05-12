@@ -35,10 +35,7 @@ class JanelaSerieTemporal(tkinter.Tk):
         ax = fig.add_subplot(111)
 
         # Plotando os dados
-        if type(self.serie_temporal.dados) is pd.DataFrame:
-            dados = self.serie_temporal.dados.iloc[0, 1:].values
-        elif type(self.serie_temporal.dados) is list:
-            dados = self.serie_temporal.dados
+        dados = self.serie_temporal.dados
         ax.plot(dados, marker="o", linestyle="-", color="#2c3e50")
         ax.set_title(self.serie_temporal.nome)
         ax.set_xlabel("Tempo")

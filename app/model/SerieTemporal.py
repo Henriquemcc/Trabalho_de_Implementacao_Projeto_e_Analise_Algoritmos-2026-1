@@ -38,6 +38,6 @@ class SerieTemporal:
         :param caminho: Caminho do arquivo da série temporal em tsv.
         :return: SerieTemporal obtida a partir do arquivo.
         """
-        df = pd.read_csv(caminho, sep='\t')
+        df = pd.read_csv(caminho, sep='\t').iloc[0, 1:].values
         nome = os.path.basename(caminho)
         return SerieTemporal(df, nome)
