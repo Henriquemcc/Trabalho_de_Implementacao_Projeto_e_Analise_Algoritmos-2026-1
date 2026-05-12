@@ -3,35 +3,45 @@ import tkinter
 from pandas.core.reshape import tile
 
 
-class JanelaSelecionarSerieTemporal(tkinter.Tk):
-    def __init__(self, titulo, mensagem, series_temporais: list, confirmar):
+class JanelaSelecionarSerieTemporal(tkinter.Toplevel):
+    def __init__(self, titulo, mensagem, series_temporais: list):
         """
         Janela utilizada para selecionar uma série temporal.
         """
-        tkinter.Tk.__init__(self)
+        tkinter.Toplevel.__init__(self)
         self.series_temporais = series_temporais
+        self.resultado = None
         self.titulo = titulo
         self.mensagem = mensagem
-        self.confirmar = confirmar
+
+        # Definindo janela
         self.title(titulo)
         self.geometry("300x200")
+        self.grab_set()
 
-        # Criando frame
-        self.criar_botoes()
+        self.variavel_serie_temporal = tkinter.StringVar(value=series_temporais[0].nome if series_temporais else "")
 
-    def criar_botoes(self):
+        self.criar_widgets()
+
+    def confirmar(self):
+        self.resultado = self.variavel_serie_temporal.get()
+        self.destroy()
+
+    def criar_widgets(self):
         """
         Cria o frame da série temporal.
         :return:
         """
-        variavel_serie_temporal = tkinter.StringVar(value="Série Temporal")
         tkinter.Label(self, text=self.mensagem, font=("Calibre", 12))
 
         # Criando um radiobutton para cada série temporal
         for serie_temporal in self.series_temporais:
-            tkinter.Radiobutton(self, text=serie_temporal.nome, variable=variavel_serie_temporal, value=serie_temporal.nome)
+            tkinter.Radiobutton(self, text=serie_temporal.nome, variable=self.variavel_serie_temporal, value=serie_temporal.nome).pack(anchor='w', padx=20)
 
         # Criando um botão de confirmar
-        btn_confirmar = tkinter.Button(self, text="Confirmar", command=self.confirmar)
+        tkinter.Button(self, text="Confirmar", command=self.confirmar).pack(pady=20)
 
+    def mostrar(self):
+        self.wait_window()
+        return self.resultado
 
