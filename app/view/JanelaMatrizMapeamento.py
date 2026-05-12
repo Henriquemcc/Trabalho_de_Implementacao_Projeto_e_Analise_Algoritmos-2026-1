@@ -56,7 +56,7 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
             plt.plot([idx1, idx2], [s1[idx1] + offset, s2[idx2]], color='gray', linestyle='--', alpha=0.4, linewidth=1)
 
         plt.title("Mapeamento de Alinhamento (DTW Warping)")
-        plt.yticks([0, offset], ["Série B", "Série A"])
+        plt.yticks([0, offset], [self.matriz_mapeamento.serie_2.nome, self.matriz_mapeamento.serie_1.nome])
         plt.legend()
         plt.grid(axis='x', alpha=0.2)
         plt.show()
