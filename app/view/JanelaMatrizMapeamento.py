@@ -54,7 +54,8 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
         for (idx1, idx2) in melhor_caminho:
             # Desenha uma linha entre s1[idx1] e s2[idx2]
             # Coordenadas: [x1, x2], [y1, y2]
-            plt.plot([idx1, idx2], [s1[idx1] + offset, s2[idx2]], color='gray', linestyle='--', alpha=0.4, linewidth=1)
+            ax.plot([idx1, idx2], [s1[idx1] + offset, s2[idx2]],
+                    color='gray', linestyle='--', alpha=0.4, linewidth=1)
 
         ax.set_title("Mapeamento de Alinhamento (DTW Warping)")
         ax.set_yticks([np.mean(s2), np.mean(s1) + offset])
