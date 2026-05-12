@@ -17,8 +17,8 @@ class JanelaSerieTemporal(tkinter.Tk):
         self.serie_temporal = serie_temporal
 
         # Configurando o tamanho da janela
-        screen_width = 500
-        screen_height = 350
+        screen_width = 800
+        screen_height = 600
         self.geometry(f"{screen_width}x{screen_height}+0+0")
 
         # Criando frame
