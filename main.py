@@ -160,6 +160,10 @@ class Controlador:
             ("Arquivos de séries temporais", ".tsv")
         ]
 
+        # Array que armazena as séries temporais
+        self.series_temporais = []
+
+        # Criando janela principal
         self.janela_principal = JanelaPrincipal(self)
         self.frame_principal = FramePrincipal(self.janela_principal, self)
         self.janela_principal.mainloop()
@@ -174,6 +178,7 @@ class Controlador:
             serie_temporal = SerieTemporal.abrir_arquivo_txt(caminho)
         elif Path(caminho).suffix == ".tsv":
             serie_temporal = SerieTemporal.abrir_arquivo_tsv(caminho)
+        self.series_temporais.append(serie_temporal)
         janela_interna_serie_temporal = JanelaSerieTemporal(serie_temporal)
 
 
