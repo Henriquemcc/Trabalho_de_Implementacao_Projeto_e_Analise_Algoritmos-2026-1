@@ -1,6 +1,11 @@
 import tkinter
 
+import matplotlib.pyplot as plt
+import numpy as np
+from dtaidistance import dtw
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+
 from model.MatrizAlinhamento import MatrizAlinhamento
 
 
@@ -30,8 +35,39 @@ class JanelaMatrizAlinhamento(tkinter.Tk):
         self.frame = tkinter.Frame(self, bg="white")
 
         fig = Figure(figsize=(6, 4), dpi=100)
-        ax = fig.add_subplot(111)
 
         # Plotando matriz de alinhamento
+        distancia, matriz_custo = dtw.warping_paths(self.matriz_alinhamento.serie_1, self.matriz_alinhamento.serie_2)
+        melhor_caminho = dtw.warping_path(self.matriz_alinhamento.serie_1.dados, self.matriz_alinhamento.serie_2.dados)
+        fig = plt.figure(figsize=(8, 8))
+        gs = fig.add_gridspec(2, 2, width_ratios=[1, 4], height_ratios=[1, 4],
+                              wspace=0.05, hspace=0.05)
+
+        # Subplot 1: Série Superior (Eixo X)
+        ax_x = fig.add_subplot(gs[0, 1])
+        ax_x.plot(self.matriz_alinhamento.serie_1, color='g')
+        ax_x.set_axis_off()
+
+        # Subplot 2: Série Lateral (Eixo Y)
+        ax_y = fig.add_subplot(gs[1, 0])
+        ax_y.plot(self.matriz_alinhamento.serie_2.dados, np.arange(len(self.matriz_alinhamento.serie_2.dados)), color='r')
+        ax_y.invert_xaxis()  # Inverter para ficar de frente para a matriz
+        ax_y.set_axis_off()
+
+        # Subplot 3: A Matriz de Alinhamento
+        ax_matriz = fig.add_subplot(gs[1, 1])
+        ax_matriz.imshow(matriz_custo, interpolation='nearest', cmap='viridis', origin='lower')
+
+        # Plotar o caminho de alinhamento (a linha branca/preta na diagonal)
+        path_x, path_y = zip(*melhor_caminho)
+        ax_matriz.plot(path_y, path_x, color='white', linewidth=2)
+
+        ax_matriz.set_xlabel("Série B")
+        ax_matriz.set_ylabel("Série A")
+
+        # Adicionando gráfico ao frame
+        canvas = FigureCanvasTkAgg(fig, master=self)
+        canvas.draw()
+        canvas.get_tk_widget().pack(fill=tkinter.BOTH, expand=True)
 
         self.frame.pack()
