@@ -33,5 +33,13 @@ class JanelaPrincipal(tkinter.Tk):
         )
         barra_menu.add_cascade(label="Arquivo", menu=menu_arquivo)
 
+        # Menu transformar
+        menu_transformar = tkinter.Menu(barra_menu, tearoff=0)
+        menu_transformar.add_command(
+            label="Gerar matriz de alinhamento",
+            command=lambda: controller.gerar_matriz_alinhamento(),
+        )
+        barra_menu.add_cascade(label="Transformar", menu=menu_transformar)
+
         # Adicionando menu
         self.config(menu=barra_menu)
