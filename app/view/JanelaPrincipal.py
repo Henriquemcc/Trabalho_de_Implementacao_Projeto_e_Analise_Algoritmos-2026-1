@@ -1,5 +1,6 @@
 import tkinter
 
+
 class JanelaPrincipal(tkinter.Tk):
     """
     Janela principal de interface gráfica.

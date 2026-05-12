@@ -1,14 +1,17 @@
-from view.JanelaPrincipal import JanelaPrincipal
-from view.JanelaSerieTemporal import JanelaSerieTemporal
-from view.FramePrincipal import FramePrincipal
-from model.SerieTemporal import SerieTemporal
 from pathlib import Path
 from tkinter import filedialog
+
+from model.SerieTemporal import SerieTemporal
+from view.FramePrincipal import FramePrincipal
+from view.JanelaPrincipal import JanelaPrincipal
+from view.JanelaSerieTemporal import JanelaSerieTemporal
+
 
 class Controlador:
     """
     Controlador principal do programa.
     """
+
     def __init__(self):
         """
         Constrói uma nova instância de Controlador.

@@ -1,9 +1,11 @@
 import tkinter
 
+
 class FramePrincipal(tkinter.Frame):
     """
     Frame principal da interface gráfica.
     """
+
     def __init__(self, parent, controller):
         """
         Constrói uma nova instância do FramePrincipal.

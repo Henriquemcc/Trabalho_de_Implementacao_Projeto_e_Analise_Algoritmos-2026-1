@@ -1,11 +1,14 @@
 import tkinter
+
 from matplotlib.figure import Figure
 from model.MatrizAlinhamento import MatrizAlinhamento
+
 
 class JanelaMatrizAlinhamento(tkinter.Tk):
     """
     Janela utilizada para exibir uma matriz de alinhamento.
     """
+
     def __init__(self, matriz_alinhamento: MatrizAlinhamento):
         tkinter.Tk.__init__(self)
         self.title("Matriz de Alinhamento")
@@ -31,7 +34,4 @@ class JanelaMatrizAlinhamento(tkinter.Tk):
 
         # Plotando matriz de alinhamento
 
-
-
         self.frame.pack()
-

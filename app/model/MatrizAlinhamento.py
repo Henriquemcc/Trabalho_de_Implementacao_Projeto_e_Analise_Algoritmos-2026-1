@@ -1,9 +1,11 @@
 from SerieTemporal import SerieTemporal
 
+
 class MatrizAlinhamento:
     """
     Estrutura de dados para armazenamento de uma matriz de alinhamento.
     """
+
     def __init__(self, serie_1: SerieTemporal, serie_2: SerieTemporal):
         """
         Constrói uma nova instância da MatrizAlinhamento.

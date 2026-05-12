@@ -1,14 +1,16 @@
 import tkinter
+
+import pandas as pd
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from model.SerieTemporal import SerieTemporal
-import pandas as pd
 
 
 class JanelaSerieTemporal(tkinter.Tk):
     """
     Janela utilizada para exibir uma série temporal.
     """
+
     def __init__(self, serie_temporal: SerieTemporal):
         tkinter.Tk.__init__(self)
         self.title(serie_temporal.nome)

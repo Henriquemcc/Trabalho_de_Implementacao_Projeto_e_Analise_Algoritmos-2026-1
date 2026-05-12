@@ -1,11 +1,14 @@
 import os
+
 import pandas as pd
+
 
 class SerieTemporal:
     """
     Estrutura de dados para armazenamento de uma série temporal.
     """
-    def __init__(self, dados, nome:str):
+
+    def __init__(self, dados, nome: str):
         """
         Constrói uma nova instância da SerieTemporal.
         :param dados: Dados da série temporal.
