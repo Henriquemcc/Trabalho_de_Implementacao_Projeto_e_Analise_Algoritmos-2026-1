@@ -54,9 +54,18 @@ class Controlador:
         :return:
         """
 
+        # Verificando se há pelo menos duas séries temporais
+        if len(self.series_temporais) < 2:
+            return
+
         # Obtendo as séries temporais
-        serie_temporal_1 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 1", "Selecione a primeira série temporal", self.series_temporais).mostrar()
-        serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2", "Selecione a segunda série temporal", self.series_temporais).mostrar()
+        serie_temporal_1 = None
+        while serie_temporal_1 is None:
+            serie_temporal_1 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 1", "Selecione a primeira série temporal", self.series_temporais).mostrar()
+
+        serie_temporal_2 = None
+        while serie_temporal_2 is None:
+            serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2", "Selecione a segunda série temporal", self.series_temporais).mostrar()
 
         # Criando matriz de alinhamento
         matriz_alinhamento = MatrizAlinhamento(serie_temporal_1, serie_temporal_2)
