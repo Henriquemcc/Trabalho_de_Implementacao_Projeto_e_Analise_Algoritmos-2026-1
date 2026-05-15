@@ -79,4 +79,4 @@ class DynamicTimeWarping:
                                         dtw[i, j-1], # deleção
                                         dtw[i-1, j-1]) # match
 
-        return dtw[n, m]
+        return dtw[n-1, m-1]
