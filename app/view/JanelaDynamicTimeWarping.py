@@ -49,7 +49,7 @@ class JanelaDynamicTimeWarping(tkinter.Toplevel):
         tkinter.Entry(self.frame, textvariable=self.variavel_janela_de_busca).pack()
 
         # Criando botão para executar o Dynamic Time Warping
-        tkinter.Button(self.frame, text="Executar", command=lambda: self.executar).pack()
+        tkinter.Button(self.frame, text="Executar", command=self.executar).pack()
 
         # Criando label para mostrar a resposta do Dynamic Time Warping
         self.resposta_label = tkinter.Label(self.frame, text="Resposta:", font=("Calibre", 12))
