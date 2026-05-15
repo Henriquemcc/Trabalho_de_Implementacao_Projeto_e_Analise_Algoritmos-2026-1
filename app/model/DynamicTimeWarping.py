@@ -3,7 +3,7 @@ import math
 from enum import Enum
 
 class Distancia(Enum):
-    EUCLIDIANA = "euclidiana",
+    EUCLIDIANA = "euclidiana"
     MANHATTAN = "manhattan"
 
 def distancia_euclidiana(x: float, y: float) -> float:
@@ -36,10 +36,13 @@ class DynamicTimeWarping:
         :param distancia: Tipo de distância a ser utilizado.
         """
         self.janela_de_busca = janela_de_busca
-        if distancia == "manhattan":
+        self.distancia = None
+        if distancia == Distancia.MANHATTAN:
             self.distancia = distancia_manhattan
-        elif distancia == "euclidiana":
+        elif distancia == Distancia.EUCLIDIANA:
             self.distancia = distancia_euclidiana
+        else:
+            ValueError(f"Tipo de distância inválido: {distancia}")
 
     def processar(self, serie1: SerieTemporal, serie2: SerieTemporal):
         """
