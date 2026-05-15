@@ -55,28 +55,26 @@ class DynamicTimeWarping:
         n = len(s)
         m = len(t)
 
+        # Matriz com n+1 por m+1 para acomodar a linha/coluna zero (vazia)
         dtw = {}
 
         # Adaptando a janela de busca
         w = max(self.janela_de_busca, abs(n-m))
 
-        # Colocando infinito para todo o array dtw
-        for i in range(0, n):
-            for j in range(0, m):
+        # Inicialização: Colocando infinito para todos
+        for i in range(0, n+1):
+            for j in range(0, m+1):
                 dtw[i, j] = float('inf')
 
-        # Colocando 0
+        # Ponto de partida
         dtw[0, 0] = 0
-        for i in range(1, n):
-            for j in range(max(1, i-w), min(m, i+w)):
-                dtw[i, j] = 0
 
         # Calculando o custo e o dtw
-        for i in range(1, n):
-            for j in range(max(1, i-w), min(m, i+w)):
+        for i in range(1, n + 1):
+            for j in range(max(1, i-w), min(m, i+w) + 1):
                 custo = self.distancia(s[i-1], t[j-1])
                 dtw[i, j] = custo + min(dtw[i-1, j], # inserção
                                         dtw[i, j-1], # deleção
                                         dtw[i-1, j-1]) # match
 
-        return dtw[n-1, m-1]
+        return dtw[n, m]
