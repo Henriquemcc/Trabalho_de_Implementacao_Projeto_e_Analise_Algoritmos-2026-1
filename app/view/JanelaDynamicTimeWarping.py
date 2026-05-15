@@ -1,6 +1,6 @@
 import tkinter
 
-from model.DynamicTimeWarping import Distancia
+from model.DynamicTimeWarping import Distancia, DynamicTimeWarping
 from model.SerieTemporal import SerieTemporal
 
 
@@ -39,14 +39,14 @@ class JanelaDynamicTimeWarping(tkinter.Toplevel):
         tkinter.Label(self.frame, text="Algoritmo Dynamic Time Warping", font=("Calibre", 20))
 
         # Criando radiobuttons para escolher a distância utilizada
-        variavel_distancia = tkinter.StringVar()
-        tkinter.Radiobutton(self.frame, text="Distância Euclidiana", variable=variavel_distancia, value=Distancia.EUCLIDIANA).pack()
-        tkinter.Radiobutton(self.frame, text="Distância de Manhattan", variable=variavel_distancia, value=Distancia.MANHATTAN).pack()
+        self.variavel_distancia = tkinter.StringVar()
+        tkinter.Radiobutton(self.frame, text="Distância Euclidiana", variable=self.variavel_distancia, value=Distancia.EUCLIDIANA).pack()
+        tkinter.Radiobutton(self.frame, text="Distância de Manhattan", variable=self.variavel_distancia, value=Distancia.MANHATTAN).pack()
 
         # Criando entrada de texto para escolher a janela de busca
         tkinter.Label(self.frame, text="Janela de Busca:", font=("Calibre", 12)).pack()
-        variavel_janela_de_busca = tkinter.StringVar()
-        tkinter.Entry(self.frame, textvariable=variavel_janela_de_busca).pack()
+        self.variavel_janela_de_busca = tkinter.StringVar()
+        tkinter.Entry(self.frame, textvariable=self.variavel_janela_de_busca).pack()
 
         # Criando botão para executar o Dynamic Time Warping
         tkinter.Button(self.frame, text="Executar", command=lambda: self.executar)
@@ -58,4 +58,12 @@ class JanelaDynamicTimeWarping(tkinter.Toplevel):
         self.frame.pack(fill=tkinter.BOTH, expand=True)
 
     def executar(self):
-        pass
+        """
+        Realiza a execução do Dynamic Time Warping.
+        :return:
+        """
+        janela_de_busca = int(self.variavel_janela_de_busca.get())
+        distancia = Distancia(self.variavel_distancia.get())
+        dtw = DynamicTimeWarping(janela_de_busca, distancia)
+        resultado = dtw.processar(self.serie_temporal1, self.serie_temporal2)
+        self.resposta_label.config(text=f"Resposta: {resultado}")
