@@ -15,6 +15,7 @@ class JanelaDynamicTimeWarping(tkinter.Toplevel):
         :param serie_temporal2: Segunda série temporal.
         """
         tkinter.Toplevel.__init__(self)
+        self.variavel_janela_de_busca = None
         self.title("Dynamic Time Warping")
         self.serie_temporal1 = serie_temporal1
         self.serie_temporal2 = serie_temporal2
