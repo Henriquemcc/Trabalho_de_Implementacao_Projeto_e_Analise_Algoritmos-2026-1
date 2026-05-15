@@ -49,6 +49,7 @@ class DynamicTimeWarping:
         Realiza o processamento do algoritmo Dynamic Time Warping.
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
+        Fonte: https://en.wikipedia.org/wiki/Dynamic_time_warping#Implementation
         """
         s = serie1.dados
         t = serie2.dados
