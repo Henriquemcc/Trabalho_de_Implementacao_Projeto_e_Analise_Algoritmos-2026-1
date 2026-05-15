@@ -14,3 +14,10 @@ class TestDTW(unittest.TestCase):
         dtw = DynamicTimeWarping(10, Distancia.EUCLIDIANA)
         resultado = dtw.processar(serie1, serie2)
         self.assertEqual(resultado, 0)
+
+    def test_duas_series_temporais_diferentes(self):
+        serie1 = SerieTemporal([1, 2, 3, 4, 5], "Série Temporal 1")
+        serie2 = SerieTemporal([12, 14, 16, 18], "Série Temporal 2")
+        dtw = DynamicTimeWarping(10, Distancia.EUCLIDIANA)
+        resultado = dtw.processar(serie1, serie2)
+        self.assertNotEqual(resultado, 0)
