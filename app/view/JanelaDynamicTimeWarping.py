@@ -36,12 +36,13 @@ class JanelaDynamicTimeWarping(tkinter.Toplevel):
         Cria o frame do Dynamic Time Warping
         :return:
         """
-        self.frame = tkinter.Frame(self, bg="white")
+        self.frame = tkinter.Frame(self)
 
         # Título do Frame
-        tkinter.Label(self.frame, text="Algoritmo Dynamic Time Warping", font=("Calibre", 20))
+        tkinter.Label(self.frame, text="Algoritmo Dynamic Time Warping", font=("Calibre", 20)).pack()
 
         # Criando radiobuttons para escolher a distância utilizada
+        tkinter.Label(self.frame, text="Distância:", font=("Calibre", 12)).pack()
         tkinter.Radiobutton(self.frame, text="Distância Euclidiana", variable=self.variavel_distancia, value=Distancia.EUCLIDIANA.value).pack()
         tkinter.Radiobutton(self.frame, text="Distância de Manhattan", variable=self.variavel_distancia, value=Distancia.MANHATTAN.value).pack()
 
