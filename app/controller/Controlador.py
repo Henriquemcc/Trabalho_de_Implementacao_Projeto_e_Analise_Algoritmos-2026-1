@@ -5,6 +5,7 @@ from model.MatrizAlinhamento import MatrizAlinhamento
 from model.MatrizMapeamento import MatrizMapeamento
 from model.SerieTemporal import SerieTemporal
 from view.FramePrincipal import FramePrincipal
+from view.JanelaDynamicTimeWarping import JanelaDynamicTimeWarping
 from view.JanelaMatrizAlinhamento import JanelaMatrizAlinhamento
 from view.JanelaMatrizMapeamento import JanelaMatrizMapeamento
 from view.JanelaPrincipal import JanelaPrincipal
@@ -99,3 +100,28 @@ class Controlador:
 
         # Exibindo matriz de mapeamento
         janela_matriz_mapeamento = JanelaMatrizMapeamento(matriz_mapeamento)
+
+    def executar_dynamic_time_warping(self):
+        """
+        Realiza a execução do algoritmo Dynamic Time Warping
+        :return:
+        """
+        # Verificando se há pelo menos duas séries temporais
+        if len(self.series_temporais) < 2:
+            return
+
+        # Obtendo as séries temporais
+        serie_temporal_1 = None
+        while serie_temporal_1 is None:
+            serie_temporal_1 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 1",
+                                                             "Selecione a primeira série temporal",
+                                                             self.series_temporais).mostrar()
+
+        serie_temporal_2 = None
+        while serie_temporal_2 is None:
+            serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2",
+                                                             "Selecione a segunda série temporal",
+                                                             self.series_temporais).mostrar()
+
+        # Abrindo janela para execução do Dynamic Time Warping
+        janela_dynamic_time_warping = JanelaDynamicTimeWarping(serie_temporal_1, serie_temporal_2)
