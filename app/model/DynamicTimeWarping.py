@@ -57,31 +57,13 @@ class DynamicTimeWarping:
         n = len(s)
         m = len(t)
 
-        # Matriz com n+1 por m+1 para acomodar a linha/coluna zero (vazia)
-        dtw = {}
+        # Gerando matriz DTW
+        matrix_dtw = self.gerar_matriz_dtw(serie1, serie2)
 
-        # Adaptando a janela de busca
-        w = max(self.janela_de_busca, abs(n-m))
+        # Retornando o elemento das últimas posições dos eixos x e y
+        return matrix_dtw[n, m]
 
-        # Inicialização: Colocando infinito para todos
-        for i in range(0, n+1):
-            for j in range(0, m+1):
-                dtw[i, j] = float('inf')
-
-        # Ponto de partida
-        dtw[0, 0] = 0
-
-        # Calculando o custo e o dtw
-        for i in range(1, n + 1):
-            for j in range(max(1, i-w), min(m, i+w) + 1):
-                custo = self.distancia(s[i-1], t[j-1])
-                dtw[i, j] = custo + min(dtw[i-1, j], # inserção
-                                        dtw[i, j-1], # deleção
-                                        dtw[i-1, j-1]) # match
-
-        return dtw[n, m]
-
-    def gerar_matriz_dtw(self, serie1: SerieTemporal, serie2: SerieTemporal, janela_de_busca: int) -> numpy.ndarray:
+    def gerar_matriz_dtw(self, serie1: SerieTemporal, serie2: SerieTemporal) -> numpy.ndarray:
         """
         Cria uma matriz DTW a partir de duas séries temporais
         :param serie1: Primeira série temporal.
