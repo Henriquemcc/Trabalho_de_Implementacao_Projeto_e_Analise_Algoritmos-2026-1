@@ -44,9 +44,9 @@ class DynamicTimeWarping:
         else:
             ValueError(f"Tipo de distância inválido: {distancia}")
 
-    def processar(self, serie1: SerieTemporal, serie2: SerieTemporal):
+    def dtw_distance(self, serie1: SerieTemporal, serie2: SerieTemporal):
         """
-        Realiza o processamento do algoritmo Dynamic Time Warping.
+        Realiza o cálculo da distância de duas séries temporais através do algoritmo Dynamic Time Warping.
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
         Fonte: https://en.wikipedia.org/wiki/Dynamic_time_warping#Implementation
