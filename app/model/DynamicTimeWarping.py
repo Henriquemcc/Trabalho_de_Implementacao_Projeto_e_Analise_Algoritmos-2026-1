@@ -107,4 +107,52 @@ class DynamicTimeWarping:
         return matriz_dtw
 
     def dtw_warping_path(self, serie1: SerieTemporal, serie2: SerieTemporal) -> list:
-        pass
+        """
+        Obtém o warping path (caminho de alinhamento ótimo) entre as duas séries temporais.
+        :param serie1: Primeira série temporal.
+        :param serie2: Segunda série temporal.
+        :return: Warping path (caminho de alinhamento ótimo).
+        """
+        s = serie1.dados
+        t = serie2.dados
+        n = len(s)
+        m = len(t)
+
+        # Gerando matriz DTW
+        matrix_dtw = self.gerar_matriz_dtw(serie1, serie2)
+
+        i = n
+        j = m
+        caminho = []
+
+        # Caminhando do fim para o início
+        while i > 0 and j > 0:
+            caminho.append((i - 1, j - 1))
+
+            # Encontrando o menor vizinho
+            opcao_diagonal = matrix_dtw[i - 1, j - 1]
+            opcao_cima = matrix_dtw[i - 1, j]
+            opcao_esquerda = matrix_dtw[i, j - 1]
+
+            menor_custo = min(opcao_esquerda, opcao_cima, opcao_diagonal)
+
+            if menor_custo == opcao_diagonal:
+                i -= 1
+                j -= 1
+            elif menor_custo == opcao_cima:
+                i -= 1
+            elif menor_custo == opcao_esquerda:
+                j -= 1
+
+            # Adicionando a borda restante se um dos eixos zerar antes do outro
+            while i > 0:
+                caminho.append((i - 1), 0)
+                i -= 1
+            while j > 0:
+                caminho.append((0, j - 1))
+                j -= 1
+
+            # Retornando o caminho invertido
+            return caminho[::-1]
+
+
