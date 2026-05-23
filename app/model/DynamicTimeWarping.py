@@ -88,6 +88,7 @@ class DynamicTimeWarping:
         :param serie2: Segunda série temporal.
         :param janela_de_busca: Tamanho da janela.
         :return: Matriz DTW.
+        Fonte: https://en.wikipedia.org/wiki/Dynamic_time_warping#Implementation
         """
         s = serie1.dados
         t = serie2.dados
