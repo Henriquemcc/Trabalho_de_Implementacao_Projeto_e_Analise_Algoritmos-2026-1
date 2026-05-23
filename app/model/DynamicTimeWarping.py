@@ -97,8 +97,8 @@ class DynamicTimeWarping:
                 custo_local = abs(s[i - 1] - t[j - 1])
 
                 # Obtendo o menor vizinho
-                menor_vizinho = min(matriz_dtw[i-1, j], # Deleção ou Inserção
-                                    matriz_dtw[i, j-1], # Inserção ou Deleção
+                menor_vizinho = min(matriz_dtw[i-1, j], # Deleção ou Inserção (a depender de onde está a série S: nas linhas ou nas colunas)
+                                    matriz_dtw[i, j-1], # Inserção ou Deleção (a depender de onde está a série S: nas linhas ou nas colunas)
                                     matriz_dtw[i-1, j-1]) # Match
 
                 # Definindo o valor da posição atual
