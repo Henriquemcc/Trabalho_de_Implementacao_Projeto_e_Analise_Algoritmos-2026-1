@@ -52,12 +52,12 @@ class DynamicTimeWarping:
         :param serie2: Segunda série temporal.
         Fonte: https://en.wikipedia.org/wiki/Dynamic_time_warping#Implementation
         """
-        if isinstance(serie1, SerieTemporal):
+        if hasattr(serie1, 'dados'):
             s = serie1.dados
         else:
             s = serie1
 
-        if isinstance(serie2, SerieTemporal):
+        if hasattr(serie2, 'dados'):
             t = serie2.dados
         else:
             t = serie2
@@ -80,12 +80,12 @@ class DynamicTimeWarping:
         :return: Matriz DTW.
         Fonte: https://en.wikipedia.org/wiki/Dynamic_time_warping#Implementation
         """
-        if isinstance(serie1, SerieTemporal):
+        if hasattr(serie1, 'dados'):
             s = serie1.dados
         else:
             s = serie1
 
-        if isinstance(serie2, SerieTemporal):
+        if hasattr(serie2, 'dados'):
             t = serie2.dados
         else:
             t = serie2
@@ -129,12 +129,12 @@ class DynamicTimeWarping:
         :param serie2: Segunda série temporal.
         :return: Warping path (caminho de alinhamento ótimo).
         """
-        if isinstance(serie1, SerieTemporal):
+        if hasattr(serie1, 'dados'):
             s = serie1.dados
         else:
             s = serie1
 
-        if isinstance(serie2, SerieTemporal):
+        if hasattr(serie2, 'dados'):
             t = serie2.dados
         else:
             t = serie2
