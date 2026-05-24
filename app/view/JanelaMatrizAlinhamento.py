@@ -42,7 +42,7 @@ class JanelaMatrizAlinhamento(tkinter.Toplevel):
         s2 = self.matriz_alinhamento.serie_2.dados
 
         # Criando uma nova instância de Dynamic Time Warping
-        dynamic_time_warping = DynamicTimeWarping(0, Distancia.EUCLIDIANA)
+        dynamic_time_warping = DynamicTimeWarping(None, Distancia.EUCLIDIANA)
 
         # Plotando matriz de alinhamento
         distancia, matriz_custo = dynamic_time_warping.dtw_warping_paths(s1, s2)
