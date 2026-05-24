@@ -72,5 +72,5 @@ class JanelaDynamicTimeWarping(tkinter.Toplevel):
             raise ValueError(f"Distância '{nome_distancia}' não mapeada.")
         janela_de_busca = int(self.variavel_janela_de_busca.get())
         dtw = DynamicTimeWarping(janela_de_busca, distancia_enum)
-        resultado = dtw.processar(self.serie_temporal1, self.serie_temporal2)
+        resultado = dtw.dtw_distance(self.serie_temporal1, self.serie_temporal2)
         self.resposta_label.config(text=f"Resposta: {resultado}")

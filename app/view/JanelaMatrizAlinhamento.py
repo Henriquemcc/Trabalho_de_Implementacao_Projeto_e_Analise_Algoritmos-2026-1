@@ -1,11 +1,10 @@
 import tkinter
 
-import matplotlib.pyplot as plt
 import numpy as np
-from dtaidistance import dtw
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
+from model.DynamicTimeWarping import DynamicTimeWarping, Distancia
 from model.MatrizAlinhamento import MatrizAlinhamento
 
 
@@ -40,9 +39,12 @@ class JanelaMatrizAlinhamento(tkinter.Toplevel):
         s1 = self.matriz_alinhamento.serie_1.dados
         s2 = self.matriz_alinhamento.serie_2.dados
 
+        # Criando uma nova instância de Dynamic Time Warping
+        dynamic_time_warping = DynamicTimeWarping(None, Distancia.EUCLIDIANA)
+
         # Plotando matriz de alinhamento
-        distancia, matriz_custo = dtw.warping_paths(s1, s2)
-        melhor_caminho = dtw.warping_path(s1, s2)
+        distancia, matriz_custo = dynamic_time_warping.dtw_warping_paths(s1, s2)
+        melhor_caminho = dynamic_time_warping.obter_melhor_caminho(matriz_custo)
         gs = fig.add_gridspec(2, 2, width_ratios=[1, 4], height_ratios=[1, 4],
                               wspace=0.05, hspace=0.05)
 
