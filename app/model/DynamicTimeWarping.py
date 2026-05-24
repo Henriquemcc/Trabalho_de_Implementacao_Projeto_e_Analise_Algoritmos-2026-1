@@ -1,3 +1,5 @@
+from jedi.plugins.django import mapping
+
 from model.SerieTemporal import SerieTemporal
 import math
 from enum import Enum
@@ -122,12 +124,12 @@ class DynamicTimeWarping:
 
         return matriz_dtw
 
-    def dtw_warping_path(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> list:
+    def dtw_warping_paths(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray):
         """
-        Obtém o warping path (caminho de alinhamento ótimo) entre as duas séries temporais.
+        Obtém o warping path (caminhos de alinhamento ótimo) entre as duas séries temporais.
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
-        :return: Warping path (caminho de alinhamento ótimo).
+        :return: Warping path (caminhos de alinhamento ótimo).
         Fonte: https://github.com/talcs/simpledtw/blob/master/simpledtw.py
         """
         if hasattr(serie1, 'dados'):
@@ -146,38 +148,57 @@ class DynamicTimeWarping:
         # Gerando matriz DTW
         matrix_dtw = self.gerar_matriz_dtw(serie1, serie2)
 
-        i = n
-        j = m
-        caminho = []
+        # Removendo as linhas e colunas de borda (infinitas) para retornar à escala original [n, m]
+        matrix_dtw = matrix_dtw[1:, 1:]
+
+        # Iniciando a busca a partir do último ponto (canto inferior direito)
+        i = n - 1
+        j = m - 1
+
+        caminhos = []
+
+        # Inicializando listas vazias para mapear as correspondências diretas e reversas
+        mapeamento_serie_1 = [list() for v in range(n)]
+        mapeamento_serie_2 = [list() for v in range(m)]
 
         # Caminhando do fim para o início
         while i > 0 and j > 0:
-            caminho.append((i - 1, j - 1))
+            caminhos.append((i, j))
+            mapeamento_serie_1[i].append(j)
+            mapeamento_serie_2[j].append(i)
 
             # Encontrando o menor vizinho
-            opcao_diagonal = matrix_dtw[i - 1, j - 1]
-            opcao_cima = matrix_dtw[i - 1, j]
-            opcao_esquerda = matrix_dtw[i, j - 1]
+            opcao_diagonal = matrix_dtw[i - 1, j - 1] if i > 0 and j > 0 else numpy.inf
+            opcao_cima = matrix_dtw[i - 1, j] if i > 0 else numpy.inf
+            opcao_esquerda = matrix_dtw[i, j - 1] if j > 0 else numpy.inf
 
-            menor_custo = min(opcao_esquerda, opcao_cima, opcao_diagonal)
+            # Descobrindo para onde movimentar
+            movimento = numpy.argmin([opcao_esquerda, opcao_cima, opcao_diagonal])
 
-            if menor_custo == opcao_diagonal:
+            if movimento == 0:
                 i -= 1
                 j -= 1
-            elif menor_custo == opcao_cima:
+            elif movimento == 1:
                 i -= 1
-            elif menor_custo == opcao_esquerda:
+            elif movimento == 2:
                 j -= 1
 
-            # Adicionando a borda restante se um dos eixos zerar antes do outro
-            while i > 0:
-                caminho.append((i - 1, 0))
-                i -= 1
-            while j > 0:
-                caminho.append((0, j - 1))
-                j -= 1
+            # Incluindo manualmente o ponto inicial (0, 0) que encerra o loop
+            caminhos.append((0, 0))
+            mapeamento_serie_1[0].append(0)
+            mapeamento_serie_2[0].append(0)
 
-        # Retornando o caminho invertido
-        return caminho[::-1]
+            # Invertendo a ordem dos elementos
+            caminhos.reverse()
+            for mp in mapeamento_serie_1:
+                mp.reverse()
+            for mp in mapeamento_serie_2:
+                mp.reverse()
+
+        # Retornando as estruturas de alinhamento, a distância final e a matriz
+        return caminhos, matrix_dtw[-1, -1], mapeamento_serie_1, mapeamento_serie_2, matrix_dtw
+
+    def dtw_warping_path(self, serie1: SerieTemporal | list | numpy, serie2: SerieTemporal | list | numpy) -> list:
+        return self.dtw_warping_paths(serie1, serie2)[0]
 
 
