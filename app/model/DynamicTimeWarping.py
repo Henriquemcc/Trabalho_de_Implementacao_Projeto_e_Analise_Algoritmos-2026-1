@@ -170,7 +170,7 @@ class DynamicTimeWarping:
 
             # Adicionando a borda restante se um dos eixos zerar antes do outro
             while i > 0:
-                caminho.append((i - 1), 0)
+                caminho.append((i - 1, 0))
                 i -= 1
             while j > 0:
                 caminho.append((0, j - 1))
