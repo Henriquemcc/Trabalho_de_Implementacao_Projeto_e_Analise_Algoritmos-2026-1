@@ -9,21 +9,21 @@ class TestDTW(unittest.TestCase):
     """
     Realiza testes de unidades na implementação do algoritmo Dynamic time warping.
     """
-    def test_duas_series_temporais_iguais(self):
+    def test_dtw_distance_duas_series_temporais_iguais(self):
         serie1 = SerieTemporal([1, 2, 3, 4, 5], "Série Temporal 1")
         serie2 = SerieTemporal([1, 2, 3, 4, 5], "Série Temporal 2")
         dtw = DynamicTimeWarping(10, Distancia.EUCLIDIANA)
         resultado = dtw.dtw_distance(serie1, serie2)
         self.assertEqual(resultado, 0)
 
-    def test_duas_series_temporais_diferentes(self):
+    def test_dtw_distance_duas_series_temporais_diferentes(self):
         serie1 = SerieTemporal([1, 2, 3, 4, 5], "Série Temporal 1")
         serie2 = SerieTemporal([12, 14, 16, 18], "Série Temporal 2")
         dtw = DynamicTimeWarping(10, Distancia.EUCLIDIANA)
         resultado = dtw.dtw_distance(serie1, serie2)
         self.assertNotEqual(resultado, 0)
 
-    def test_comparar_implementacao_dtw_com_biblioteca(self):
+    def test_dtw_distance_comparar_implementacao_com_biblioteca(self):
         serie1 = SerieTemporal([1, 2, 3, 4, 5], "Série Temporal 1")
         serie2 = SerieTemporal([12, 14, 16, 18], "Série Temporal 2")
         dtw = DynamicTimeWarping(10, Distancia.EUCLIDIANA)
