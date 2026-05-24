@@ -1,9 +1,10 @@
-from jedi.plugins.django import mapping
-
-from model.SerieTemporal import SerieTemporal
 import math
 from enum import Enum
+
 import numpy
+
+from model.SerieTemporal import SerieTemporal
+
 
 class Distancia(Enum):
     EUCLIDIANA = "euclidiana"

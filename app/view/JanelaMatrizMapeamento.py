@@ -1,8 +1,6 @@
 import tkinter
 
 import numpy as np
-import matplotlib.pyplot as plt
-from dtaidistance import dtw
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 

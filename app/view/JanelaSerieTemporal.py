@@ -1,8 +1,8 @@
 import tkinter
 
-import pandas as pd
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+
 from model.SerieTemporal import SerieTemporal
 
 

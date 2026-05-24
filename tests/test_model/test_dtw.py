@@ -1,14 +1,14 @@
-import unittest
-from os import mkdir
-from pathlib import Path
-from app.model.SerieTemporal import SerieTemporal
-from app.model.DynamicTimeWarping import DynamicTimeWarping
-from app.model.DynamicTimeWarping import Distancia
-import dtaidistance
 import os
+import unittest
 import urllib.request
+from pathlib import Path
+
+import dtaidistance
 import pandas as pd
 
+from app.model.DynamicTimeWarping import Distancia
+from app.model.DynamicTimeWarping import DynamicTimeWarping
+from app.model.SerieTemporal import SerieTemporal
 
 
 class TestDTW(unittest.TestCase):
