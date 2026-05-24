@@ -32,7 +32,7 @@ class DynamicTimeWarping:
     """
     Implementação do algoritmo Dynamic Time Warping com a opção janela de busca.
     """
-    def __init__(self, janela_de_busca: int, distancia: Distancia):
+    def __init__(self, janela_de_busca: int | None, distancia: Distancia):
         """
         Inicializa o algoritmo Dynamic Time Warping.
         :param janela_de_busca: Tamanho da janela de busca.
@@ -102,7 +102,10 @@ class DynamicTimeWarping:
         matriz_dtw[0, 0] = 0
 
         # Adaptando a janela de busca
-        w = max(self.janela_de_busca, abs(n - m))
+        if self.janela_de_busca is None:
+            w = abs(n - m)
+        else:
+            w = max(self.janela_de_busca, abs(n - m))
 
         # Preenchendo a matriz respeitando a janela de restrição
         for i in range(1, n + 1):
@@ -112,7 +115,7 @@ class DynamicTimeWarping:
             limite_superior = min(m, i + w) + 1
             for j in range(limite_inferior, limite_superior):
                 # Calculando o custo local
-                custo_local = abs(s[i - 1] - t[j - 1])
+                custo_local = self.distancia(s[i - 1], t[j - 1])
 
                 # Obtendo o menor vizinho
                 menor_vizinho = min(matriz_dtw[i-1, j], # Deleção ou Inserção (a depender de onde está a série S: nas linhas ou nas colunas)
@@ -130,7 +133,7 @@ class DynamicTimeWarping:
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
         :return: Warping path (caminhos de alinhamento ótimo), a distância final, estruturas de alinhamento e matrix dtw.
-        Fonte: https://github.com/talcs/simpledtw/blob/master/simpledtw.py
+        Fonte: https://github.com/wannesm/dtaidistance/blob/master/src/dtaidistance/dtw.py
         """
         if hasattr(serie1, 'dados'):
             s = serie1.dados
@@ -145,37 +148,41 @@ class DynamicTimeWarping:
         n = len(s)
         m = len(t)
 
-        # Gerando matriz DTW
-        matrix_dtw = self.gerar_matriz_dtw(serie1, serie2)
+        # Ajustando janela de busca
+        if self.janela_de_busca is None:
+            janela_busca = max(n, m)
+        else:
+            janela_busca = max(self.janela_de_busca, abs(n - m))
 
-        # Removendo as linhas e colunas de borda (infinitas) para retornar à escala original [n, m]
-        matrix_dtw = matrix_dtw[1:, 1:]
+        # Inicializando matriz dtw
+        matriz_dtw = numpy.full((n + 1, m + 1), numpy.inf)
 
-        # Iniciando a busca a partir do último ponto (canto inferior direito)
-        i = n - 1
-        j = m - 1
+        # Definindo condição de contorno inicial
+        matriz_dtw[0, 0] = 0
 
-        # Caminhando do fim para o início
-        while i > 0 and j > 0:
+        # Preenchendo a matriz por Programação dinâmica
+        for i in range(n):
+            # Definindo os limites inferior e superior
+            j_inicio = max(0, i - janela_busca + 1)
+            j_fim = min(m, i + janela_busca)
 
-            # Encontrando o menor vizinho
-            opcao_diagonal = matrix_dtw[i - 1, j - 1] if i > 0 and j > 0 else numpy.inf
-            opcao_cima = matrix_dtw[i - 1, j] if i > 0 else numpy.inf
-            opcao_esquerda = matrix_dtw[i, j - 1] if j > 0 else numpy.inf
+            for j in range(j_inicio, j_fim):
+                # Calculando o custo local
+                custo_local = self.distancia(s[i - 1], t[j - 1])
 
-            # Descobrindo para onde movimentar
-            movimento = numpy.argmin([opcao_esquerda, opcao_cima, opcao_diagonal])
+                # Obtendo o menor vizinho
+                menor_vizinho = min(matriz_dtw[i-1, j], # Deleção ou Inserção (a depender de onde está a série S: nas linhas ou nas colunas)
+                                    matriz_dtw[i, j-1], # Inserção ou Deleção (a depender de onde está a série S: nas linhas ou nas colunas)
+                                    matriz_dtw[i-1, j-1]) # Match
 
-            if movimento == 0:
-                i -= 1
-                j -= 1
-            elif movimento == 1:
-                i -= 1
-            elif movimento == 2:
-                j -= 1
+                # Definindo o valor da posição atual
+                matriz_dtw[i, j] = custo_local + menor_vizinho
 
-        # Retornando as estruturas de alinhamento, a distância final e a matriz
-        return matrix_dtw[-1, -1], matrix_dtw
+        # Distância final
+        distancia = matriz_dtw[n, m]
+
+        # Retornando a distância e a matriz dtw
+        return distancia, matriz_dtw
 
     def dtw_warping_path(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> list:
         """
