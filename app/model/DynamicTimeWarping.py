@@ -183,17 +183,17 @@ class DynamicTimeWarping:
             elif movimento == 2:
                 j -= 1
 
-            # Incluindo manualmente o ponto inicial (0, 0) que encerra o loop
-            caminhos.append((0, 0))
-            mapeamento_serie_1[0].append(0)
-            mapeamento_serie_2[0].append(0)
+        # Incluindo manualmente o ponto inicial (0, 0) que encerra o loop
+        caminhos.append((0, 0))
+        mapeamento_serie_1[0].append(0)
+        mapeamento_serie_2[0].append(0)
 
-            # Invertendo a ordem dos elementos
-            caminhos.reverse()
-            for mp in mapeamento_serie_1:
-                mp.reverse()
-            for mp in mapeamento_serie_2:
-                mp.reverse()
+        # Invertendo a ordem dos elementos
+        caminhos.reverse()
+        for mp in mapeamento_serie_1:
+            mp.reverse()
+        for mp in mapeamento_serie_2:
+            mp.reverse()
 
         # Retornando as estruturas de alinhamento, a distância final e a matriz
         return caminhos, matrix_dtw[-1, -1], mapeamento_serie_1, mapeamento_serie_2, matrix_dtw
