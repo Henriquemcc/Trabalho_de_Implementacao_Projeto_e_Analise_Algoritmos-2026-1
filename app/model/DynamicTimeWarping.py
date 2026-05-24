@@ -103,17 +103,17 @@ class DynamicTimeWarping:
 
         # Adaptando a janela de busca
         if self.janela_de_busca is None:
-            w = max(n, m)
+            janela_de_busca = max(n, m)
         else:
-            w = max(self.janela_de_busca, abs(n - m))
+            janela_de_busca = max(self.janela_de_busca, abs(n - m))
 
         # Preenchendo a matriz respeitando a janela de restrição
         for i in range(1, n + 1):
 
-            # Variando o j de acordo com o limite determinado pela janela w
-            limite_inferior = max(1, i - w)
-            limite_superior = min(m, i + w) + 1
-            for j in range(limite_inferior, limite_superior):
+            # Variando o j de acordo com o limite determinado pela janela janela_de_busca
+            j_inicio = max(1, i - janela_de_busca)
+            j_fim = min(m, i + janela_de_busca) + 1
+            for j in range(j_inicio, j_fim):
                 # Calculando o custo local
                 custo_local = self.distancia(s[i - 1], t[j - 1])
 
