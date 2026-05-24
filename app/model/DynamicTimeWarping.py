@@ -128,6 +128,7 @@ class DynamicTimeWarping:
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
         :return: Warping path (caminho de alinhamento ótimo).
+        Fonte: https://github.com/talcs/simpledtw/blob/master/simpledtw.py
         """
         if hasattr(serie1, 'dados'):
             s = serie1.dados
