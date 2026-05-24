@@ -163,7 +163,7 @@ class DynamicTimeWarping:
         # Preenchendo a matriz por Programação dinâmica
         for i in range(1, n + 1):
             # Definindo os limites inferior e superior
-            j_inicio = max(0, i - janela_busca)
+            j_inicio = max(1, i - janela_busca)
             j_fim = min(m, i + janela_busca) + 1
 
             for j in range(j_inicio, j_fim):
