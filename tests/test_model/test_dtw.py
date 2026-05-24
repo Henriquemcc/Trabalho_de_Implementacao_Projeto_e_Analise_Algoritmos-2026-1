@@ -86,7 +86,7 @@ class TestDTW(unittest.TestCase):
         distancia_impl, matriz_custo_impl = dynamic_time_warping.dtw_warping_paths(dados_teste, dados_treino)
 
         # Testando biblioteca
-        distancia_bib, matriz_custo_bib = dtaidistance.dtw.warping_paths(dados_teste, dados_treino)
+        distancia_bib, matriz_custo_bib = dtaidistance.dtw.warping_paths(dados_teste, dados_treino, inner_dist='euclidean')
 
         self.assertEqual(distancia_impl, distancia_bib)
         self.assertEqual(matriz_custo_impl.tolist(), matriz_custo_bib.tolist())
