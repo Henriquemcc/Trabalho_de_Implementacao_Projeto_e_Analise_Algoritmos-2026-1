@@ -195,7 +195,7 @@ class DynamicTimeWarping:
         # Retornando caminhos
         return caminhos
     
-    def obter_melhor_caminho(caminhos):
+    def obter_melhor_caminho(self, caminhos):
         """
         Obtém o caminho ótimo a partir de uma matrix dtw.
         :param caminhos: Matriz DTW.
