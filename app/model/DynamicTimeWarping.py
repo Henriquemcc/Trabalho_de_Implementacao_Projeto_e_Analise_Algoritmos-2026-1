@@ -124,12 +124,12 @@ class DynamicTimeWarping:
 
         return matriz_dtw
 
-    def dtw_warping_paths(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray):
+    def dtw_warping_paths(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> tuple[list, int, list, list, numpy.ndarray]:
         """
         Obtém o warping path (caminhos de alinhamento ótimo) entre as duas séries temporais.
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
-        :return: Warping path (caminhos de alinhamento ótimo).
+        :return: Warping path (caminhos de alinhamento ótimo), a distância final, estruturas de alinhamento e matrix dtw.
         Fonte: https://github.com/talcs/simpledtw/blob/master/simpledtw.py
         """
         if hasattr(serie1, 'dados'):
