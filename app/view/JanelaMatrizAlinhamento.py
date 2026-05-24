@@ -1,12 +1,10 @@
 import tkinter
 
-import matplotlib.pyplot as plt
 import numpy as np
-from dtaidistance import dtw
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-from model.DynamicTimeWarping import DynamicTimeWarping, Distancia
 
+from model.DynamicTimeWarping import DynamicTimeWarping, Distancia
 from model.MatrizAlinhamento import MatrizAlinhamento
 
 
