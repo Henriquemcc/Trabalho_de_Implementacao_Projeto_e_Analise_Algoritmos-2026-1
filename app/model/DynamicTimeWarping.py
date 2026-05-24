@@ -45,15 +45,23 @@ class DynamicTimeWarping:
         else:
             ValueError(f"Tipo de distância inválido: {distancia}")
 
-    def dtw_distance(self, serie1: SerieTemporal, serie2: SerieTemporal):
+    def dtw_distance(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray):
         """
         Realiza o cálculo da distância de duas séries temporais através do algoritmo Dynamic Time Warping.
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
         Fonte: https://en.wikipedia.org/wiki/Dynamic_time_warping#Implementation
         """
-        s = serie1.dados
-        t = serie2.dados
+        if isinstance(serie1, SerieTemporal):
+            s = serie1.dados
+        else:
+            s = serie1
+
+        if isinstance(serie2, SerieTemporal):
+            t = serie2.dados
+        else:
+            t = serie2
+
         n = len(s)
         m = len(t)
 
@@ -63,7 +71,7 @@ class DynamicTimeWarping:
         # Retornando o elemento das últimas posições dos eixos x e y
         return matrix_dtw[n, m]
 
-    def gerar_matriz_dtw(self, serie1: SerieTemporal, serie2: SerieTemporal) -> numpy.ndarray:
+    def gerar_matriz_dtw(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> numpy.ndarray:
         """
         Cria uma matriz DTW a partir de duas séries temporais
         :param serie1: Primeira série temporal.
@@ -72,8 +80,16 @@ class DynamicTimeWarping:
         :return: Matriz DTW.
         Fonte: https://en.wikipedia.org/wiki/Dynamic_time_warping#Implementation
         """
-        s = serie1.dados
-        t = serie2.dados
+        if isinstance(serie1, SerieTemporal):
+            s = serie1.dados
+        else:
+            s = serie1
+
+        if isinstance(serie2, SerieTemporal):
+            t = serie2.dados
+        else:
+            t = serie2
+
         n = len(s)
         m = len(t)
 
@@ -106,15 +122,23 @@ class DynamicTimeWarping:
 
         return matriz_dtw
 
-    def dtw_warping_path(self, serie1: SerieTemporal, serie2: SerieTemporal) -> list:
+    def dtw_warping_path(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> list:
         """
         Obtém o warping path (caminho de alinhamento ótimo) entre as duas séries temporais.
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
         :return: Warping path (caminho de alinhamento ótimo).
         """
-        s = serie1.dados
-        t = serie2.dados
+        if isinstance(serie1, SerieTemporal):
+            s = serie1.dados
+        else:
+            s = serie1
+
+        if isinstance(serie2, SerieTemporal):
+            t = serie2.dados
+        else:
+            t = serie2
+
         n = len(s)
         m = len(t)
 
