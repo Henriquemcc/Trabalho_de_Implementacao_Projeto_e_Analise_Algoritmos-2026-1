@@ -47,7 +47,7 @@ class DynamicTimeWarping:
         else:
             ValueError(f"Tipo de distância inválido: {distancia}")
 
-    def dtw_distance(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray):
+    def dtw_distance(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> float:
         """
         Realiza o cálculo da distância de duas séries temporais através do algoritmo Dynamic Time Warping.
         :param serie1: Primeira série temporal.
@@ -124,7 +124,7 @@ class DynamicTimeWarping:
 
         return matriz_dtw
 
-    def dtw_warping_paths(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> tuple[list, int, list, list, numpy.ndarray]:
+    def dtw_warping_paths(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> tuple[int, list, list, numpy.ndarray]:
         """
         Obtém o warping path (caminhos de alinhamento ótimo) entre as duas séries temporais.
         :param serie1: Primeira série temporal.
