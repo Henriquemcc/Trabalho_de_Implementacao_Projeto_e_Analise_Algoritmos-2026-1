@@ -6,6 +6,7 @@ from dtaidistance import dtw
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
+from model.DynamicTimeWarping import DynamicTimeWarping, Distancia
 from model.MatrizMapeamento import MatrizMapeamento
 
 
@@ -42,8 +43,11 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
         s1 = self.matriz_mapeamento.serie_1.dados
         s2 = self.matriz_mapeamento.serie_2.dados
 
+        # Criando uma nova instância de Dynamic Time Warping
+        dynamic_time_warping = DynamicTimeWarping(None, Distancia.EUCLIDIANA)
+
         # Calculando o melhor caminho
-        melhor_caminho = dtw.warping_path(s1, s2)
+        melhor_caminho = dynamic_time_warping.dtw_warping_path(s1, s2)
 
         # Plotando a série 1 no topo e a série 2 abaixo (com um offset vertical)
         offset = np.max(s2) + (np.max(s1) - np.min(s1))
