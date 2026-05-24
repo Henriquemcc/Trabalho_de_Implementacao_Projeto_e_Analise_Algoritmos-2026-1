@@ -155,17 +155,8 @@ class DynamicTimeWarping:
         i = n - 1
         j = m - 1
 
-        caminhos = []
-
-        # Inicializando listas vazias para mapear as correspondências diretas e reversas
-        mapeamento_serie_1 = [list() for v in range(n)]
-        mapeamento_serie_2 = [list() for v in range(m)]
-
         # Caminhando do fim para o início
         while i > 0 and j > 0:
-            caminhos.append((i, j))
-            mapeamento_serie_1[i].append(j)
-            mapeamento_serie_2[j].append(i)
 
             # Encontrando o menor vizinho
             opcao_diagonal = matrix_dtw[i - 1, j - 1] if i > 0 and j > 0 else numpy.inf
@@ -183,20 +174,8 @@ class DynamicTimeWarping:
             elif movimento == 2:
                 j -= 1
 
-        # Incluindo manualmente o ponto inicial (0, 0) que encerra o loop
-        caminhos.append((0, 0))
-        mapeamento_serie_1[0].append(0)
-        mapeamento_serie_2[0].append(0)
-
-        # Invertendo a ordem dos elementos
-        caminhos.reverse()
-        for mp in mapeamento_serie_1:
-            mp.reverse()
-        for mp in mapeamento_serie_2:
-            mp.reverse()
-
         # Retornando as estruturas de alinhamento, a distância final e a matriz
-        return caminhos, matrix_dtw[-1, -1], mapeamento_serie_1, mapeamento_serie_2, matrix_dtw
+        return matrix_dtw[-1, -1], matrix_dtw
 
     def dtw_warping_path(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> list:
         """
