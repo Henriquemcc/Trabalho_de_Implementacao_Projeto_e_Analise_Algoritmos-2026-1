@@ -45,8 +45,8 @@ class JanelaMatrizAlinhamento(tkinter.Toplevel):
         dynamic_time_warping = DynamicTimeWarping(0, Distancia.EUCLIDIANA)
 
         # Plotando matriz de alinhamento
-        distancia, matriz_custo = dtw.warping_paths(s1, s2)
-        melhor_caminho = dynamic_time_warping.dtw_warping_path(s1, s2)
+        distancia, matriz_custo = dynamic_time_warping.dtw_warping_paths(s1, s2)
+        melhor_caminho = dynamic_time_warping.obter_melhor_caminho(matriz_custo)
         gs = fig.add_gridspec(2, 2, width_ratios=[1, 4], height_ratios=[1, 4],
                               wspace=0.05, hspace=0.05)
 
