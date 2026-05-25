@@ -101,9 +101,9 @@ class Controlador:
         # Exibindo matriz de mapeamento
         janela_matriz_mapeamento = JanelaMatrizMapeamento(matriz_mapeamento)
 
-    def executar_dynamic_time_warping(self):
+    def executar_distancia_dynamic_time_warping(self):
         """
-        Realiza a execução do algoritmo Dynamic Time Warping
+        Realiza a execução da distância Dynamic Time Warping
         :return:
         """
         # Verificando se há pelo menos duas séries temporais

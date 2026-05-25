@@ -48,8 +48,8 @@ class JanelaPrincipal(tkinter.Tk):
         # Menu algoritmo
         menu_algoritmo = tkinter.Menu(barra_menu, tearoff=0)
         menu_algoritmo.add_command(
-            label="Dynamic Time Warping",
-            command=lambda: controller.executar_dynamic_time_warping(),
+            label="Distância Dynamic Time Warping",
+            command=lambda: controller.executar_distancia_dynamic_time_warping(),
         )
         barra_menu.add_cascade(label="Algoritmo", menu=menu_algoritmo)
 
