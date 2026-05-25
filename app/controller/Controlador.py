@@ -5,7 +5,7 @@ from model.MatrizAlinhamento import MatrizAlinhamento
 from model.MatrizMapeamento import MatrizMapeamento
 from model.SerieTemporal import SerieTemporal
 from view.FramePrincipal import FramePrincipal
-from view.JanelaDynamicTimeWarping import JanelaDynamicTimeWarping
+from view.JanelaDistanciaDynamicTimeWarping import JanelaDistanciaDynamicTimeWarping
 from view.JanelaMatrizAlinhamento import JanelaMatrizAlinhamento
 from view.JanelaMatrizMapeamento import JanelaMatrizMapeamento
 from view.JanelaPrincipal import JanelaPrincipal
@@ -124,4 +124,4 @@ class Controlador:
                                                              self.series_temporais).mostrar()
 
         # Abrindo janela para execução do Dynamic Time Warping
-        janela_dynamic_time_warping = JanelaDynamicTimeWarping(serie_temporal_1, serie_temporal_2)
+        janela_dynamic_time_warping = JanelaDistanciaDynamicTimeWarping(serie_temporal_1, serie_temporal_2)

@@ -4,9 +4,9 @@ from model.DynamicTimeWarping import Distancia, DynamicTimeWarping
 from model.SerieTemporal import SerieTemporal
 
 
-class JanelaDynamicTimeWarping(tkinter.Toplevel):
+class JanelaDistanciaDynamicTimeWarping(tkinter.Toplevel):
     """
-    Janela utilizada para realizar execução do algoritmo Dynamic Time Warping
+    Janela utilizada para realizar execução da distância do Dynamic Time Warping
     """
     def __init__(self, serie_temporal1: SerieTemporal, serie_temporal2: SerieTemporal):
         """
