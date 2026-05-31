@@ -1,3 +1,4 @@
+from model.SerieTemporal import SerieTemporal
 import math
 from enum import Enum
 
@@ -8,7 +9,17 @@ from model.SerieTemporal import SerieTemporal
 
 class Distancia(Enum):
     EUCLIDIANA = "euclidiana"
+    EUCLIDIANA_AO_QUADRADO = "euclidiana ao quadrado"
     MANHATTAN = "manhattan"
+
+def distancia_euclidiana_ao_quadrado(x: float, y: float) -> float:
+    """
+    Calcula a distância euclidiana ao quadrado entre x e y.
+    :param x: Valor de x
+    :param y: Valor de y
+    :return: Distância euclidiana ao quadrado entre x e y.
+    """
+    return math.pow((x- y), 2)
 
 def distancia_euclidiana(x: float, y: float) -> float:
     """
@@ -45,6 +56,8 @@ class DynamicTimeWarping:
             self.distancia = distancia_manhattan
         elif distancia == Distancia.EUCLIDIANA:
             self.distancia = distancia_euclidiana
+        elif distancia == Distancia.EUCLIDIANA_AO_QUADRADO:
+            self.distancia = distancia_euclidiana_ao_quadrado
         else:
             ValueError(f"Tipo de distância inválido: {distancia}")
 
@@ -72,7 +85,7 @@ class DynamicTimeWarping:
         matrix_dtw = self.gerar_matriz_dtw(serie1, serie2)
 
         # Retornando o elemento das últimas posições dos eixos x e y
-        return matrix_dtw[n, m]
+        return float(matrix_dtw[n, m])
 
     def gerar_matriz_dtw(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> numpy.ndarray:
         """
@@ -199,10 +212,10 @@ class DynamicTimeWarping:
 
         # Obtendo os melhores caminhos
         caminhos = self.obter_melhor_caminho(caminhos)
-        
+
         # Retornando caminhos
         return caminhos
-    
+
     def obter_melhor_caminho(self, caminhos):
         """
         Obtém o caminho ótimo a partir de uma matrix dtw.
@@ -239,7 +252,7 @@ class DynamicTimeWarping:
             else:
                 j = j - 1
 
-            
+
             # Adicionando a coordenada atual á lista do caminho ótimo
             caminho_otimo.append((i - 1, j - 1))
 

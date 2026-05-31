@@ -1,17 +1,18 @@
 from pathlib import Path
 from tkinter import filedialog
+from tkinter import simpledialog
 
 from model.MatrizAlinhamento import MatrizAlinhamento
 from model.MatrizMapeamento import MatrizMapeamento
 from model.SerieTemporal import SerieTemporal
-from view.FramePrincipal import FramePrincipal
-from view.JanelaDynamicTimeWarping import JanelaDynamicTimeWarping
+from view.JanelaDistanciaDynamicTimeWarping import JanelaDistanciaDynamicTimeWarping
 from view.JanelaMatrizAlinhamento import JanelaMatrizAlinhamento
 from view.JanelaMatrizMapeamento import JanelaMatrizMapeamento
 from view.JanelaPrincipal import JanelaPrincipal
 from view.JanelaSelecionarSerieTemporal import JanelaSelecionarSerieTemporal
 from view.JanelaSerieTemporal import JanelaSerieTemporal
 
+import os
 
 class Controlador:
     """
@@ -35,7 +36,6 @@ class Controlador:
 
         # Criando janela principal
         self.janela_principal = JanelaPrincipal(self)
-        self.frame_principal = FramePrincipal(self.janela_principal, self)
         self.janela_principal.mainloop()
 
     def abrir_arquivo_serie_temporal(self):
@@ -47,7 +47,8 @@ class Controlador:
         if Path(caminho).suffix == ".txt":
             serie_temporal = SerieTemporal.abrir_arquivo_txt(caminho)
         elif Path(caminho).suffix == ".tsv":
-            serie_temporal = SerieTemporal.abrir_arquivo_tsv(caminho)
+            indice = simpledialog.askinteger(os.path.basename(caminho), "Digite o índice da série temporal")
+            serie_temporal = SerieTemporal.abrir_arquivo_tsv(caminho, indice)
         self.series_temporais.append(serie_temporal)
         janela_interna_serie_temporal = JanelaSerieTemporal(serie_temporal)
 
@@ -101,9 +102,9 @@ class Controlador:
         # Exibindo matriz de mapeamento
         janela_matriz_mapeamento = JanelaMatrizMapeamento(matriz_mapeamento)
 
-    def executar_dynamic_time_warping(self):
+    def executar_distancia_dynamic_time_warping(self):
         """
-        Realiza a execução do algoritmo Dynamic Time Warping
+        Realiza a execução da distância Dynamic Time Warping
         :return:
         """
         # Verificando se há pelo menos duas séries temporais
@@ -124,4 +125,4 @@ class Controlador:
                                                              self.series_temporais).mostrar()
 
         # Abrindo janela para execução do Dynamic Time Warping
-        janela_dynamic_time_warping = JanelaDynamicTimeWarping(serie_temporal_1, serie_temporal_2)
+        janela_dynamic_time_warping = JanelaDistanciaDynamicTimeWarping(serie_temporal_1, serie_temporal_2)

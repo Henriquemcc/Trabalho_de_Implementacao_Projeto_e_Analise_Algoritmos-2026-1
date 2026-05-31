@@ -48,10 +48,22 @@ class JanelaPrincipal(tkinter.Tk):
         # Menu algoritmo
         menu_algoritmo = tkinter.Menu(barra_menu, tearoff=0)
         menu_algoritmo.add_command(
-            label="Dynamic Time Warping",
-            command=lambda: controller.executar_dynamic_time_warping(),
+            label="Distância Dynamic Time Warping",
+            command=lambda: controller.executar_distancia_dynamic_time_warping(),
         )
         barra_menu.add_cascade(label="Algoritmo", menu=menu_algoritmo)
 
         # Adicionando menu
         self.config(menu=barra_menu)
+
+        # Criando frame
+        self.criar_frame()
+
+    def criar_frame(self):
+        self.frame = tkinter.Frame(self)
+        titulo = tkinter.Label(self.frame, text="Trabalho de Implementação - Projeto e Análise de Algoritmos - 2026-1")
+        titulo.pack(side="top", fill="x", pady=10)
+        autor = tkinter.Label(self.frame, text="Henrique Mendonça Castelar Campos")
+        autor.pack(side="top", fill="x", pady=10)
+        self.frame.pack()
+
