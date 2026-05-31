@@ -152,7 +152,7 @@ class DynamicTimeWarping:
                 caminho.append((0, j - 1))
                 j -= 1
 
-            # Retornando o caminho invertido
-            return caminho[::-1]
+        # Retornando o caminho invertido
+        return caminho[::-1]
 
 
