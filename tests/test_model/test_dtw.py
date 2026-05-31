@@ -1,9 +1,10 @@
 import unittest
-from app.model.SerieTemporal import SerieTemporal
-from app.model.DynamicTimeWarping import DynamicTimeWarping
-from app.model.DynamicTimeWarping import Distancia
+
 import dtaidistance
-import pandas
+
+from app.model.DynamicTimeWarping import Distancia
+from app.model.DynamicTimeWarping import DynamicTimeWarping
+from app.model.SerieTemporal import SerieTemporal
 
 
 class TestDTW(unittest.TestCase):
