@@ -4,7 +4,6 @@ from tkinter import filedialog
 from model.MatrizAlinhamento import MatrizAlinhamento
 from model.MatrizMapeamento import MatrizMapeamento
 from model.SerieTemporal import SerieTemporal
-from view.FramePrincipal import FramePrincipal
 from view.JanelaDistanciaDynamicTimeWarping import JanelaDistanciaDynamicTimeWarping
 from view.JanelaMatrizAlinhamento import JanelaMatrizAlinhamento
 from view.JanelaMatrizMapeamento import JanelaMatrizMapeamento
@@ -35,7 +34,6 @@ class Controlador:
 
         # Criando janela principal
         self.janela_principal = JanelaPrincipal(self)
-        self.frame_principal = FramePrincipal(self.janela_principal, self)
         self.janela_principal.mainloop()
 
     def abrir_arquivo_serie_temporal(self):

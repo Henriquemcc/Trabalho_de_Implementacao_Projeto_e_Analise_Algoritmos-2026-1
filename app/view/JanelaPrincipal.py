@@ -55,3 +55,15 @@ class JanelaPrincipal(tkinter.Tk):
 
         # Adicionando menu
         self.config(menu=barra_menu)
+
+        # Criando frame
+        self.criar_frame()
+
+    def criar_frame(self):
+        self.frame = tkinter.Frame(self)
+        titulo = tkinter.Label(self.frame, text="Trabalho de Implementação - Projeto e Análise de Algoritmos - 2026-1")
+        titulo.pack(side="top", fill="x", pady=10)
+        autor = tkinter.Label(self.frame, text="Henrique Mendonça Castelar Campos")
+        autor.pack(side="top", fill="x", pady=10)
+        self.frame.pack()
+
