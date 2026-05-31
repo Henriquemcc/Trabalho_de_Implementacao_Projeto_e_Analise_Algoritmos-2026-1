@@ -73,7 +73,7 @@ class DynamicTimeWarping:
         matrix_dtw = self.gerar_matriz_dtw(serie1, serie2)
 
         # Retornando o elemento das últimas posições dos eixos x e y
-        return matrix_dtw[n, m]
+        return float(matrix_dtw[n, m])
 
     def gerar_matriz_dtw(self, serie1: SerieTemporal, serie2: SerieTemporal) -> numpy.ndarray:
         """
