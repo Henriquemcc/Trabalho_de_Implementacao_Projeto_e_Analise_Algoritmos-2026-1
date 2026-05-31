@@ -15,12 +15,12 @@ class JanelaDistanciaDynamicTimeWarping(tkinter.Toplevel):
         :param serie_temporal2: Segunda série temporal.
         """
         tkinter.Toplevel.__init__(self)
-        self.variavel_janela_de_busca = None
         self.title("Dynamic Time Warping")
         self.serie_temporal1 = serie_temporal1
         self.serie_temporal2 = serie_temporal2
         self.mapa_distancias = {d.value: d for d in Distancia}
         self.variavel_distancia = tkinter.StringVar(value=Distancia.EUCLIDIANA.value)
+        self.variavel_janela_de_busca = tkinter.StringVar(value='None')
 
         # Configurando o tamanho da janela
         screen_width = 800
@@ -49,7 +49,6 @@ class JanelaDistanciaDynamicTimeWarping(tkinter.Toplevel):
 
         # Criando entrada de texto para escolher a janela de busca
         tkinter.Label(self.frame, text="Janela de Busca:", font=("Calibre", 12)).pack()
-        self.variavel_janela_de_busca = tkinter.StringVar()
         tkinter.Entry(self.frame, textvariable=self.variavel_janela_de_busca).pack()
 
         # Criando botão para executar o Dynamic Time Warping
@@ -66,12 +65,14 @@ class JanelaDistanciaDynamicTimeWarping(tkinter.Toplevel):
         Realiza a execução do Dynamic Time Warping.
         :return:
         """
-        janela_de_busca = int(self.variavel_janela_de_busca.get())
         nome_distancia = self.variavel_distancia.get()
         distancia_enum = self.mapa_distancias.get(nome_distancia)
         if distancia_enum is None:
             raise ValueError(f"Distância '{nome_distancia}' não mapeada.")
-        janela_de_busca = int(self.variavel_janela_de_busca.get())
+        if self.variavel_janela_de_busca.get() is None or str(self.variavel_janela_de_busca.get()).lower() == 'none':
+            janela_de_busca = None
+        else:
+            janela_de_busca = int(self.variavel_janela_de_busca.get())
         dtw = DynamicTimeWarping(janela_de_busca, distancia_enum)
         resultado = dtw.dtw_distance(self.serie_temporal1, self.serie_temporal2)
         self.resposta_label.config(text=f"Resposta: {resultado}")

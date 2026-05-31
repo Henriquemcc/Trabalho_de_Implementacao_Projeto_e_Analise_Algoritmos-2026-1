@@ -40,7 +40,7 @@ class DynamicTimeWarping:
     """
     Implementação do algoritmo Dynamic Time Warping com a opção janela de busca.
     """
-    def __init__(self, janela_de_busca: int, distancia: Distancia):
+    def __init__(self, janela_de_busca: int | None, distancia: Distancia):
         """
         Inicializa o algoritmo Dynamic Time Warping.
         :param janela_de_busca: Tamanho da janela de busca.
@@ -96,7 +96,10 @@ class DynamicTimeWarping:
         matriz_dtw[0, 0] = 0
 
         # Adaptando a janela de busca
-        w = max(self.janela_de_busca, abs(n - m))
+        if self.janela_de_busca is None:
+            w = abs(n - m)
+        else:
+            w = max(self.janela_de_busca, abs(n - m))
 
         # Preenchendo a matriz respeitando a janela de restrição
         for i in range(1, n + 1):
