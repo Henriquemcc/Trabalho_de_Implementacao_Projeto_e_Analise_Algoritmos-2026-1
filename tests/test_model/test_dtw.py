@@ -1,6 +1,7 @@
 import unittest
 
 import dtaidistance
+import numpy
 
 from app.model.DynamicTimeWarping import Distancia
 from app.model.DynamicTimeWarping import DynamicTimeWarping
@@ -55,7 +56,10 @@ class TestDTW(unittest.TestCase):
         dtw = DynamicTimeWarping(10, Distancia.EUCLIDIANA)
         resultado = dtw.dtw_distance(test, train)
         resultado_biblioteca = dtaidistance.dtw.distance(test.dados, train.dados, window=10, inner_dist='euclidean')
-        self.assertEqual(resultado, resultado_biblioteca)
+        if numpy.isnan(resultado) and numpy.isnan(resultado_biblioteca):
+            pass
+        else:
+            self.assertEqual(resultado, resultado_biblioteca)
 
     def test_warping_path_implementacao_com_biblioteca_duas_series_temporais_iguais(self):
         serie1 = SerieTemporal([1, 2, 3, 4, 5], "Série Temporal 1")
