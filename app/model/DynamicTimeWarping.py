@@ -5,7 +5,17 @@ import numpy
 
 class Distancia(Enum):
     EUCLIDIANA = "euclidiana"
+    EUCLIDIANA_AO_QUADRADO = "euclidiana ao quadrado"
     MANHATTAN = "manhattan"
+
+def distancia_euclidiana_ao_quadrado(x: float, y: float) -> float:
+    """
+    Calcula a distância euclidiana ao quadrado entre x e y.
+    :param x: Valor de x
+    :param y: Valor de y
+    :return: Distância euclidiana ao quadrado entre x e y.
+    """
+    return math.pow((x- y), 2)
 
 def distancia_euclidiana(x: float, y: float) -> float:
     """
@@ -42,6 +52,8 @@ class DynamicTimeWarping:
             self.distancia = distancia_manhattan
         elif distancia == Distancia.EUCLIDIANA:
             self.distancia = distancia_euclidiana
+        elif distancia == Distancia.EUCLIDIANA_AO_QUADRADO:
+            self.distancia = distancia_euclidiana_ao_quadrado
         else:
             ValueError(f"Tipo de distância inválido: {distancia}")
 

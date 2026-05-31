@@ -44,6 +44,7 @@ class JanelaDistanciaDynamicTimeWarping(tkinter.Toplevel):
         # Criando radiobuttons para escolher a distância utilizada
         tkinter.Label(self.frame, text="Distância:", font=("Calibre", 12)).pack()
         tkinter.Radiobutton(self.frame, text="Distância Euclidiana", variable=self.variavel_distancia, value=Distancia.EUCLIDIANA.value).pack()
+        tkinter.Radiobutton(self.frame, text="Distância Euclidiana ao Quadrado", variable=self.variavel_distancia, value=Distancia.EUCLIDIANA_AO_QUADRADO.value).pack()
         tkinter.Radiobutton(self.frame, text="Distância de Manhattan", variable=self.variavel_distancia, value=Distancia.MANHATTAN.value).pack()
 
         # Criando entrada de texto para escolher a janela de busca
