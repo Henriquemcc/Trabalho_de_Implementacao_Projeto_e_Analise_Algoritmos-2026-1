@@ -3,6 +3,7 @@ from app.model.SerieTemporal import SerieTemporal
 from app.model.DynamicTimeWarping import DynamicTimeWarping
 from app.model.DynamicTimeWarping import Distancia
 import dtaidistance
+import pandas
 
 
 class TestDTW(unittest.TestCase):
@@ -29,4 +30,12 @@ class TestDTW(unittest.TestCase):
         dtw = DynamicTimeWarping(10, Distancia.EUCLIDIANA)
         resultado = dtw.dtw_distance(serie1, serie2)
         resultado_biblioteca = dtaidistance.dtw.distance(serie1.dados, serie2.dados, window=10, inner_dist='euclidean')
+        self.assertEqual(resultado, resultado_biblioteca)
+
+    def test_compara_implementacao_dtw_com_biblioteca_dataset_umd(self):
+        test = SerieTemporal.abrir_arquivo_tsv('Dataset/UCRArchive_2018/UMD/UMD_TEST.tsv', 0)
+        train = SerieTemporal.abrir_arquivo_tsv('Dataset/UCRArchive_2018/UMD/UMD_TRAIN.tsv', 0)
+        dtw = DynamicTimeWarping(10, Distancia.EUCLIDIANA)
+        resultado = dtw.dtw_distance(test, train)
+        resultado_biblioteca = dtaidistance.dtw.distance(test.dados, train.dados, window=10, inner_dist='euclidean')
         self.assertEqual(resultado, resultado_biblioteca)
