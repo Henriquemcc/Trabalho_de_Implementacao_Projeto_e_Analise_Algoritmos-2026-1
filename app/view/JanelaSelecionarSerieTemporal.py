@@ -38,7 +38,8 @@ class JanelaSelecionarSerieTemporal(tkinter.Toplevel):
 
         # Criando um radiobutton para cada série temporal
         for serie_temporal in self.series_temporais:
-            tkinter.Radiobutton(self, text=serie_temporal.nome, variable=self.variavel_serie_temporal, value=serie_temporal.nome).pack(anchor='w', padx=20)
+            tkinter.Radiobutton(self, text=serie_temporal.nome, variable=self.variavel_serie_temporal,
+                                value=serie_temporal.nome).pack(anchor='w', padx=20)
 
         # Criando um botão de confirmar
         tkinter.Button(self, text="Confirmar", command=self.confirmar).pack(pady=20)
@@ -46,4 +47,3 @@ class JanelaSelecionarSerieTemporal(tkinter.Toplevel):
     def mostrar(self):
         self.wait_window()
         return self.resultado
-
