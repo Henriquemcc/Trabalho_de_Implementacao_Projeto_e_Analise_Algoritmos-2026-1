@@ -1,7 +1,11 @@
 from model.SerieTemporal import SerieTemporal
 import math
 from enum import Enum
+
 import numpy
+
+from model.SerieTemporal import SerieTemporal
+
 
 class Distancia(Enum):
     EUCLIDIANA = "euclidiana"
@@ -40,7 +44,7 @@ class DynamicTimeWarping:
     """
     Implementação do algoritmo Dynamic Time Warping com a opção janela de busca.
     """
-    def __init__(self, janela_de_busca: int | None, distancia: Distancia):
+    def __init__(self, janela_de_busca: int | None = None, distancia: Distancia = Distancia.EUCLIDIANA):
         """
         Inicializa o algoritmo Dynamic Time Warping.
         :param janela_de_busca: Tamanho da janela de busca.
@@ -57,15 +61,23 @@ class DynamicTimeWarping:
         else:
             ValueError(f"Tipo de distância inválido: {distancia}")
 
-    def dtw_distance(self, serie1: SerieTemporal, serie2: SerieTemporal):
+    def dtw_distance(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> float:
         """
         Realiza o cálculo da distância de duas séries temporais através do algoritmo Dynamic Time Warping.
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
         Fonte: https://en.wikipedia.org/wiki/Dynamic_time_warping#Implementation
         """
-        s = serie1.dados
-        t = serie2.dados
+        if hasattr(serie1, 'dados'):
+            s = serie1.dados
+        else:
+            s = serie1
+
+        if hasattr(serie2, 'dados'):
+            t = serie2.dados
+        else:
+            t = serie2
+
         n = len(s)
         m = len(t)
 
@@ -75,7 +87,7 @@ class DynamicTimeWarping:
         # Retornando o elemento das últimas posições dos eixos x e y
         return float(matrix_dtw[n, m])
 
-    def gerar_matriz_dtw(self, serie1: SerieTemporal, serie2: SerieTemporal) -> numpy.ndarray:
+    def gerar_matriz_dtw(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> numpy.ndarray:
         """
         Cria uma matriz DTW a partir de duas séries temporais
         :param serie1: Primeira série temporal.
@@ -84,8 +96,16 @@ class DynamicTimeWarping:
         :return: Matriz DTW.
         Fonte: https://en.wikipedia.org/wiki/Dynamic_time_warping#Implementation
         """
-        s = serie1.dados
-        t = serie2.dados
+        if hasattr(serie1, 'dados'):
+            s = serie1.dados
+        else:
+            s = serie1
+
+        if hasattr(serie2, 'dados'):
+            t = serie2.dados
+        else:
+            t = serie2
+
         n = len(s)
         m = len(t)
 
@@ -97,19 +117,19 @@ class DynamicTimeWarping:
 
         # Adaptando a janela de busca
         if self.janela_de_busca is None:
-            w = abs(n - m)
+            janela_de_busca = max(n, m)
         else:
-            w = max(self.janela_de_busca, abs(n - m))
+            janela_de_busca = max(self.janela_de_busca, abs(n - m))
 
         # Preenchendo a matriz respeitando a janela de restrição
         for i in range(1, n + 1):
 
-            # Variando o j de acordo com o limite determinado pela janela w
-            limite_inferior = max(1, i - w)
-            limite_superior = min(m, i + w) + 1
-            for j in range(limite_inferior, limite_superior):
+            # Variando o j de acordo com o limite determinado pela janela janela_de_busca
+            j_inicio = max(1, i - janela_de_busca)
+            j_fim = min(m, i + janela_de_busca) + 1
+            for j in range(j_inicio, j_fim):
                 # Calculando o custo local
-                custo_local = abs(s[i - 1] - t[j - 1])
+                custo_local = self.distancia(s[i - 1], t[j - 1])
 
                 # Obtendo o menor vizinho
                 menor_vizinho = min(matriz_dtw[i-1, j], # Deleção ou Inserção (a depender de onde está a série S: nas linhas ou nas colunas)
@@ -121,53 +141,127 @@ class DynamicTimeWarping:
 
         return matriz_dtw
 
-    def dtw_warping_path(self, serie1: SerieTemporal, serie2: SerieTemporal) -> list:
+    def dtw_warping_paths(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> tuple[int, numpy.ndarray]:
         """
-        Obtém o warping path (caminho de alinhamento ótimo) entre as duas séries temporais.
+        Obtém o warping path (caminhos de alinhamento ótimo) entre as duas séries temporais.
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
-        :return: Warping path (caminho de alinhamento ótimo).
+        :return: Warping path (caminhos de alinhamento ótimo), a distância final, estruturas de alinhamento e matrix dtw.
+        Fonte: https://github.com/wannesm/dtaidistance/blob/master/src/dtaidistance/dtw.py
         """
-        s = serie1.dados
-        t = serie2.dados
+        if hasattr(serie1, 'dados'):
+            s = serie1.dados
+        else:
+            s = serie1
+
+        if hasattr(serie2, 'dados'):
+            t = serie2.dados
+        else:
+            t = serie2
+
         n = len(s)
         m = len(t)
 
-        # Gerando matriz DTW
-        matrix_dtw = self.gerar_matriz_dtw(serie1, serie2)
+        # Ajustando janela de busca
+        if self.janela_de_busca is None:
+            janela_busca = max(n, m)
+        else:
+            janela_busca = max(self.janela_de_busca, abs(n - m))
 
-        i = n
-        j = m
-        caminho = []
+        # Inicializando matriz dtw
+        matriz_dtw = numpy.full((n + 1, m + 1), numpy.inf)
 
-        # Caminhando do fim para o início
+        # Definindo condição de contorno inicial
+        matriz_dtw[0, 0] = 0
+
+        # Preenchendo a matriz por Programação dinâmica
+        for i in range(1, n + 1):
+            # Definindo os limites inferior e superior
+            j_inicio = max(1, i - janela_busca)
+            j_fim = min(m, i + janela_busca) + 1
+
+            for j in range(j_inicio, j_fim):
+                # Calculando o custo local
+                custo_local = self.distancia(s[i - 1], t[j - 1])
+
+                # Obtendo o menor vizinho
+                menor_vizinho = min(matriz_dtw[i-1, j], # Deleção ou Inserção (a depender de onde está a série S: nas linhas ou nas colunas)
+                                    matriz_dtw[i, j-1], # Inserção ou Deleção (a depender de onde está a série S: nas linhas ou nas colunas)
+                                    matriz_dtw[i-1, j-1]) # Match
+
+                # Definindo o valor da posição atual
+                matriz_dtw[i, j] = custo_local + menor_vizinho
+
+        # Distância final
+        distancia = matriz_dtw[n, m]
+
+        # Retornando a distância e a matriz dtw
+        return distancia, matriz_dtw
+
+    def dtw_warping_path(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> list:
+        """
+        Obtém o warping path (caminho de alinhamento ótimo) entre duas séries temporais.
+        :param serie1: Primeira série temporal.
+        :param serie2: Segunda série temporal.
+        :return: Warping path (caminho de alinhamento ótimo) entre as duas séries temporais.
+        Fonte: https://github.com/wannesm/dtaidistance/blob/master/src/dtaidistance/dtw.py
+        """
+
+        # Obtendo os caminhos
+        _, caminhos = self.dtw_warping_paths(serie1, serie2)
+
+        # Obtendo os melhores caminhos
+        caminhos = self.obter_melhor_caminho(caminhos)
+
+        # Retornando caminhos
+        return caminhos
+
+    def obter_melhor_caminho(self, caminhos):
+        """
+        Obtém o caminho ótimo a partir de uma matrix dtw.
+        :param caminhos: Matriz DTW.
+        :return Array representando o melhor caminho.
+        """
+        # Definindo o ponto de partida: canto inferior direito
+        i = int(caminhos.shape[0] - 1)
+        j = int(caminhos.shape[1] - 1)
+
+        # Inicializando a lista que guardará as coordenadas do caminho
+        caminho_otimo = []
+
+        # Adicionando o ponto final á lista
+        caminho_otimo.append((i - 1, j - 1))
+
+        # Caminhando do fim para o começo
         while i > 0 and j > 0:
-            caminho.append((i - 1, j - 1))
+            vizinhos = [
+                caminhos[i - 1, j - 1], # Diagonal -> Match
+                caminhos[i - 1, j], # Cima -> Deleção
+                caminhos[i, j - 1] # Esquerda -> Inserção
+            ]
 
-            # Encontrando o menor vizinho
-            opcao_diagonal = matrix_dtw[i - 1, j - 1]
-            opcao_cima = matrix_dtw[i - 1, j]
-            opcao_esquerda = matrix_dtw[i, j - 1]
+            # Selecionando o índice de direção que possui o menor custo acumulado
+            opcao_escolhida = numpy.argmin(vizinhos)
 
-            menor_custo = min(opcao_esquerda, opcao_cima, opcao_diagonal)
+            # Movimentando os ponteiros na matriz de acordo com a direção escolhida
+            if opcao_escolhida == 0:
+                i = i - 1
+                j = j - 1
+            elif opcao_escolhida == 1:
+                i = i - 1
+            else:
+                j = j - 1
 
-            if menor_custo == opcao_diagonal:
-                i -= 1
-                j -= 1
-            elif menor_custo == opcao_cima:
-                i -= 1
-            elif menor_custo == opcao_esquerda:
-                j -= 1
 
-            # Adicionando a borda restante se um dos eixos zerar antes do outro
-            while i > 0:
-                caminho.append((i - 1, 0))
-                i -= 1
-            while j > 0:
-                caminho.append((0, j - 1))
-                j -= 1
+            # Adicionando a coordenada atual á lista do caminho ótimo
+            caminho_otimo.append((i - 1, j - 1))
 
-        # Retornando o caminho invertido
-        return caminho[::-1]
+        # Removendo o último elemento residual para evitar o estouro de borda (-1, -1)
+        caminho_otimo.pop()
 
+        # Invertendo a ordem da lista
+        caminho_otimo.reverse()
+
+        # Retornando o caminho ótimo
+        return caminho_otimo
 

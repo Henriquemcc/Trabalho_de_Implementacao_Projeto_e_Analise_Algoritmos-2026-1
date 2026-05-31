@@ -9,8 +9,8 @@ from view.JanelaDistanciaDynamicTimeWarping import JanelaDistanciaDynamicTimeWar
 from view.JanelaMatrizAlinhamento import JanelaMatrizAlinhamento
 from view.JanelaMatrizMapeamento import JanelaMatrizMapeamento
 from view.JanelaPrincipal import JanelaPrincipal
-from view.JanelaSerieTemporal import JanelaSerieTemporal
 from view.JanelaSelecionarSerieTemporal import JanelaSelecionarSerieTemporal
+from view.JanelaSerieTemporal import JanelaSerieTemporal
 
 import os
 
