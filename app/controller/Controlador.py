@@ -1,5 +1,6 @@
 from pathlib import Path
 from tkinter import filedialog
+from tkinter import simpledialog
 
 from model.MatrizAlinhamento import MatrizAlinhamento
 from model.MatrizMapeamento import MatrizMapeamento
@@ -11,6 +12,7 @@ from view.JanelaPrincipal import JanelaPrincipal
 from view.JanelaSerieTemporal import JanelaSerieTemporal
 from view.JanelaSelecionarSerieTemporal import JanelaSelecionarSerieTemporal
 
+import os
 
 class Controlador:
     """
@@ -45,7 +47,8 @@ class Controlador:
         if Path(caminho).suffix == ".txt":
             serie_temporal = SerieTemporal.abrir_arquivo_txt(caminho)
         elif Path(caminho).suffix == ".tsv":
-            serie_temporal = SerieTemporal.abrir_arquivo_tsv(caminho)
+            indice = simpledialog.askinteger(os.path.basename(caminho), "Digite o índice da série temporal")
+            serie_temporal = SerieTemporal.abrir_arquivo_tsv(caminho, indice)
         self.series_temporais.append(serie_temporal)
         janela_interna_serie_temporal = JanelaSerieTemporal(serie_temporal)
 

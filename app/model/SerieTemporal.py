@@ -32,12 +32,13 @@ class SerieTemporal:
         return SerieTemporal(dados, nome)
 
     @staticmethod
-    def abrir_arquivo_tsv(caminho) -> SerieTemporal:
+    def abrir_arquivo_tsv(caminho, indice) -> SerieTemporal:
         """
         Realiza a abertura de um arquivo de uma série temporal em tsv.
         :param caminho: Caminho do arquivo da série temporal em tsv.
+        :param indice: Índice da série temporal.
         :return: SerieTemporal obtida a partir do arquivo.
         """
-        df = pd.read_csv(caminho, sep='\t').iloc[0, 1:].values
-        nome = os.path.basename(caminho)
+        df = pd.read_csv(caminho, sep='\t').iloc[indice, 1:].values
+        nome = "{}:{}".format(os.path.basename(caminho), indice)
         return SerieTemporal(df, nome)
