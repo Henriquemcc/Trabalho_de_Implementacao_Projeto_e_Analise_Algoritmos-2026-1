@@ -48,3 +48,12 @@ class TestDTW(unittest.TestCase):
         resultado = dtw.dtw_distance(test, train)
         resultado_biblioteca = dtaidistance.dtw.distance(test.dados, train.dados, window=10, inner_dist='euclidean')
         self.assertEqual(resultado, resultado_biblioteca)
+
+    def test_compara_implementacao_dtw_com_biblioteca_dataset_shake_gesture_wiimote_z(self):
+        test = SerieTemporal.abrir_arquivo_tsv('Dataset/UCRArchive_2018/ShakeGestureWiimoteZ/ShakeGestureWiimoteZ_TEST.tsv', 0)
+        train = SerieTemporal.abrir_arquivo_tsv('Dataset/UCRArchive_2018/ShakeGestureWiimoteZ/ShakeGestureWiimoteZ_TRAIN.tsv', 0)
+        dtw = DynamicTimeWarping(10, Distancia.EUCLIDIANA)
+        resultado = dtw.dtw_distance(test, train)
+        resultado_biblioteca = dtaidistance.dtw.distance(test.dados, train.dados, window=10, inner_dist='euclidean')
+        self.assertEqual(resultado, resultado_biblioteca)
+
