@@ -1,6 +1,7 @@
 import tkinter
 
-from model.DynamicTimeWarping import Distancia, DynamicTimeWarping
+from model.DynamicTimeWarping import DynamicTimeWarping
+from model.Distancia import Distancia
 from model.SerieTemporal import SerieTemporal
 
 
