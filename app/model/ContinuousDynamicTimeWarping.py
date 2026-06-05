@@ -451,3 +451,66 @@ class ContinuousDynamicTimeWarping:
                 bloco_atual = self.__construir_bloco(curva1, curva2, j, i)
                 bloco_atual.adicionar_steiner(MetodoStainer.UNIFORME, num_stainer)
 
+                # Lida com casos de borda nas bordas a direita e no canto inferior.
+                # No primeiro nó, inicializa o canto inferior direito como zero
+                if (i == h - 1) and (j == w - 1):
+                    bloco_atual.canto_inferior_direito.distancia = 0
+                    bloco_atual.inicializar_distancias()
+                    bloco_direita = bloco_atual
+
+                # Caso estejamos na linha do canto inferior
+                elif i == h - 1:
+                    # o atual nó da direita é o nó anterior da esquerda
+                    for n in range(0, num_stainer+2):
+                        bloco_atual[n].distancia = bloco_direita.esquerda[n].distancia
+                        bloco_atual[n].visitado = True
+
+                    bloco_atual.inicializar_distancias()
+                    bloco_direita = bloco_atual
+
+                # Caso estejamos na borda da direita
+                elif j == w - 1:
+                    # Definindo o canto inferior atual o topo anterior
+                    for n in range(0, num_stainer + 2):
+                        bloco_atual[n].distancia = matriz_de_baixo[j][n]
+                        bloco_atual[n].visitado = True
+
+                    bloco_atual.inicializar_distancias()
+                    bloco_direita = bloco_atual
+
+
+                # caso no qual estejamos na borda do SCB
+                elif i > mascara[0, j+1] or i < mascara[1, j+1]:
+                    # Definindo o canto inferior atual o topo anterior
+                    for n in range(0, num_stainer + 2):
+                        bloco_atual.canto_inferior[n].distancia = matriz_de_baixo[j][n]
+                        bloco_atual.canto_inferior[n].visitado = True
+
+                    bloco_atual.canto_inferior_direito.distancia = bloco_atual.canto_inferior[-1].distancia
+                    bloco_atual.inicializar_distancias()
+                    bloco_direita = bloco_atual
+
+                # Caso estejamos no meio do grafo
+                else:
+                    for n in range(0, num_stainer + 2):
+                        bloco_atual.canto_inferior[n].distancia = matriz_de_baixo[j][n]
+                        bloco_atual.canto_inferior[n].visitado = True
+
+                    for n in range(0, num_stainer + 2):
+                        bloco_atual.direita[n].distancia = bloco_direita.esquerda[n].distancia
+                        bloco_atual.direita[n].visitado = True
+
+                    bloco_direita = bloco_atual
+
+                    # Definindo a distância para os nós esquerda/topo do bloco atual
+                    bloco_atual.definir_distancia()
+
+                    for n in range(0, num_stainer + 2):
+                        matriz_de_baixo[j][n] = bloco_atual.topo[n].distancia
+
+                    # Atualizando o mapa de distâncias com as distâncias do nó atual
+                    mapa_distancias[(i, j)] = bloco_atual.topo_esquerdo.distancia
+
+        # Distância final é a distância do nó do topo esquerdo
+        return bloco_atual.topo_esquerdo.distancia, mapa_distancias
+
