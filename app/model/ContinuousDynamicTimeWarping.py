@@ -82,7 +82,7 @@ class CurvaCdtw:
         # Para cada nó de x e y, adicionando na curva
         if lista_x is not None and lista_y is not None:
             for x, y in zip(lista_x, lista_y):
-                self.adicionar_no(x=x, y=y)
+                self.adicionar_no(NoCdtw(x=x, y=y))
 
         # Adicionando nó á curva
         if no is not None and isinstance(no, NoCdtw):
