@@ -63,7 +63,58 @@ class NoCdtw:
 
 
 class CurvaCdtw:
-    pass
+    """
+    Representa uma curva 2D de N de largura composta de Nós CDTW.
+    Fonte: https://github.com/gregwood-db/cdtw/blob/master/cdtw_classes.py
+    """
+    def __init__(self, lista_x: list | None = None, lista_y: list | None = None, no: NoCdtw | None = None):
+
+        # Criando lista de nós
+        self.lista_nos = []
+
+        # Verificando se o tamanho de lista_x e lista_y são iguais
+        if lista_x is not None and lista_y is not None:
+            if len(lista_x) != len(lista_y):
+                raise ValueError('O tamanho de lista_x e lista_y precisam ser iguais')
+
+        # Para cada nó de x e y, adicionando na curva
+        if lista_x is not None and lista_y is not None:
+            for x, y in zip(lista_x, lista_y):
+                self.adicionar_no(x=x, y=y)
+
+        # Adicionando nó á curva
+        if no is not None and isinstance(no, NoCdtw):
+            self.adicionar_no(no=no)
+
+        def __getitem__(self, item: int) -> NoCdtw:
+            return self.lista_nos[item]
+
+        def __len__(self) -> int:
+            return int(len(self.list_nos))
+
+        def __repr__(self) -> str:
+            return 'Curva com {} pontos. Use o método show() para listar os pontos.'.format(len(self))
+
+        def __add__(self, other) -> CurvaCdtw:
+            if not isinstance(other, CurvaCdtw):
+                raise ValueError('Tentou adicionar um não Nó á lista de nós.')
+            return CurvaCdtw(self.lista_nos + other.lista_nos)
+
+        def trim(self, inicio: int, fim: int) -> CurvaCdtw:
+            if inicio < 0 or inicio > len(self) or inicio > fim or fim > len(self):
+                raise ValueError('Índice fora dos limites para a CurvaCdtw')
+            return CurvaCdtw(self.lista_nos[inicio:fim])
+
+        def adicionar_no(self, novo_no: NoCdtw):
+            if not isinstance(novo_no, NoCdtw):
+                raise ValueError('Tentou adicionar um não Nó á lista de nós.')
+            self.lista_nos.append()
+
+        def mostrar(self):
+            print('Curva com {} pontos. Os pontos são: {}'.format(len(self), self.lista_nos))
+
+        def dividir_ao_meio(self) -> CurvaCdtw:
+            return CurvaCdtw([(self[i].x + self[i + 1].x) / 2 for i in range(0, len(self) - len(self) % 2, 2)], [(self[i].y + self[i + 1].y) / 2 for i in range(0, len(self) % 2, 2)])
 
 class ContinuousDynamicTimeWarping:
     """
