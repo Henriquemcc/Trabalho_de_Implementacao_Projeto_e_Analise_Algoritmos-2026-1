@@ -1,3 +1,5 @@
+import numbers
+
 import numpy
 from enum import Enum
 
@@ -220,6 +222,22 @@ class ContinuousDynamicTimeWarping:
         :param r: Raio da Banda de Sakoe-Chiba.
         :return: Número real contendo a distância entre as duas séries temporais.
         """
+
+        # Verificando se o parâmetro interpolacao é numérico
+        if not isinstance(interpolacao, numbers.Number):
+            raise ValueError('O parâmetro interpolacao precisa ser numérico')
+
+        # Verificando se o parâmetro interpolacao é maior ou igual a zero
+        if interpolacao < 0:
+            raise ValueError('O parâmetro interpolacao precisa ser maior ou igual a zero')
+
+        # Verificando se o parâmetro num_stainer é inteiro
+        if not isinstance(num_stainer, int):
+            raise ValueError('O parâmetro num_stainer precisa ser inteiro')
+
+        # Verificando se o raio é inteiro
+        if not isinstance(r, int):
+            raise ValueError('O parâmetro r precisa ser inteiro')
 
         # Retirando o array dados do objeto SerieTemporal da serie1
         if hasattr(serie1, 'dados'):
