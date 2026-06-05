@@ -12,7 +12,55 @@ class TipoNoCdtw(Enum):
     STEINER = 'Steiner'
 
 class NoCdtw:
-    pass
+    """
+    Representa um ponto no espaço euclidiano para o algoritmo CDTW.
+    Fonte: https://github.com/gregwood-db/cdtw/blob/master/cdtw_classes.py
+    """
+    def __init__(self, x, y, tipo: TipoNoCdtw = TipoNoCdtw.NATIVO):
+
+        # A distância inicial deve ser 0
+        self.distancia = 0
+
+        # Tipo de nó
+        self.tipo = tipo
+
+        # Convertendo os valores de x e y para float
+        try:
+            self.x = float(x)
+            self.y = float(y)
+        except ValueError as e:
+            raise ValueError('Coordenadas precisam ser números')
+
+        # Estado se o nó foi visitado
+        self.visitado = False
+
+        # ID único do nó
+        self.id = id(self)
+
+    def __eq__(self, other):
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(repr(self))
+
+    def __repr__(self):
+        return 'Nó com id {}'.format(self.id)
+
+    def __add__(self, other):
+        return NoCdtw(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other):
+        return NoCdtw(self.x - other.x, self.y - other.y)
+
+    def mostrar(self):
+        print('Nó CDTW com as seguintes propriedades:')
+        print('Localização: ({};{})'.format(self.x, self.y))
+        print('Distância: {}'.format(self.distancia))
+        print('Tipo de nó: {}'.format(self.tipo.name))
+
+    def calcular_distancia(self, other: NoCdtw) -> float:
+        return ((self.x - other.x) ** 2 + (self.y - other.y) ** 2) ** (1/2)
+
 
 class CurvaCdtw:
     pass
