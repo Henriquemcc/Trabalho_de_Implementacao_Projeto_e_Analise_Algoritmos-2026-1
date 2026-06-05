@@ -30,7 +30,7 @@ class NoCdtw:
         try:
             self.x = float(x)
             self.y = float(y)
-        except ValueError as e:
+        except ValueError:
             raise ValueError('Coordenadas precisam ser números')
 
         # Estado se o nó foi visitado
