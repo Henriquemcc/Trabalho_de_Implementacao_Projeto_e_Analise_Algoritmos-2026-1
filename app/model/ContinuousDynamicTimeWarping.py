@@ -195,9 +195,9 @@ class CurvaCdtw:
                 distancia_maxima = distancia
 
         if distancia_maxima > epsilon:
-            recursao1 = CurvaCdtw.simplificar_curva(CurvaCdtw(no=curva[:indice + 1]), epsilon)
-            recursao2 = CurvaCdtw.simplificar_curva(CurvaCdtw(no=curva[indice:]), epsilon)
-            return CurvaCdtw(no=recursao1[:-1]) + recursao2
+            recursao1 = CurvaCdtw.simplificar_curva(CurvaCdtw(array_no=curva[:indice + 1]), epsilon)
+            recursao2 = CurvaCdtw.simplificar_curva(CurvaCdtw(array_no=curva[indice:]), epsilon)
+            return CurvaCdtw(array_no=recursao1.lista_nos[:-1]) + recursao2
         else:
             return CurvaCdtw(array_no=[curva[0], curva[-1]])
 
