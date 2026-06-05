@@ -149,16 +149,20 @@ class DynamicTimeWarping:
         :return: Warping path (caminhos de alinhamento ótimo), a distância final, estruturas de alinhamento e matrix dtw.
         Fonte: https://github.com/wannesm/dtaidistance/blob/master/src/dtaidistance/dtw.py
         """
+
+        # Retirando o array dados do objeto SerieTemporal da serie1
         if hasattr(serie1, 'dados'):
             s = serie1.dados
         else:
             s = serie1
 
+        # Retirando o array dados do objeto SerieTemporal da serie2
         if hasattr(serie2, 'dados'):
             t = serie2.dados
         else:
             t = serie2
 
+        # Obtendo o tamanho dos objetos
         n = len(s)
         m = len(t)
 
