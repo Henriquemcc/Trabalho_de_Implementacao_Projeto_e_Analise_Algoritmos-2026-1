@@ -188,6 +188,10 @@ class CurvaCdtw:
         if epsilon < 0:
             raise ValueError('O valor de epsilon não pode ser menor de que zero')
 
+        # Retornando a curva caso ela tenha 2 pontos ou menos, pois não há o que simplificar
+        if len(curva) <= 2:
+            return curva
+
         distancia_maxima = 0
         indice = 0
         for i in range(1, len(curva)):
