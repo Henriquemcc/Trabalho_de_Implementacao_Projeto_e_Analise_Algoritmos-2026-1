@@ -288,3 +288,23 @@ class ContinuousDynamicTimeWarping:
         longo das arestas de cada bloco estrutural da malha de alinhamento.
         :return: Um número real contendo a distância entre as duas curvas e um dicionário contendo a warping distance para cada nó.
         """
+        # Verificando se os valores de c1 e c2 são instâncias de CurvaCdtw
+        if (not isinstance(curva1, CurvaCdtw)) or (not isinstance(curva2, CurvaCdtw)):
+            raise ValueError('Os parâmetros c1 e c2 precisam ser instâncias de CurvaCdtw')
+
+        # Inicializando as variáveis de loop
+        w = len(curva1) - 1
+        h = len(curva2) - 1
+
+        # Matriz que armazena os valores da programação dinâmica
+        matriz_de_baixo = numpy.zeros((w, num_stainer + 2))
+
+        # Bloco ou célula da malha geométrica que o algoritmo está a processar e a calcular no exato momento da iteração
+        # dentro do duplo loop
+        bloco_atual = []
+
+        # Guarda o bloco completo calculado imediatamente á direita do bloco atual
+        bloco_direita = []
+
+        # Guarda todas as distâncias acumuladas calculadas para os nós principais da malha geométrica
+        mapa_distancias = {}
