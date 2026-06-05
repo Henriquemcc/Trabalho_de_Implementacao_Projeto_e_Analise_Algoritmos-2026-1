@@ -381,6 +381,9 @@ class ContinuousDynamicTimeWarping:
         h = len(c1)
         w = len(c2)
 
+        if w == 0 or h == 0:
+            raise ValueError('A interpolação/simplificação foi muito agressiva e apagou todos os pontos de uma das curvas. Reduza o valor de `interpolação`.')
+
         # Construindo a Janela de Sakoe-Chiba
         if r == 0:
             janela_sakoe_chiba = numpy.zeros((2, w))
