@@ -86,7 +86,7 @@ class CurvaCdtw:
 
         # Adicionando nó á curva
         if no is not None and isinstance(no, NoCdtw):
-            self.adicionar_no(no=no)
+            self.adicionar_no(novo_no=no)
 
         # Adicionando nós do array de nós
         if array_no is not None:
