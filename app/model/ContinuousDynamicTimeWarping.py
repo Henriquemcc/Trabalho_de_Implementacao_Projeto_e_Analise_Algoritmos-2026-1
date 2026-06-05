@@ -277,3 +277,14 @@ class ContinuousDynamicTimeWarping:
         distancia, _ = self._cdtw(c1, c2, mascara=janela_sakoe_chiba, num_stainer=num_stainer)
 
         return distancia
+
+    def _cdtw(self, curva1: CurvaCdtw, curva2: CurvaCdtw, mascara: numpy.ndarray, num_stainer: int) -> tuple[float, dict]:
+        """
+        Realiza o cálculo da distância de duas curvas através do algoritmo Continuous Dynamic Time Warping.
+        :param curva1: Primeira curva.
+        :param curva2: Segunda curva.
+        :param mascara: Uma matriz 2*n que contém os limites superior e inferior para a região de distorção válida.
+        :param num_stainer: Número de Steiner, quantidade de pontos extras de interpolação adicionados artificialmente ao
+        longo das arestas de cada bloco estrutural da malha de alinhamento.
+        :return: Um número real contendo a distância entre as duas curvas e um dicionário contendo a warping distance para cada nó.
+        """
