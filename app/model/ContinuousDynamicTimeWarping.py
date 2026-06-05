@@ -403,7 +403,7 @@ class ContinuousDynamicTimeWarping:
         return distancia
 
     @staticmethod
-    def __construir_bloco(curva1: CurvaCdtw, curva2: CurvaCdtw, indice_c1: int, indice_c2: int):
+    def __construir_bloco(curva1: CurvaCdtw, curva2: CurvaCdtw, indice_c1: int, indice_c2: int) -> BlocoCdtw:
         return BlocoCdtw(lista_nos=[curva2[indice_c2 + 1] - curva1[indice_c1 + 1],
                                     curva2[indice_c2 + 1] - curva1[indice_c1],
                                     curva2[indice_c2] - curva1[indice_c1 + 1],
