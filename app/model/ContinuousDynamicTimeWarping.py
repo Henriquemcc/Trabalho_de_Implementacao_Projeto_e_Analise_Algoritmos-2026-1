@@ -67,7 +67,7 @@ class CurvaCdtw:
     Representa uma curva 2D de N de largura composta de Nós CDTW.
     Fonte: https://github.com/gregwood-db/cdtw/blob/master/cdtw_classes.py
     """
-    def __init__(self, lista_x: list | None = None, lista_y: list | None = None, no: NoCdtw | None = None):
+    def __init__(self, lista_x: list | None = None, lista_y: list | None = None, no: NoCdtw | None = None, array_no: list | None = None):
 
         # Criando lista de nós
         self.lista_nos = []
@@ -85,6 +85,11 @@ class CurvaCdtw:
         # Adicionando nó á curva
         if no is not None and isinstance(no, NoCdtw):
             self.adicionar_no(no=no)
+
+        # Adicionando nós do array de nós
+        if array_no is not None:
+            for no in array_no:
+                self.adicionar_no(novo_no=no)
 
     def __getitem__(self, item: int) -> NoCdtw:
         return self.lista_nos[item]
