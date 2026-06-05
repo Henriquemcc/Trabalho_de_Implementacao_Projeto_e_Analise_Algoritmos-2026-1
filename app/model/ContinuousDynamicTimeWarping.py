@@ -1,10 +1,10 @@
 import numbers
-
-import numpy
 from enum import Enum
 
+import numpy
+
 from model.SerieTemporal import SerieTemporal
-from model.Distancia import Distancia, distancia_manhattan, distancia_euclidiana, distancia_euclidiana_ao_quadrado
+
 
 class TipoNoCdtw(Enum):
     """
