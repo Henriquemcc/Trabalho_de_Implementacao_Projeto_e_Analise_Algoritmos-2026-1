@@ -51,6 +51,10 @@ class JanelaPrincipal(tkinter.Tk):
             label="Distância Dynamic Time Warping",
             command=lambda: controller.executar_distancia_dynamic_time_warping(),
         )
+        menu_algoritmo.add_command(
+            label="Distância Continuous Dynamic Time Warping",
+            command=lambda: controller.executar_distancia_continuous_dynamic_time_warping(),
+        )
         barra_menu.add_cascade(label="Algoritmo", menu=menu_algoritmo)
 
         # Adicionando menu
