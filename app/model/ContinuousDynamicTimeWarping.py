@@ -308,3 +308,15 @@ class ContinuousDynamicTimeWarping:
 
         # Guarda todas as distâncias acumuladas calculadas para os nós principais da malha geométrica
         mapa_distancias = {}
+
+        # Interando do canto inferior direito para o canto superior esquerdo da matriz
+        for i in range(h - 1, -1, -1):
+            for j in range(w - 1, -1, -1):
+
+                # Caso esteja fora da máscara, podemos pular este elemento
+                mascara_superior = mascara[0, j]
+                mascara_inferior = mascara[1, j]
+                if i < mascara_inferior or i > mascara_superior:
+                    matriz_de_baixo[j][0:num_stainer + 2] = numpy.inf
+                    continue
+
