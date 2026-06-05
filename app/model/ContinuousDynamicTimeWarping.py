@@ -115,7 +115,7 @@ class CurvaCdtw:
     def adicionar_no(self, novo_no: NoCdtw):
         if not isinstance(novo_no, NoCdtw):
             raise ValueError('Tentou adicionar um não Nó á lista de nós.')
-        self.lista_nos.append()
+        self.lista_nos.append(novo_no)
 
     def mostrar(self):
         print('Curva com {} pontos. Os pontos são: {}'.format(len(self), self.lista_nos))
