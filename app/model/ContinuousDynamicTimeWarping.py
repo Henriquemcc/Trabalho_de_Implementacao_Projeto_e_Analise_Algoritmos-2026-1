@@ -404,10 +404,10 @@ class ContinuousDynamicTimeWarping:
 
     @staticmethod
     def __construir_bloco(curva1: CurvaCdtw, curva2: CurvaCdtw, indice_c1: int, indice_c2: int):
-        return BlocoCdtw([curva2(indice_c2 + 1) - curva1(indice_c1 + 1),
-                          curva2(indice_c2 + 1) - curva1(indice_c1),
-                          curva2(indice_c2) - curva1(indice_c1 + 1),
-                          curva2(indice_c2) - curva1(indice_c1)])
+        return BlocoCdtw(lista_nos=[curva2[indice_c2 + 1] - curva1[indice_c1 + 1],
+                                    curva2[indice_c2 + 1] - curva1[indice_c1],
+                                    curva2[indice_c2] - curva1[indice_c1 + 1],
+                                    curva2[indice_c2] - curva1[indice_c1]])
 
     @staticmethod
     def _cdtw(curva1: CurvaCdtw, curva2: CurvaCdtw, mascara: numpy.ndarray, num_stainer: int) -> tuple[float, dict]:
