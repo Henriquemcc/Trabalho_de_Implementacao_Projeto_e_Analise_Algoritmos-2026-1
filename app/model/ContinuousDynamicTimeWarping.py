@@ -1,7 +1,15 @@
 import numpy
+from enum import Enum
 
 from model.SerieTemporal import SerieTemporal
 from model.Distancia import Distancia, distancia_manhattan, distancia_euclidiana, distancia_euclidiana_ao_quadrado
+
+class TipoNoCdtw(Enum):
+    """
+    Representa o tipo de um Nó do algoritmo CDTW
+    """
+    NATIVO = 'Nativo'
+    STEINER = 'Steiner'
 
 class NoCdtw:
     pass
