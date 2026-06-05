@@ -398,8 +398,12 @@ class ContinuousDynamicTimeWarping:
 
         return distancia
 
-    def __make_patch(curva1: CurvaCdtw, curva2: CurvaCdtw, indice_c1: int, indice_c2: int):
-        pass
+    @staticmethod
+    def __construir_bloco(curva1: CurvaCdtw, curva2: CurvaCdtw, indice_c1: int, indice_c2: int):
+        return BlocoCdtw([curva2(indice_c2 + 1) - curva1(indice_c1 + 1),
+                          curva2(indice_c2 + 1) - curva1(indice_c1),
+                          curva2(indice_c2) - curva1(indice_c1 + 1),
+                          curva2(indice_c2) - curva1(indice_c1)])
 
     def _cdtw(self, curva1: CurvaCdtw, curva2: CurvaCdtw, mascara: numpy.ndarray, num_stainer: int) -> tuple[float, dict]:
         """
