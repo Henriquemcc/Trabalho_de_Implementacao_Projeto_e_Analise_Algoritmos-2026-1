@@ -361,12 +361,14 @@ class ContinuousDynamicTimeWarping:
             raise ValueError('O parâmetro r precisa ser inteiro')
 
         # Retirando o array dados do objeto SerieTemporal da serie1
+        c1 = None
         if type(serie1).__name__ == 'SerieTemporal':
             c1 = CurvaCdtw.from_serie_temporal(serie1)
         elif isinstance(serie1, list):
             c1 = CurvaCdtw.from_array(serie1)
 
         # Retirando o array dados do objeto SerieTemporal da serie2
+        c2 = None
         if type(serie2).__name__ == 'SerieTemporal':
             c2 = CurvaCdtw.from_serie_temporal(serie2)
         elif isinstance(serie2, list):
