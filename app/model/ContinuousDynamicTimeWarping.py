@@ -219,7 +219,7 @@ class ContinuousDynamicTimeWarping:
         :param interpolacao: Limiar de tolerância geométrica para simplificação.
         :param num_stainer: Número de Steiner, quantidade de pontos extras de interpolação adicionados artificialmente ao
         longo das arestas de cada bloco estrutural da malha de alinhamento.
-        :param r: Raio da Banda de Sakoe-Chiba.
+        :param r: Raio da Janela de Sakoe-Chiba.
         :return: Número real contendo a distância entre as duas séries temporais.
         """
 
@@ -255,3 +255,25 @@ class ContinuousDynamicTimeWarping:
         if interpolacao > 0:
             c1 = CurvaCdtw.simplificar_curva(c1, interpolacao)
             c2 = CurvaCdtw.simplificar_curva(c2, interpolacao)
+
+        # Obtendo os tamanhos das curvas
+        h = len(c1)
+        w = len(c2)
+
+        # Construindo a Janela de Sakoe-Chiba
+        if r == 0:
+            janela_sakoe_chiba = numpy.zeros((2, w))
+            janela_sakoe_chiba[0, :] = h
+        else:
+            janela_sakoe_chiba = numpy.zeros((2, w))
+            escala = h / w
+            for i in range(0, w):
+                h_preencher_centro = int(numpy.ceil(i * escala))
+                h_preencher_cima = min(h, h_preencher_centro + r)
+                h_preencher_baixo = max(0, h_preencher_centro - r)
+                janela_sakoe_chiba[0, i] = h_preencher_cima
+                janela_sakoe_chiba[1, i] = h_preencher_baixo
+
+        distancia, _ = self._cdtw(c1, c2, mascara=janela_sakoe_chiba, num_stainer=num_stainer)
+
+        return distancia
