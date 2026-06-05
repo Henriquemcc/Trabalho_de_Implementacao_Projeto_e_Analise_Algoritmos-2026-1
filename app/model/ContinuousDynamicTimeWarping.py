@@ -209,7 +209,17 @@ class ContinuousDynamicTimeWarping:
         else:
             ValueError(f"Tipo de distância inválido: {distancia}")
 
-    def cdtw_distance(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray, interop= 0.3, num_stainer = 5, r = 100) -> float:
+    def cdtw_distance(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray, interpolacao= 0.3, num_stainer = 5, r = 100) -> float:
+        """
+        Realiza o cálculo da distância de duas séries temporais através do algoritmo Continuous Dynamic Time Warping.
+        :param serie1: Primeira série temporal
+        :param serie2: Segunda série temporal
+        :param interpolacao: Limiar de tolerância geométrica para simplificação.
+        :param num_stainer: Número de Steiner, quantidade de pontos extras de interpolação adicionados artificialmente ao
+        longo das arestas de cada bloco estrutural da malha de alinhamento.
+        :param r: Raio da Banda de Sakoe-Chiba.
+        :return: Número real contendo a distância entre as duas séries temporais.
+        """
 
         # Retirando o array dados do objeto SerieTemporal da serie1
         if hasattr(serie1, 'dados'):
