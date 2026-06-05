@@ -158,6 +158,21 @@ class CurvaCdtw:
         return curva
 
     @staticmethod
+    def __distancia_linha(ponto: NoCdtw, linha_inicio: NoCdtw, linha_fim: NoCdtw) -> numpy.float64:
+        """
+        Calcula a distância perpendicular do nó 'ponto' e a linha.
+        :param ponto: Nó cuja distância será calculada em relação á linha
+        :param linha_inicio: Ponto de início da linha.
+        :param linha_fim: Ponto final da linha.
+        :return: Distância entre o ponto e a linha.
+        """
+        x2 = numpy.array([linha_fim.x, linha_fim.y])
+        x1 = numpy.array([linha_inicio.x, linha_inicio.y])
+        x0 = numpy.array([ponto.x, ponto.y])
+        return numpy.divide(numpy.linalg.norm(numpy.linalg.det([x2 - x1, x1 - x0])),
+                            numpy.linalg.norm(x2 - x1))
+
+    @staticmethod
     def simplificar_curva(curva: CurvaCdtw, epsilon: float | int) -> CurvaCdtw:
         """
         Simplifica uma CurvaCdtw usando o algoritmo Douglas-Peuker.
@@ -174,7 +189,7 @@ class CurvaCdtw:
         distancia_maxima = 0
         indice = 0
         for i in range(1, len(curva)):
-            distancia = CurvaCdtw.distancia_linha(curva[i], curva[0], curva[-1])
+            distancia = CurvaCdtw.__distancia_linha(curva[i], curva[0], curva[-1])
             if distancia > distancia_maxima:
                 indice = i
                 distancia_maxima = distancia
