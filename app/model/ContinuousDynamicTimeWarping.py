@@ -447,3 +447,7 @@ class ContinuousDynamicTimeWarping:
                     matriz_de_baixo[j][0:num_stainer + 2] = numpy.inf
                     continue
 
+                # Constuindo blocos com stainers
+                bloco_atual = self.__construir_bloco(curva1, curva2, j, i)
+                bloco_atual.adicionar_steiner(MetodoStainer.UNIFORME, num_stainer)
+
