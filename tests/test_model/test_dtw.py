@@ -3,7 +3,7 @@ import unittest
 import dtaidistance
 import numpy
 
-from app.model.DynamicTimeWarping import Distancia
+from model.Distancia import Distancia
 from app.model.DynamicTimeWarping import DynamicTimeWarping
 from app.model.SerieTemporal import SerieTemporal
 
