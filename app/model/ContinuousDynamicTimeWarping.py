@@ -2,6 +2,7 @@ import numbers
 from enum import Enum
 
 import numpy
+import copy
 
 from model.SerieTemporal import SerieTemporal
 
@@ -112,7 +113,10 @@ class CurvaCdtw:
     def __sub__(self, other) -> CurvaCdtw:
         if not isinstance(other, CurvaCdtw):
             raise ValueError('Tentou subtraír um não Nó á lista de nós.')
-        return CurvaCdtw(self.lista_nos - other.lista_nos)
+        lista_nos = copy.copy(self.lista_nos)
+        for other_lista_nos in other.lista_nos:
+            lista_nos.remove(other_lista_nos)
+        return CurvaCdtw(lista_nos)
 
     def trim(self, inicio: int, fim: int) -> CurvaCdtw:
         if inicio < 0 or inicio > len(self) or inicio > fim or fim > len(self):
