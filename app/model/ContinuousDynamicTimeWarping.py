@@ -133,6 +133,25 @@ class CurvaCdtw:
         # Retornando CurvaCdtw
         return curva
 
+    @staticmethod
+    def from_array(dados: list) -> CurvaCdtw:
+
+        # Convertendo os dados para um array numpy
+        y = numpy.asarray(dados).flatten()
+        x = numpy.arange(len(y))
+
+        # Criando nova instância de CurvaCdtw
+        curva = CurvaCdtw()
+
+        # Adicionando cada elemento á CurvaCdtw
+        for xi, yi in zip(x, y):
+            curva.adicionar_no(NoCdtw(x=xi, y=yi))
+
+        # Retornando CurvaCdtw
+        return curva
+
+
+
 class ContinuousDynamicTimeWarping:
     """
     Implementação do algoritmo Continuous Dynamic Time Warping.
