@@ -97,7 +97,7 @@ class CurvaCdtw:
         return self.lista_nos[item]
 
     def __len__(self) -> int:
-        return int(len(self.list_nos))
+        return int(len(self.lista_nos))
 
     def __repr__(self) -> str:
         return 'Curva com {} pontos. Use o método show() para listar os pontos.'.format(len(self))
