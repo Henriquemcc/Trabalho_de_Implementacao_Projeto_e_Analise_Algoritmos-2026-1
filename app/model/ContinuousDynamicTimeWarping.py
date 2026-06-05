@@ -186,8 +186,128 @@ class CurvaCdtw:
         else:
             return CurvaCdtw(array_no=[curva[0], curva[-1]])
 
+class MetodoStainer(Enum):
+    UNIFORME='Uniforme'
+    PONDERADO='PONDERADO'
 
+class BlocoCdtw:
+    """
+    Representa uma únidade geométrica onde ocorrem os cálculos locais do algoritmo CDTW.
+    Fonte: https://github.com/gregwood-db/cdtw/blob/master/cdtw_classes.py
+    """
+    def __init__(self, lista_nos: list[NoCdtw]):
+        self.lista_nos = lista_nos
+        self.topo_esquerdo = self.lista_nos[0]
+        self.topo_direito = self.lista_nos[1]
+        self.canto_inferior_esquerdo = self.lista_nos[2]
+        self.canto_inferior_direito = self.lista_nos[3]
+        self.esquerda = [self.topo_esquerdo, self.canto_inferior_esquerdo]
+        self.topo = [self.topo_esquerdo, self.topo_direito]
+        self.direita = [self.topo_direito, self.canto_inferior_direito]
+        self.canto_inferior = [self.canto_inferior_esquerdo, self.canto_inferior_direito]
 
+    def __getitem__(self, item: int) -> NoCdtw:
+        if not isinstance(item, int):
+            raise ValueError('O item precisa ser inteiro')
+        return self.lista_nos[item]
+
+    def __setitem__(self, chave: int, valor: NoCdtw):
+        if not isinstance(chave, int):
+            raise ValueError('A chave precisa ser inteiro')
+        if not isinstance(valor, NoCdtw):
+            raise ValueError('O valor precisa ser uma instância de NoCdtw')
+        self.lista_nos[chave] = valor
+
+    def __repr__(self):
+        return 'Bloco com id {}'.format(sum([no.id for no in self.lista_nos]))
+
+    def adicionar_no(self, no: NoCdtw):
+        if not isinstance(no, NoCdtw):
+            raise ValueError('O no precisa ser uma instância de NoCdtw')
+        self.lista_nos.append(no)
+
+    def __resetar_nos(self):
+        self.topo_esquerdo = self.topo[0]
+        self.topo_direito = self.topo[-1]
+        self.canto_inferior_esquerdo = self.canto_inferior[0]
+        self.canto_inferior_direito = self.canto_inferior[-1]
+        self.esquerda = [self.topo_esquerdo, self.canto_inferior_esquerdo]
+        self.topo = [self.topo_esquerdo, self.topo_direito]
+        self.direita = [self.topo_direito, self.canto_inferior_direito]
+        self.canto_inferior = [self.canto_inferior_esquerdo, self.canto_inferior_direito]
+        self.lista_nos = [self.topo_esquerdo, self.topo_direito, self.canto_inferior_esquerdo, self.canto_inferior_direito]
+
+    def atualizar_nos(self):
+        self.esquerda[0] = self.topo_esquerdo
+        self.esquerda[-1] = self.canto_inferior_esquerdo
+        self.direita[0] = self.topo_direito
+        self.direita[-1] = self.canto_inferior_direito
+        self.topo[0] = self.topo_esquerdo
+        self.topo[-1] = self.topo_direito
+        self.canto_inferior[0] = self.canto_inferior_esquerdo
+        self.canto_inferior[-1] = self.canto_inferior_direito
+        self.lista_nos = ([self.topo_esquerdo] + self.topo[1:-1] +
+                          [self.topo_direito] + self.direita[1:-1] +
+                          [self.canto_inferior_esquerdo] + self.canto_inferior[1:-1] +
+                          [self.canto_inferior_direito] + self.esquerda[1:-1])
+
+    def definir_distancia(self):
+        for j in self.esquerda + self.topo:
+            if j.visitado:
+                continue
+
+            # A distância do nó é o mínimo entre a direita/canto inferior
+            distancias = [j.calcular_distancia(no) + no.distancia for no in self.direita + self.canto_inferior]
+            j.distancia = min(distancias)
+            j.visitado = True
+
+    def inicializar_distancias(self):
+        for no in self.canto_inferior + self.direita:
+            if no.visitado:
+                continue
+            else:
+                no.distancia = no.calcular_distancia(self.canto_inferior_direito) + self.canto_inferior_direito.distancia
+                no.visitado = True
+
+    def adicionar_steiner(self, metodo: MetodoStainer, numero: int):
+        # Verificando se numero é inteiro
+        if not isinstance(numero, int):
+            raise ValueError('O parâmetro numero precisa ser inteiro')
+
+        # Verificando se o metodo é uma instância de MetodoStainer
+        if not isinstance(metodo, MetodoStainer):
+            raise ValueError('O parâmetro metodo precisa ser uma instância do enum MetodoStainer')
+
+        # Define o tamanho fixo padrão que um segmento de aresta deve ter ao usar o método ponderado de inserção de nós
+        # de stainer
+        unidade_peso = 0.25
+
+        # Atualizando a lista de nós para eliminar stainers existentes
+        self.__resetar_nos()
+
+        # Iterando para cada borda para adicionar pontos
+        bordas = [self.topo, self.direita, self.canto_inferior, self.esquerda]
+        for indice, borda in enumerate(bordas):
+            if metodo == MetodoStainer.PONDERADO:
+                comprimento = borda[1].calcular_distancia(borda[0])
+                numero = numpy.ceil(comprimento / unidade_peso)
+
+            dx = (borda[1].x - borda[0].x) / (numero + 1)
+            dy = (borda[1].y - borda[0].y) / (numero + 1)
+            novo_x = numpy.linspace(borda[0].x + dx, borda[1].x - dx, numero)
+            novo_y = numpy.linspace(borda[0].y + dy, borda[1].y - dy, numero)
+            novos_nos = [NoCdtw(x, y, tipo=TipoNoCdtw.STEINER) for x, y in zip(novo_x, novo_y)]
+
+            if indice == 0:
+                self.topo = [bordas[indice][0]] + novos_nos + [bordas[indice][-1]]
+            elif indice == 1:
+                self.direita = [bordas[indice][0]] + novos_nos + [bordas[indice][-1]]
+            elif indice == 2:
+                self.canto_inferior = [bordas[indice][0]] + novos_nos + [bordas[indice][-1]]
+            else:
+                self.esquerda = [bordas[indice][0]] + novos_nos + [bordas[indice][-1]]
+
+        self.atualizar_nos()
 
 class ContinuousDynamicTimeWarping:
     """
@@ -277,6 +397,9 @@ class ContinuousDynamicTimeWarping:
         distancia, _ = self._cdtw(c1, c2, mascara=janela_sakoe_chiba, num_stainer=num_stainer)
 
         return distancia
+
+    def __make_patch(curva1: CurvaCdtw, curva2: CurvaCdtw, indice_c1: int, indice_c2: int):
+        pass
 
     def _cdtw(self, curva1: CurvaCdtw, curva2: CurvaCdtw, mascara: numpy.ndarray, num_stainer: int) -> tuple[float, dict]:
         """
