@@ -93,7 +93,9 @@ class CurvaCdtw:
             for no in array_no:
                 self.adicionar_no(novo_no=no)
 
-    def __getitem__(self, item: int) -> NoCdtw:
+    def __getitem__(self, item: int | slice) -> NoCdtw | CurvaCdtw:
+        if isinstance(item, slice):
+            return CurvaCdtw(array_no=self.lista_nos[item])
         return self.lista_nos[item]
 
     def __len__(self) -> int:
