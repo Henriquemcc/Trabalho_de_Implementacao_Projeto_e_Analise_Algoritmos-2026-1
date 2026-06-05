@@ -310,28 +310,8 @@ class BlocoCdtw:
         self.atualizar_nos()
 
 class ContinuousDynamicTimeWarping:
-    """
-    Implementação do algoritmo Continuous Dynamic Time Warping.
-    """
-    def __init__(self, janela_de_busca: int | None = None, distancia: Distancia = Distancia.EUCLIDIANA):
-
-        """
-        Inicializa o algoritmo Continuous Dynamic Time Warping.
-        :param janela_de_busca: Tamanho da janela de busca.
-        :param distancia: Tipo de distância a ser utilizado.
-        """
-        self.janela_de_busca = janela_de_busca
-        self.distancia = None
-        if distancia == Distancia.MANHATTAN:
-            self.distancia = distancia_manhattan
-        elif distancia == Distancia.EUCLIDIANA:
-            self.distancia = distancia_euclidiana
-        elif distancia == Distancia.EUCLIDIANA_AO_QUADRADO:
-            self.distancia = distancia_euclidiana_ao_quadrado
-        else:
-            ValueError(f"Tipo de distância inválido: {distancia}")
-
-    def cdtw_distance(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray, interpolacao= 0.3, num_stainer = 5, r = 100) -> float:
+    @staticmethod
+    def cdtw_distance(serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray, interpolacao= 0.3, num_stainer = 5, r = 100) -> float:
         """
         Realiza o cálculo da distância de duas séries temporais através do algoritmo Continuous Dynamic Time Warping.
         :param serie1: Primeira série temporal
@@ -394,7 +374,7 @@ class ContinuousDynamicTimeWarping:
                 janela_sakoe_chiba[0, i] = h_preencher_cima
                 janela_sakoe_chiba[1, i] = h_preencher_baixo
 
-        distancia, _ = self._cdtw(c1, c2, mascara=janela_sakoe_chiba, num_stainer=num_stainer)
+        distancia, _ = ContinuousDynamicTimeWarping._cdtw(c1, c2, mascara=janela_sakoe_chiba, num_stainer=num_stainer)
 
         return distancia
 
@@ -405,7 +385,8 @@ class ContinuousDynamicTimeWarping:
                           curva2(indice_c2) - curva1(indice_c1 + 1),
                           curva2(indice_c2) - curva1(indice_c1)])
 
-    def _cdtw(self, curva1: CurvaCdtw, curva2: CurvaCdtw, mascara: numpy.ndarray, num_stainer: int) -> tuple[float, dict]:
+    @staticmethod
+    def _cdtw(curva1: CurvaCdtw, curva2: CurvaCdtw, mascara: numpy.ndarray, num_stainer: int) -> tuple[float, dict]:
         """
         Realiza o cálculo da distância de duas curvas através do algoritmo Continuous Dynamic Time Warping.
         :param curva1: Primeira curva.
@@ -448,7 +429,7 @@ class ContinuousDynamicTimeWarping:
                     continue
 
                 # Constuindo blocos com stainers
-                bloco_atual = self.__construir_bloco(curva1, curva2, j, i)
+                bloco_atual = ContinuousDynamicTimeWarping.__construir_bloco(curva1, curva2, j, i)
                 bloco_atual.adicionar_steiner(MetodoStainer.UNIFORME, num_stainer)
 
                 # Lida com casos de borda nas bordas a direita e no canto inferior.
