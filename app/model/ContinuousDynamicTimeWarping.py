@@ -163,7 +163,7 @@ class CurvaCdtw:
     def __distancia_linha(ponto: NoCdtw, linha_inicio: NoCdtw, linha_fim: NoCdtw) -> numpy.float64:
         """
         Calcula a distância perpendicular do nó 'ponto' e a linha.
-        :param ponto: Nó cuja distância será calculada em relação á linha
+        :param ponto: Nó cuja distância será calculada em relação à linha
         :param linha_inicio: Ponto de início da linha.
         :param linha_fim: Ponto final da linha.
         :return: Distância entre o ponto e a linha.
@@ -297,7 +297,7 @@ class BlocoCdtw:
 
         # Verificando se o metodo é uma instância de MetodoStainer
         if not isinstance(metodo, MetodoStainer):
-            raise ValueError('O parâmetro metodo precisa ser uma instância do enum MetodoStainer')
+            raise ValueError('O parâmetro método precisa ser uma instância do enum MetodoStainer')
 
         # Define o tamanho fixo padrão que um segmento de aresta deve ter ao usar o método ponderado de inserção de nós
         # de stainer
@@ -435,7 +435,7 @@ class ContinuousDynamicTimeWarping:
         # dentro do duplo loop
         bloco_atual = []
 
-        # Guarda o bloco completo calculado imediatamente á direita do bloco atual
+        # Guarda o bloco completo calculado imediatamente à direita do bloco atual
         bloco_direita = []
 
         # Guarda todas as distâncias acumuladas calculadas para os nós principais da malha geométrica
