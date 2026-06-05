@@ -155,6 +155,36 @@ class CurvaCdtw:
         # Retornando CurvaCdtw
         return curva
 
+    @staticmethod
+    def simplificar_curva(curva: CurvaCdtw, epsilon: float | int) -> CurvaCdtw:
+        """
+        Simplifica uma CurvaCdtw usando o algoritmo Douglas-Peuker.
+        :param epsilon: Limiar de tolerância geométrica para simplificação.
+        :param curva: Curva a ser simplificada.
+        :return: Curva simplificada
+        Fonte: https://github.com/gregwood-db/cdtw/blob/master/cdtw.py
+        """
+
+        # Verificando se o epsilon é menor que zero
+        if epsilon < 0:
+            raise ValueError('O valor de epsilon não pode ser menor de que zero')
+
+        distancia_maxima = 0
+        indice = 0
+        for i in range(1, len(curva)):
+            distancia = CurvaCdtw.distancia_linha(curva[i], curva[0], curva[-1])
+            if distancia > distancia_maxima:
+                indice = i
+                distancia_maxima = distancia
+
+        if distancia_maxima > epsilon:
+            recursao1 = CurvaCdtw.simplificar_curva(CurvaCdtw(no=curva[:indice + 1]), epsilon)
+            recursao2 = CurvaCdtw.simplificar_curva(CurvaCdtw(no=curva[indice:]), epsilon)
+            return CurvaCdtw(no=recursao1[:-1]) + recursao2
+        else:
+            return CurvaCdtw(array_no=[curva[0], curva[-1]])
+
+
 
 
 class ContinuousDynamicTimeWarping:
