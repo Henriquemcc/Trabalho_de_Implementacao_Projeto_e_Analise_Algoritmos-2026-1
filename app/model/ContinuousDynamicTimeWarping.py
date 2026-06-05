@@ -240,13 +240,18 @@ class ContinuousDynamicTimeWarping:
             raise ValueError('O parâmetro r precisa ser inteiro')
 
         # Retirando o array dados do objeto SerieTemporal da serie1
-        if hasattr(serie1, 'dados'):
-            c1 = serie1.dados
-        else:
-            c1 = serie1
+        if type(serie1).__name__ == 'SerieTemporal':
+            c1 = CurvaCdtw.from_serie_temporal(serie1)
+        elif isinstance(serie1, list):
+            c1 = CurvaCdtw.from_array(serie1)
 
         # Retirando o array dados do objeto SerieTemporal da serie2
-        if hasattr(serie2, 'dados'):
-            c2 = serie2.dados
-        else:
-            c2 = serie2
+        if type(serie2).__name__ == 'SerieTemporal':
+            c2 = CurvaCdtw.from_serie_temporal(serie2)
+        elif isinstance(serie2, list):
+            c2 = CurvaCdtw.from_array(serie2)
+
+        # Se o parâmetro interpolação for maior do que 0, realizando simplificação das curvas
+        if interpolacao > 0:
+            c1 = CurvaCdtw.simplificar_curva(c1, interpolacao)
+            c2 = CurvaCdtw.simplificar_curva(c2, interpolacao)
