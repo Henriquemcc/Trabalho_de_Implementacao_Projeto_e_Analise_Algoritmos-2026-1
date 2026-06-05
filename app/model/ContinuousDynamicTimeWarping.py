@@ -109,6 +109,11 @@ class CurvaCdtw:
             raise ValueError('Tentou adicionar um não Nó á lista de nós.')
         return CurvaCdtw(self.lista_nos + other.lista_nos)
 
+    def __sub__(self, other) -> CurvaCdtw:
+        if not isinstance(other, CurvaCdtw):
+            raise ValueError('Tentou subtraír um não Nó á lista de nós.')
+        return CurvaCdtw(self.lista_nos - other.lista_nos)
+
     def trim(self, inicio: int, fim: int) -> CurvaCdtw:
         if inicio < 0 or inicio > len(self) or inicio > fim or fim > len(self):
             raise ValueError('Índice fora dos limites para a CurvaCdtw')
