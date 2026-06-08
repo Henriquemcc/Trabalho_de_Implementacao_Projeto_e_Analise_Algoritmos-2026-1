@@ -1,4 +1,5 @@
 import tkinter
+import tkinter.messagebox
 
 from model.SerieTemporal import SerieTemporal
 from model.ContinuousDynamicTimeWarping import ContinuousDynamicTimeWarping
@@ -74,11 +75,16 @@ class JanelaDistanciaContinuousDynamicTimeWarping(tkinter.Toplevel):
         Realiza a execução do Continuous Dynamic Time Warping.
         :return:
         """
-        resultado = ContinuousDynamicTimeWarping.cdtw_distance(
-            serie1=self.serie_temporal1,
-            serie2=self.serie_temporal2,
-            interpolacao=float(self.variavel_interpolacao.get()),
-            num_stainer=int(self.variavel_num_stainer.get()),
-            r=int(self.variavel_r.get())
-        )
-        self.resposta_label.config(text=f"Resposta: {resultado}")
+        try:
+            resultado = ContinuousDynamicTimeWarping.cdtw_distance(
+                serie1=self.serie_temporal1,
+                serie2=self.serie_temporal2,
+                interpolacao=float(self.variavel_interpolacao.get()),
+                num_stainer=int(self.variavel_num_stainer.get()),
+                r=int(self.variavel_r.get())
+            )
+            self.resposta_label.config(text=f"Resposta: {resultado}")
+        except Exception as e:
+            tkinter.messagebox.showerror(title='Erro ao executar o Continuous Dynamic Time Warping', message=str(e))
+            print(e)
+
