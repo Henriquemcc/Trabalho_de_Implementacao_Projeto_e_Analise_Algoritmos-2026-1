@@ -132,7 +132,10 @@ class CurvaCdtw:
         print('Curva com {} pontos. Os pontos são: {}'.format(len(self), self.lista_nos))
 
     def dividir_ao_meio(self) -> CurvaCdtw:
-        return CurvaCdtw([(self[i].x + self[i + 1].x) / 2 for i in range(0, len(self) - len(self) % 2, 2)], [(self[i].y + self[i + 1].y) / 2 for i in range(0, len(self) % 2, 2)])
+        return CurvaCdtw(
+            [(self[i].x + self[i + 1].x) / 2 for i in range(0, len(self) - len(self) % 2, 2)],
+            [(self[i].y + self[i + 1].y) / 2 for i in range(0, len(self) - len(self) % 2, 2)]
+        )
 
     @staticmethod
     def from_serie_temporal(serie: SerieTemporal) -> CurvaCdtw:
