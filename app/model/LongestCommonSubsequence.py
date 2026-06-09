@@ -49,6 +49,7 @@ class LongestCommonSubsequence:
             return max(LongestCommonSubsequence.__lcs_recursiva(s1, s2, m, n - 1), LongestCommonSubsequence.__lcs_recursiva(s1, s2, m - 1, n))
 
 class LongestCommonSubsequenceProgramacaoDinamica:
+
     def __init__(self):
         # Variável que armazena os cálculos anteriores
         self.__programacao_dinamica = {}
@@ -87,22 +88,22 @@ class LongestCommonSubsequenceProgramacaoDinamica:
         # Se os elementos de ambos arrays baterem
         if s1[m - 1] == s2[n - 1]:
             soma = 1
-            parametros = (s1, s2, m - 1, n - 1)
+            parametros = (m - 1, n - 1)
             if parametros not in self.__programacao_dinamica:
-                self.__programacao_dinamica[parametros] = self.__lcs_recursiva(*parametros)
+                self.__programacao_dinamica[parametros] = self.__lcs_recursiva(s1, s2, *parametros)
             return soma + self.__programacao_dinamica[parametros]
 
         # Se os elementos de ambos os arrays não baterem
         # Calculando o máximo do LCS de um com m e n-1 e outro com m-1 e n.
         else:
-            parametros1 = (s1, s2, m, n - 1)
+            parametros1 = (m, n - 1)
             # Executando recursão somente se ela não tiver sido executada anteriormente
             if parametros1 not in self.__programacao_dinamica:
-                self.__programacao_dinamica[parametros1] = self.__lcs_recursiva(*parametros1)
+                self.__programacao_dinamica[parametros1] = self.__lcs_recursiva(s1, s2, *parametros1)
 
-            parametros2 = (s1, s2, m - 1, n)
+            parametros2 = (m - 1, n)
             # Executando recursão somente se ela não tiver sido executada anteriormente
             if parametros2 not in self.__programacao_dinamica:
-                self.__programacao_dinamica[parametros2] = self.__lcs_recursiva(*parametros2)
+                self.__programacao_dinamica[parametros2] = self.__lcs_recursiva(s1, s2, *parametros2)
 
             return max(self.__programacao_dinamica[parametros1], self.__programacao_dinamica[parametros2])
