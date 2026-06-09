@@ -76,7 +76,7 @@ class JanelaLongestCommonSubsequence(tkinter.Toplevel):
         :return:
         """
         try:
-            lcs_pd = LongestCommonSubsequenceProgramacaoDinamica
+            lcs_pd = LongestCommonSubsequenceProgramacaoDinamica()
             resultado = lcs_pd.lcs(
                 serie1=self.serie_temporal1,
                 serie2=self.serie_temporal2
