@@ -35,7 +35,7 @@ class LongestCommonSubsequence:
     @staticmethod
     def __lcs_recursiva(s1, s2, m, n) -> int:
         # Caso base: Se ambas os arrays tiverem sido percorridos, o tamanho da LCS seré 0
-        if m == 0 and n == 0:
+        if m == 0 or n == 0:
             return 0
 
         # Se os elementos de ambos arrays baterem
