@@ -5,7 +5,7 @@ from model import SerieTemporal
 
 class LongestCommonSubsequence:
     @staticmethod
-    def lcs(serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> int:
+    def lcs_normal(serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> int:
         """
         Realiza o cálculo do comprimento da LongestCommonSubsequence (Sequência Comum Mais Longa).
         :param serie1: Primeira série temporal.
