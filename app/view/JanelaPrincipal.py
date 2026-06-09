@@ -55,6 +55,10 @@ class JanelaPrincipal(tkinter.Tk):
             label="Distância Continuous Dynamic Time Warping",
             command=lambda: controller.executar_distancia_continuous_dynamic_time_warping(),
         )
+        menu_algoritmo.add_command(
+            label='Longest Common Subsequence',
+            command=lambda: controller.executar_longest_common_subsequence(),
+        )
         barra_menu.add_cascade(label="Algoritmo", menu=menu_algoritmo)
 
         # Adicionando menu
