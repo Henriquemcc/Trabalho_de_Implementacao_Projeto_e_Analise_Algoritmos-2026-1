@@ -57,7 +57,7 @@ class JanelaLongestCommonSubsequence(tkinter.Toplevel):
         :return:
         """
         try:
-            resultado = LongestCommonSubsequence.lcs_normal(
+            resultado = LongestCommonSubsequence.lcs(
                 serie1=self.serie_temporal1,
                 serie2=self.serie_temporal2
             )
