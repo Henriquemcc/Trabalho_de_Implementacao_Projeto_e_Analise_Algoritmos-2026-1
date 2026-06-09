@@ -7,7 +7,7 @@ from model.ContinuousDynamicTimeWarping import ContinuousDynamicTimeWarping
 
 class JanelaDistanciaContinuousDynamicTimeWarping(tkinter.Toplevel):
     """
-    Janela utilizada para realizar a execução da distância do ContinuousDynamicTimeWarping
+    Janela utilizada para realizar a execução da distância do Continuous Dynamic Time Warping
     """
     def __init__(self, serie_temporal1: SerieTemporal, serie_temporal2: SerieTemporal):
         """
