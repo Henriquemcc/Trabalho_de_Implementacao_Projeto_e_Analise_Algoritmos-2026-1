@@ -5,6 +5,7 @@ from tkinter import simpledialog
 from model.MatrizAlinhamento import MatrizAlinhamento
 from model.MatrizMapeamento import MatrizMapeamento
 from model.SerieTemporal import SerieTemporal
+from view.JanelaDistanciaContinuousDynamicTimeWarping import JanelaDistanciaContinuousDynamicTimeWarping
 from view.JanelaDistanciaDynamicTimeWarping import JanelaDistanciaDynamicTimeWarping
 from view.JanelaMatrizAlinhamento import JanelaMatrizAlinhamento
 from view.JanelaMatrizMapeamento import JanelaMatrizMapeamento
@@ -126,3 +127,28 @@ class Controlador:
 
         # Abrindo janela para execução do Dynamic Time Warping
         janela_dynamic_time_warping = JanelaDistanciaDynamicTimeWarping(serie_temporal_1, serie_temporal_2)
+
+    def executar_distancia_continuous_dynamic_time_warping(self):
+        """
+        Realiza a execução da distância Continuous Dynamic Time Warping
+        :return:
+        """
+        # Verificando se há pelo menos duas séries temporais
+        if len(self.series_temporais) < 2:
+            return
+
+        # Obtendo as séries temporais
+        serie_temporal_1 = None
+        while serie_temporal_1 is None:
+            serie_temporal_1 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 1",
+                                                             "Selecione a primeira série temporal",
+                                                             self.series_temporais).mostrar()
+
+        serie_temporal_2 = None
+        while serie_temporal_2 is None:
+            serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2",
+                                                             "Selecione a segunda série temporal",
+                                                             self.series_temporais).mostrar()
+
+        # Abrindo janela para execução do Dynamic Time Warping
+        JanelaDistanciaContinuousDynamicTimeWarping(serie_temporal_1, serie_temporal_2)

@@ -4,7 +4,8 @@ import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-from model.DynamicTimeWarping import DynamicTimeWarping, Distancia
+from model.DynamicTimeWarping import DynamicTimeWarping
+from model.Distancia import Distancia
 from model.MatrizAlinhamento import MatrizAlinhamento
 
 

@@ -1,6 +1,8 @@
 import tkinter
+import tkinter.messagebox
 
-from model.DynamicTimeWarping import Distancia, DynamicTimeWarping
+from model.DynamicTimeWarping import DynamicTimeWarping
+from model.Distancia import Distancia
 from model.SerieTemporal import SerieTemporal
 
 
@@ -73,6 +75,11 @@ class JanelaDistanciaDynamicTimeWarping(tkinter.Toplevel):
             janela_de_busca = None
         else:
             janela_de_busca = int(self.variavel_janela_de_busca.get())
-        dtw = DynamicTimeWarping(janela_de_busca, distancia_enum)
-        resultado = dtw.dtw_distance(self.serie_temporal1, self.serie_temporal2)
-        self.resposta_label.config(text=f"Resposta: {resultado}")
+
+        try:
+            dtw = DynamicTimeWarping(janela_de_busca, distancia_enum)
+            resultado = dtw.dtw_distance(self.serie_temporal1, self.serie_temporal2)
+            self.resposta_label.config(text=f"Resposta: {resultado}")
+        except Exception as e:
+            tkinter.messagebox.showerror(title='Erro ao executar o Dynamic Time Warping', message=str(e))
+            print(e)
