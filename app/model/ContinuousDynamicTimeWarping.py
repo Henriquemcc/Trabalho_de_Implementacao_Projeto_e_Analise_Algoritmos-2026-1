@@ -132,10 +132,26 @@ class CurvaCdtw:
         print('Curva com {} pontos. Os pontos são: {}'.format(len(self), self.lista_nos))
 
     def dividir_ao_meio(self) -> CurvaCdtw:
-        return CurvaCdtw(
-            [(self[i].x + self[i + 1].x) / 2 for i in range(0, len(self) - len(self) % 2, 2)],
-            [(self[i].y + self[i + 1].y) / 2 for i in range(0, len(self) - len(self) % 2, 2)]
-        )
+        # Retornando o próprio nó caso ele seja ímpar
+        if len(self) < 2:
+            return self
+
+        # Dividindo curva ao meio
+        novos_x = []
+        novos_y = []
+        for i in range(0, len(self) - 1, 2):
+            novos_x.append((self[i].x + self[i + 1].x) / 2)
+            novos_y.append((self[i].y + self[i + 1].y) / 2)
+
+        # Incluíndo o ponto do meio, caso seja ímpar
+        if len(self) % 2 == 0:
+            novos_x.append(self[-1].x)
+            novos_y.append(self[-1].y)
+
+        return CurvaCdtw(novos_x, novos_y)
+
+
+
 
     @staticmethod
     def from_serie_temporal(serie: SerieTemporal) -> CurvaCdtw:
