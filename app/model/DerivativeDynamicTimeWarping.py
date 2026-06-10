@@ -29,6 +29,33 @@ class DerivativeDynamicTimeWarping:
 
         return derivada_serie
 
+    @staticmethod
+    def __gerar_janela(tamanho_derivada_s1: int, tamanho_derivada_s2: int, K: int):
+        """
+        Gera a janela do espaço de busca reduzido
+        :param tamanho_derivada_s1: Tamanho da série temporal 1
+        :param tamanho_derivada_s2: Tamanho de série temporal 2
+        :param K: Largura da janela de restrição global, também conhecido como Janela de Sakoe-Chiba.
+        :return: Janela do espaço de busca reduzido.
+        """
+        for i in range(tamanho_derivada_s1):
+
+            # Calculando os limites superior e inferior
+            limite_inferior = i - K
+            limite_superior = i + K
+
+            if limite_inferior < 0 and limite_superior < tamanho_derivada_s2:
+                for j in range(limite_superior):
+                    yield (i + 1, j + 1)
+            elif limite_inferior >= 0 and limite_superior < tamanho_derivada_s2:
+                for j in range(limite_inferior, limite_superior):
+                    yield (i + 1, j + 1)
+            elif limite_inferior < 0 and limite_superior >= tamanho_derivada_s2:
+                for j in range(tamanho_derivada_s2):
+                    yield (i + 1, j + 1)
+            elif limite_inferior >= 0 and limite_superior >= tamanho_derivada_s2:
+                for j in range(limite_inferior, tamanho_derivada_s2):
+                    yield (i + 1, j + 1)
 
     @staticmethod
     def ddtw(serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray, K: int = 10) -> tuple[dict, list[tuple[int, int]]]:
