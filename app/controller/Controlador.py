@@ -5,7 +5,7 @@ from tkinter import simpledialog
 from model.MatrizAlinhamento import MatrizAlinhamento
 from model.MatrizMapeamento import MatrizMapeamento
 from model.SerieTemporal import SerieTemporal
-from view.JanelaDerivativeDynamicTimeWarping import JanelaDerivativeDynamicTimeWarping
+from view.JanelaDistanciaDerivativeDynamicTimeWarping import JanelaDistanciaDerivativeDynamicTimeWarping
 from view.JanelaDistanciaContinuousDynamicTimeWarping import JanelaDistanciaContinuousDynamicTimeWarping
 from view.JanelaDistanciaDynamicTimeWarping import JanelaDistanciaDynamicTimeWarping
 from view.JanelaLongestCommonSubsequence import JanelaLongestCommonSubsequence
@@ -203,4 +203,4 @@ class Controlador:
                                                              self.series_temporais).mostrar()
 
         # Abrindo janela para execução do Derivative Dynamic Time Warping
-        janela_derivative_dynamic_time_warping = JanelaDerivativeDynamicTimeWarping(serie_temporal_1, serie_temporal_2)
+        janela_derivative_dynamic_time_warping = JanelaDistanciaDerivativeDynamicTimeWarping(serie_temporal_1, serie_temporal_2)

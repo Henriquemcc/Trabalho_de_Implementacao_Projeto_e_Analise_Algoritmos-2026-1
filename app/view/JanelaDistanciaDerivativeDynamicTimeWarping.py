@@ -5,7 +5,7 @@ from model.DerivativeDynamicTimeWarping import DerivativeDynamicTimeWarping
 from model.SerieTemporal import SerieTemporal
 
 
-class JanelaDerivativeDynamicTimeWarping(tkinter.Toplevel):
+class JanelaDistanciaDerivativeDynamicTimeWarping(tkinter.Toplevel):
     """
     Janela para realizar a execução da distância do Derivative Dynamic Time Warping.
     """
