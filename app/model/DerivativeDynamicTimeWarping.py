@@ -1,3 +1,5 @@
+from typing import Any
+
 from model.SerieTemporal import SerieTemporal
 import numpy
 import collections
@@ -58,13 +60,13 @@ class DerivativeDynamicTimeWarping:
                     yield (i + 1, j + 1)
 
     @staticmethod
-    def ddtw(serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray, K: int = 10) -> tuple[dict, list[tuple[int, int]]]:
+    def ddtw(serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray, K: int = 10) -> tuple[float, list[Any]]:
         """
         Realiza o cálculo da distância de duas séries temporais através do algoritmo Derivative Dynamic Time Warping.
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
         :param K: Largura da janela de restrição global, também conhecido como Janela de Sakoe-Chiba.
-        :return: Matriz de custo acumulado e matriz de rastreamento.
+        :return: Custo acumulado e matriz de rastreamento.
         Fonte: https://github.com/z2e2/fastddtw/blob/master/_fastddtw.py
         """
         # Retirando o array dados do objeto SerieTemporal da serie1
