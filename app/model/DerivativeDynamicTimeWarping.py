@@ -121,8 +121,7 @@ class DerivativeDynamicTimeWarping:
             matriz_rastreamento.append((i - 1, j - 1))
 
             # Definindo os novos valores para i e j
-            i = matriz_custo_acumulado[i, j][1]
-            j = matriz_custo_acumulado[i, j][2]
+            i, j = matriz_custo_acumulado[i, j][1], matriz_custo_acumulado[i, j][2]
 
         # Invertendo a ordem dos elementos
         matriz_rastreamento.reverse()
