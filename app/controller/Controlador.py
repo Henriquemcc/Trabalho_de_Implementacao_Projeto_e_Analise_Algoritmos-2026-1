@@ -7,6 +7,7 @@ from model.MatrizMapeamento import MatrizMapeamento
 from model.SerieTemporal import SerieTemporal
 from view.JanelaDistanciaContinuousDynamicTimeWarping import JanelaDistanciaContinuousDynamicTimeWarping
 from view.JanelaDistanciaDynamicTimeWarping import JanelaDistanciaDynamicTimeWarping
+from view.JanelaLongestCommonSubsequence import JanelaLongestCommonSubsequence
 from view.JanelaMatrizAlinhamento import JanelaMatrizAlinhamento
 from view.JanelaMatrizMapeamento import JanelaMatrizMapeamento
 from view.JanelaPrincipal import JanelaPrincipal
@@ -152,3 +153,28 @@ class Controlador:
 
         # Abrindo janela para execução do Dynamic Time Warping
         JanelaDistanciaContinuousDynamicTimeWarping(serie_temporal_1, serie_temporal_2)
+
+    def executar_longest_common_subsequence(self):
+        """
+        Realiza a execução do Longest Common Subsequence
+        :return:
+        """
+        # Verificando se há pelo menos duas séries temporais
+        if len(self.series_temporais) < 2:
+            return
+
+        # Obtendo as séries temporais
+        serie_temporal_1 = None
+        while serie_temporal_1 is None:
+            serie_temporal_1 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 1",
+                                                             "Selecione a primeira série temporal",
+                                                             self.series_temporais).mostrar()
+
+        serie_temporal_2 = None
+        while serie_temporal_2 is None:
+            serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2",
+                                                             "Selecione a segunda série temporal",
+                                                             self.series_temporais).mostrar()
+
+        # Abrindo janela para execução do Longest Common Subsequence
+        janela_longest_common_subsequence = JanelaLongestCommonSubsequence(serie_temporal_1, serie_temporal_2)
