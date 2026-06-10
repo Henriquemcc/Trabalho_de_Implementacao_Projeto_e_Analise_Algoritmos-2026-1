@@ -7,6 +7,29 @@ class DerivativeDynamicTimeWarping:
     """
     Implementação do algoritmo Derivative Dynamic Time Warping
     """
+
+    @staticmethod
+    def __estimar_derivadas(serie: numpy.ndarray) -> numpy.ndarray:
+        """
+        Realiza o cálculo das derivadas.
+        :param serie: Dados da série temporal.
+        :return: Derivada dos dados da série temporal.
+        """
+        if len(serie) < 3:
+            raise ValueError('O tamanho da série temporal deve ser maior que 3 elementos')
+
+        if type(serie) != numpy.ndarray:
+            raise ValueError('O tipo do parâmetro `serie` deve ser um numpy array')
+
+        # Calculando as derivadas
+        derivada_0 = serie[:-2]
+        derivada_1 = serie[1:-1]
+        derivada_2 = serie[2:]
+        derivada_serie = ((derivada_1 - derivada_0) + (derivada_2 - derivada_0)/2)/2
+
+        return derivada_serie
+
+
     @staticmethod
     def ddtw(serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray, K: int = 10) -> tuple[dict, list[tuple[int, int]]]:
         """
@@ -19,15 +42,15 @@ class DerivativeDynamicTimeWarping:
         """
         # Retirando o array dados do objeto SerieTemporal da serie1
         if type(serie1).__name__ == 'SerieTemporal':
-            s1 = serie1.dados
+            s1 = numpy.array(serie1.dados)
         else:
-            s1 = serie1
+            s1 = numpy.array(serie1)
 
         # Retirando o array dados do objeto SerieTemporal da serie2
         if type(serie2).__name__ == 'SerieTemporal':
-            s2 = serie2.dados
+            s2 = numpy.array(serie2.dados)
         else:
-            s2 = serie2
+            s2 = numpy.array(serie2)
 
         # Calculando as derivadas de s1 e s2
         derivada_s1 = DerivativeDynamicTimeWarping.__estimar_derivadas(s1)
