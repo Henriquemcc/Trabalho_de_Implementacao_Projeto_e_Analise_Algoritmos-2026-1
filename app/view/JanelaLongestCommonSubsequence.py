@@ -1,7 +1,7 @@
 import tkinter
 
 from model.LongestCommonSubsequence import LongestCommonSubsequence
-from model.LongestCommonSubsequence import LongestCommonSubsequenceProgramacaoDinamica
+from model.LongestCommonSubsequence import LongestCommonSubsequence
 from model.SerieTemporal import SerieTemporal
 
 
@@ -43,11 +43,8 @@ class JanelaLongestCommonSubsequence(tkinter.Toplevel):
         # Título do Frame
         tkinter.Label(self.frame, text='Algoritmo Longest Common Subsequence', font=('Calibre', 20)).pack()
 
-        # Criando botão para executar o Longest Common Subsequence sem programação dinâmica
-        tkinter.Button(self.frame, text='Executar (sem Programação Dinâmica)', command=self.executar_normal).pack()
-
         # Criando botão para executar o Longest Common Subsequence com programação dinâmica
-        tkinter.Button(self.frame, text='Executar (com Programação Dinâmica)', command=self.executar_programacao_dinamica).pack()
+        tkinter.Button(self.frame, text='Executar', command=self.executar).pack()
 
         # Criando label para mostrar a resposta do Longest Common Subsequence
         self.resposta_label = tkinter.Label(self.frame, text='Resposta:', font=('Calibre', 12))
@@ -55,28 +52,14 @@ class JanelaLongestCommonSubsequence(tkinter.Toplevel):
 
         self.frame.pack(fill=tkinter.BOTH, expand=True)
 
-    def executar_normal(self):
-        """
-        Realiza a execução do Longest Common Subsequence sem Programação Dinâmica.
-        :return:
-        """
-        try:
-            resultado = LongestCommonSubsequence.lcs(
-                serie1=self.serie_temporal1,
-                serie2=self.serie_temporal2
-            )
-            self.resposta_label.config(text=f'Resposta: {resultado}')
-        except Exception as e:
-            tkinter.messagebox.showerror(title='Erro ao executar o Longest Common Subsequence (sem Programação Dinâmica)', message=str(e))
-            print(e)
 
-    def executar_programacao_dinamica(self):
+    def executar(self):
         """
         Realiza a execução do Longest Common Subsequence com Programação Dinâmica.
         :return:
         """
         try:
-            lcs_pd = LongestCommonSubsequenceProgramacaoDinamica()
+            lcs_pd = LongestCommonSubsequence()
             resultado = lcs_pd.lcs(
                 serie1=self.serie_temporal1,
                 serie2=self.serie_temporal2
