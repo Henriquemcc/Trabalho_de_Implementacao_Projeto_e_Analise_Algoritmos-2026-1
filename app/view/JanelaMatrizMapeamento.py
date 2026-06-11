@@ -4,9 +4,8 @@ import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-from model.DynamicTimeWarping import DynamicTimeWarping
-from model.Distancia import Distancia
 from model.MatrizMapeamento import MatrizMapeamento
+from model.WarpingPathAlgorithm import WarpingPathAlgorithm
 
 
 class JanelaMatrizMapeamento(tkinter.Toplevel):
@@ -14,10 +13,11 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
     Janela utilizada para exibir uma matriz de alinhamento.
     """
 
-    def __init__(self, matriz_mapeamento: MatrizMapeamento):
+    def __init__(self, matriz_mapeamento: MatrizMapeamento, algoritmo: WarpingPathAlgorithm):
         tkinter.Toplevel.__init__(self)
-        self.title("Matriz de Mapeamento")
+        self.title("Matriz de Mapeamento {}".format(algoritmo.nome_algoritmo))
         self.matriz_mapeamento = matriz_mapeamento
+        self.algoritmo = algoritmo
 
         # Configurando o tamanho da janela
         screen_width = 800
@@ -42,11 +42,8 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
         s1 = self.matriz_mapeamento.serie_1.dados
         s2 = self.matriz_mapeamento.serie_2.dados
 
-        # Criando uma nova instância de Dynamic Time Warping
-        dynamic_time_warping = DynamicTimeWarping(None, Distancia.EUCLIDIANA)
-
         # Calculando o melhor caminho
-        melhor_caminho = dynamic_time_warping.dtw_warping_path(s1, s2)
+        melhor_caminho = self.algoritmo.warping_path(s1, s2)
 
         # Plotando a série 1 no topo e a série 2 abaixo (com um offset vertical)
         offset = np.max(s2) + (np.max(s1) - np.min(s1))
@@ -61,7 +58,7 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
             ax.plot([idx1, idx2], [s1[idx1] + offset, s2[idx2]],
                     color='gray', linestyle='--', alpha=0.4, linewidth=1)
 
-        ax.set_title("Mapeamento de Alinhamento (DTW Warping)")
+        ax.set_title("Mapeamento de Alinhamento ({})".format(self.algoritmo.nome_algoritmo))
         ax.set_yticks([np.mean(s2), np.mean(s1) + offset])
         ax.set_yticklabels([self.matriz_mapeamento.serie_2.nome, self.matriz_mapeamento.serie_1.nome])
         ax.legend()

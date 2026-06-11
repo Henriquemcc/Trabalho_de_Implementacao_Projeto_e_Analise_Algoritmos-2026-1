@@ -36,12 +36,28 @@ class JanelaPrincipal(tkinter.Tk):
         # Menu transformar
         menu_transformar = tkinter.Menu(barra_menu, tearoff=0)
         menu_transformar.add_command(
-            label="Gerar matriz de alinhamento",
-            command=lambda: controller.gerar_matriz_alinhamento(),
+            label="Gerar matriz de alinhamento Dynamic Time Warping",
+            command=lambda: controller.gerar_matriz_alinhamento_dtw(),
         )
         menu_transformar.add_command(
-            label="Gerar matriz de mapeamento",
-            command=lambda: controller.gerar_matriz_mapeamento(),
+            label="Gerar matriz de alinhamento Derivative Dynamic Time Warping",
+            command=lambda: controller.gerar_matriz_alinhamento_ddtw()
+        )
+        menu_transformar.add_command(
+            label="Gerar matriz de alinhamento Continuous Dynamic Time Warping",
+            command=lambda: controller.gerar_matriz_alinhamento_cdtw()
+        )
+        menu_transformar.add_command(
+            label="Gerar matriz de mapeamento Dynamic Time Warping",
+            command=lambda: controller.gerar_matriz_mapeamento_dtw(),
+        )
+        menu_transformar.add_command(
+            label="Gerar matriz de mapeamento Derivative Dynamic Time Warping",
+            command=lambda: controller.gerar_matriz_mapeamento_ddtw()
+        )
+        menu_transformar.add_command(
+            label="Gerar matriz de mapeamento Continuous Dynamic Time Warping",
+            command=lambda: controller.gerar_matriz_mapeamento_cdtw()
         )
         barra_menu.add_cascade(label="Transformar", menu=menu_transformar)
 

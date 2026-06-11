@@ -2,6 +2,7 @@ import numpy
 
 from model import SerieTemporal
 
+
 class LongestCommonSubsequence:
 
     def __init__(self):

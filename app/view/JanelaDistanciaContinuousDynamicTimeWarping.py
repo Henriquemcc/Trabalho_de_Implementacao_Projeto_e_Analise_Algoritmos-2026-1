@@ -1,8 +1,8 @@
 import tkinter
 import tkinter.messagebox
 
-from model.SerieTemporal import SerieTemporal
 from model.ContinuousDynamicTimeWarping import ContinuousDynamicTimeWarping
+from model.SerieTemporal import SerieTemporal
 
 
 class JanelaDistanciaContinuousDynamicTimeWarping(tkinter.Toplevel):
@@ -76,12 +76,12 @@ class JanelaDistanciaContinuousDynamicTimeWarping(tkinter.Toplevel):
         :return:
         """
         try:
-            resultado = ContinuousDynamicTimeWarping.cdtw_distance(
+            cdtw = ContinuousDynamicTimeWarping(interpolacao=float(self.variavel_interpolacao.get()),
+                num_stainer=int(self.variavel_num_stainer.get()),
+                r=int(self.variavel_r.get()))
+            resultado = cdtw.cdtw_distance(
                 serie1=self.serie_temporal1,
                 serie2=self.serie_temporal2,
-                interpolacao=float(self.variavel_interpolacao.get()),
-                num_stainer=int(self.variavel_num_stainer.get()),
-                r=int(self.variavel_r.get())
             )
             self.resposta_label.config(text=f"Resposta: {resultado}")
         except Exception as e:

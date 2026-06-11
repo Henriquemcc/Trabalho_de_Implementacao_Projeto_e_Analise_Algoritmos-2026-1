@@ -1,12 +1,16 @@
+import os
 from pathlib import Path
 from tkinter import filedialog
 from tkinter import simpledialog
 
+from model.ContinuousDynamicTimeWarping import ContinuousDynamicTimeWarping
+from model.DerivativeDynamicTimeWarping import DerivativeDynamicTimeWarping
+from model.DynamicTimeWarping import DynamicTimeWarping
 from model.MatrizAlinhamento import MatrizAlinhamento
 from model.MatrizMapeamento import MatrizMapeamento
 from model.SerieTemporal import SerieTemporal
-from view.JanelaDistanciaDerivativeDynamicTimeWarping import JanelaDistanciaDerivativeDynamicTimeWarping
 from view.JanelaDistanciaContinuousDynamicTimeWarping import JanelaDistanciaContinuousDynamicTimeWarping
+from view.JanelaDistanciaDerivativeDynamicTimeWarping import JanelaDistanciaDerivativeDynamicTimeWarping
 from view.JanelaDistanciaDynamicTimeWarping import JanelaDistanciaDynamicTimeWarping
 from view.JanelaLongestCommonSubsequence import JanelaLongestCommonSubsequence
 from view.JanelaMatrizAlinhamento import JanelaMatrizAlinhamento
@@ -15,7 +19,6 @@ from view.JanelaPrincipal import JanelaPrincipal
 from view.JanelaSelecionarSerieTemporal import JanelaSelecionarSerieTemporal
 from view.JanelaSerieTemporal import JanelaSerieTemporal
 
-import os
 
 class Controlador:
     """
@@ -55,9 +58,9 @@ class Controlador:
         self.series_temporais.append(serie_temporal)
         janela_interna_serie_temporal = JanelaSerieTemporal(serie_temporal)
 
-    def gerar_matriz_alinhamento(self):
+    def gerar_matriz_alinhamento_dtw(self):
         """
-        Realiza a geração de uma matriz de alinhamento.
+        Realiza a geração de uma matriz de alinhamento para o algoritmo DTW.
         :return:
         """
 
@@ -73,16 +76,82 @@ class Controlador:
         serie_temporal_2 = None
         while serie_temporal_2 is None:
             serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2", "Selecione a segunda série temporal", self.series_temporais).mostrar()
+
+        # Criando algoritmo
+        dtw = DynamicTimeWarping()
 
         # Criando matriz de alinhamento
         matriz_alinhamento = MatrizAlinhamento(serie_temporal_1, serie_temporal_2)
 
         # Exibindo matriz de alinhamento
-        janela_matriz_alinhamento = JanelaMatrizAlinhamento(matriz_alinhamento)
+        janela_matriz_alinhamento = JanelaMatrizAlinhamento(matriz_alinhamento, dtw)
 
-    def gerar_matriz_mapeamento(self):
+    def gerar_matriz_alinhamento_ddtw(self):
         """
-        Realiza a geração de uma matriz de mapeamento.
+        Realiza a geração de uma matriz de alinhamento para o algoritmo DDTW.
+        :return:
+        """
+        # Verificando se há pelo menos duas séries temporais
+        if len(self.series_temporais) < 2:
+            return
+
+        # Obtendo as séries temporais
+        serie_temporal_1 = None
+        while serie_temporal_1 is None:
+            serie_temporal_1 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 1",
+                                                             "Selecione a primeira série temporal",
+                                                             self.series_temporais).mostrar()
+
+        serie_temporal_2 = None
+        while serie_temporal_2 is None:
+            serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2",
+                                                             "Selecione a segunda série temporal",
+                                                             self.series_temporais).mostrar()
+
+        # Criando algoritmo
+        ddtw = DerivativeDynamicTimeWarping()
+
+        # Criando matriz de alinhamento
+        matriz_alinhamento = MatrizAlinhamento(serie_temporal_1, serie_temporal_2)
+
+        # Exibindo matriz de alinhamento
+        janela_matriz_alinhamento = JanelaMatrizAlinhamento(matriz_alinhamento, ddtw)
+
+    def gerar_matriz_alinhamento_cdtw(self):
+        """
+        Realiza a geração de uma matriz de alinhamento para o algoritmo CDTW.
+        :return:
+        """
+        # Verificando se há pelo menos duas séries temporais
+        if len(self.series_temporais) < 2:
+            return
+
+        # Obtendo as séries temporais
+        serie_temporal_1 = None
+        while serie_temporal_1 is None:
+            serie_temporal_1 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 1",
+                                                             "Selecione a primeira série temporal",
+                                                             self.series_temporais).mostrar()
+
+        serie_temporal_2 = None
+        while serie_temporal_2 is None:
+            serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2",
+                                                             "Selecione a segunda série temporal",
+                                                             self.series_temporais).mostrar()
+
+        # Criando algoritmo
+        cdtw = ContinuousDynamicTimeWarping()
+
+        # Criando matriz de alinhamento
+        matriz_alinhamento = MatrizAlinhamento(serie_temporal_1, serie_temporal_2)
+
+        # Exibindo matriz de alinhamento
+        janela_matriz_alinhamento = JanelaMatrizAlinhamento(matriz_alinhamento, cdtw)
+
+
+    def gerar_matriz_mapeamento_dtw(self):
+        """
+        Realiza a geração de uma matriz de mapeamento para o algoritmo DTW.
         :return:
         """
 
@@ -99,11 +168,74 @@ class Controlador:
         while serie_temporal_2 is None:
             serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2", "Selecione a segunda série temporal", self.series_temporais).mostrar()
 
+        # Criando algoritmo
+        dtw = DynamicTimeWarping()
+
         # Criando matriz de mapeamento
         matriz_mapeamento = MatrizMapeamento(serie_temporal_1, serie_temporal_2)
 
         # Exibindo matriz de mapeamento
-        janela_matriz_mapeamento = JanelaMatrizMapeamento(matriz_mapeamento)
+        janela_matriz_mapeamento = JanelaMatrizMapeamento(matriz_mapeamento, dtw)
+
+    def gerar_matriz_mapeamento_cdtw(self):
+        """
+        Realiza a geração de uma matriz de mapeamento para o algoritmo CDTW.
+        :return:
+        """
+
+        # Verificando se há pelo menos duas séries temporais
+        if len(self.series_temporais) < 2:
+            return
+
+        # Obtendo as séries temporais
+        serie_temporal_1 = None
+        while serie_temporal_1 is None:
+            serie_temporal_1 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 1", "Selecione a primeira série temporal", self.series_temporais).mostrar()
+
+        serie_temporal_2 = None
+        while serie_temporal_2 is None:
+            serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2", "Selecione a segunda série temporal", self.series_temporais).mostrar()
+
+        # Criando algoritmo
+        cdtw = ContinuousDynamicTimeWarping()
+
+        # Criando matriz de mapeamento
+        matriz_mapeamento = MatrizMapeamento(serie_temporal_1, serie_temporal_2)
+
+        # Exibindo matriz de mapeamento
+        janela_matriz_mapeamento = JanelaMatrizMapeamento(matriz_mapeamento, cdtw)
+
+    def gerar_matriz_mapeamento_ddtw(self):
+        """
+        Realiza a geração de uma matriz de mapeamento para o algoritmo DDTW.
+        :return:
+        """
+
+        # Verificando se há pelo menos duas séries temporais
+        if len(self.series_temporais) < 2:
+            return
+
+        # Obtendo as séries temporais
+        serie_temporal_1 = None
+        while serie_temporal_1 is None:
+            serie_temporal_1 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 1",
+                                                             "Selecione a primeira série temporal",
+                                                             self.series_temporais).mostrar()
+
+        serie_temporal_2 = None
+        while serie_temporal_2 is None:
+            serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2",
+                                                             "Selecione a segunda série temporal",
+                                                             self.series_temporais).mostrar()
+
+        # Criando algoritmo
+        ddtw = DerivativeDynamicTimeWarping()
+
+        # Criando matriz de mapeamento
+        matriz_mapeamento = MatrizMapeamento(serie_temporal_1, serie_temporal_2)
+
+        # Exibindo matriz de mapeamento
+        janela_matriz_mapeamento = JanelaMatrizMapeamento(matriz_mapeamento, ddtw)
 
     def executar_distancia_dynamic_time_warping(self):
         """
