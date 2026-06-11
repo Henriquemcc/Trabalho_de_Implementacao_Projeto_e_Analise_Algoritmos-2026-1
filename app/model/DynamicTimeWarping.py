@@ -108,7 +108,7 @@ class DynamicTimeWarping(WarpingPathAlgorithm):
 
         return matriz_dtw
 
-    def warping_paths(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> tuple[int, numpy.ndarray]:
+    def warping_paths(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> tuple[float | int, numpy.ndarray]:
         """
         Obtém o warping path (caminhos de alinhamento ótimo) entre as duas séries temporais.
         :param serie1: Primeira série temporal.
