@@ -47,6 +47,10 @@ class JanelaPrincipal(tkinter.Tk):
             label="Gerar matriz de mapeamento Dynamic Time Warping",
             command=lambda: controller.gerar_matriz_mapeamento_dtw(),
         )
+        menu_transformar.add_command(
+            label="Gerar matriz de mapeamento Derivative Dynamic Time Warping",
+            command=lambda: controller.gerar_matriz_mapeamento_ddtw()
+        )
         barra_menu.add_cascade(label="Transformar", menu=menu_transformar)
 
         # Menu algoritmo
