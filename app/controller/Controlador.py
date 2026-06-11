@@ -1,12 +1,14 @@
+import os
 from pathlib import Path
 from tkinter import filedialog
 from tkinter import simpledialog
 
+from model.DynamicTimeWarping import DynamicTimeWarping
 from model.MatrizAlinhamento import MatrizAlinhamento
 from model.MatrizMapeamento import MatrizMapeamento
 from model.SerieTemporal import SerieTemporal
-from view.JanelaDistanciaDerivativeDynamicTimeWarping import JanelaDistanciaDerivativeDynamicTimeWarping
 from view.JanelaDistanciaContinuousDynamicTimeWarping import JanelaDistanciaContinuousDynamicTimeWarping
+from view.JanelaDistanciaDerivativeDynamicTimeWarping import JanelaDistanciaDerivativeDynamicTimeWarping
 from view.JanelaDistanciaDynamicTimeWarping import JanelaDistanciaDynamicTimeWarping
 from view.JanelaLongestCommonSubsequence import JanelaLongestCommonSubsequence
 from view.JanelaMatrizAlinhamento import JanelaMatrizAlinhamento
@@ -14,9 +16,7 @@ from view.JanelaMatrizMapeamento import JanelaMatrizMapeamento
 from view.JanelaPrincipal import JanelaPrincipal
 from view.JanelaSelecionarSerieTemporal import JanelaSelecionarSerieTemporal
 from view.JanelaSerieTemporal import JanelaSerieTemporal
-from model.DynamicTimeWarping import DynamicTimeWarping
 
-import os
 
 class Controlador:
     """

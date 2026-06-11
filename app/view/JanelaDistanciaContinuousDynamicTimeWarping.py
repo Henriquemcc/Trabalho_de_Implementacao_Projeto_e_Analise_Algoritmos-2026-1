@@ -1,8 +1,8 @@
 import tkinter
 import tkinter.messagebox
 
-from model.SerieTemporal import SerieTemporal
 from model.ContinuousDynamicTimeWarping import ContinuousDynamicTimeWarping
+from model.SerieTemporal import SerieTemporal
 
 
 class JanelaDistanciaContinuousDynamicTimeWarping(tkinter.Toplevel):

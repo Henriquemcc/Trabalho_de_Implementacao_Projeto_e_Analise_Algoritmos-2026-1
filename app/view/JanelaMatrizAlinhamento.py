@@ -4,10 +4,8 @@ import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-from model.WarpingPathAlgorithm import WarpingPathAlgorithm
-from model.DynamicTimeWarping import DynamicTimeWarping
-from model.Distancia import Distancia
 from model.MatrizAlinhamento import MatrizAlinhamento
+from model.WarpingPathAlgorithm import WarpingPathAlgorithm
 
 
 class JanelaMatrizAlinhamento(tkinter.Toplevel):

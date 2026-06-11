@@ -1,8 +1,8 @@
 import tkinter
 import tkinter.messagebox
 
-from model.DynamicTimeWarping import DynamicTimeWarping
 from model.Distancia import Distancia
+from model.DynamicTimeWarping import DynamicTimeWarping
 from model.SerieTemporal import SerieTemporal
 
 

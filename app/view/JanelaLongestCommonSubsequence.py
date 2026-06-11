@@ -1,7 +1,6 @@
 import tkinter
 
 from model.LongestCommonSubsequence import LongestCommonSubsequence
-from model.LongestCommonSubsequence import LongestCommonSubsequence
 from model.SerieTemporal import SerieTemporal
 
 

@@ -1,8 +1,8 @@
-from model.Distancia import Distancia, distancia_euclidiana_ao_quadrado, distancia_euclidiana, distancia_manhattan
-from model.WarpingPathAlgorithm import WarpingPathAlgorithm
 import numpy
 
+from model.Distancia import Distancia, distancia_euclidiana_ao_quadrado, distancia_euclidiana, distancia_manhattan
 from model.SerieTemporal import SerieTemporal
+from model.WarpingPathAlgorithm import WarpingPathAlgorithm
 
 
 class DynamicTimeWarping(WarpingPathAlgorithm):

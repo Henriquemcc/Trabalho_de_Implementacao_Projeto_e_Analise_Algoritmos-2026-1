@@ -1,8 +1,9 @@
+import collections
 from typing import Any
 
-from model.SerieTemporal import SerieTemporal
 import numpy
-import collections
+
+from model.SerieTemporal import SerieTemporal
 
 
 class DerivativeDynamicTimeWarping:

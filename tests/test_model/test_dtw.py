@@ -3,9 +3,9 @@ import unittest
 import dtaidistance
 import numpy
 
-from model.Distancia import Distancia
 from app.model.DynamicTimeWarping import DynamicTimeWarping
 from app.model.SerieTemporal import SerieTemporal
+from model.Distancia import Distancia
 
 
 class TestDTW(unittest.TestCase):

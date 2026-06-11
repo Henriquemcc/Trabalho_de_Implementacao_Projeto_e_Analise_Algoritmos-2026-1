@@ -1,6 +1,6 @@
 import unittest
-from app.model.ContinuousDynamicTimeWarping import ContinuousDynamicTimeWarping
 
+from app.model.ContinuousDynamicTimeWarping import ContinuousDynamicTimeWarping
 from model.SerieTemporal import SerieTemporal
 
 

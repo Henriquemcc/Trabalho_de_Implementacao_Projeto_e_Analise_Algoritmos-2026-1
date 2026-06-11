@@ -1,7 +1,6 @@
 import unittest
-from app.model.LongestCommonSubsequence import LongestCommonSubsequence
-from model.LongestCommonSubsequence import LongestCommonSubsequence
 
+from model.LongestCommonSubsequence import LongestCommonSubsequence
 from model.SerieTemporal import SerieTemporal
 
 

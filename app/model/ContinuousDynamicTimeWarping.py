@@ -1,8 +1,8 @@
+import copy
 import numbers
 from enum import Enum
 
 import numpy
-import copy
 
 from model.SerieTemporal import SerieTemporal
 
