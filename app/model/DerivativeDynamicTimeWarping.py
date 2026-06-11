@@ -90,6 +90,9 @@ class DerivativeDynamicTimeWarping(WarpingPathAlgorithm):
         tamanho_derivada_s1 = len(derivada_s1)
         tamanho_derivada_s2 = len(derivada_s2)
 
+        # Matriz para retorno
+        matriz_retorno = numpy.full((tamanho_derivada_s1, tamanho_derivada_s2), float('inf'))
+
         # Alterando o valor de self.janela_de_busca
         if self.janela_de_busca <= abs(tamanho_derivada_s1 - tamanho_derivada_s2):
             self.janela_de_busca = 2 * abs(tamanho_derivada_s1 - tamanho_derivada_s2)
@@ -99,10 +102,11 @@ class DerivativeDynamicTimeWarping(WarpingPathAlgorithm):
         janela = self.__gerar_janela(tamanho_derivada_s1, tamanho_derivada_s2, self.janela_de_busca)
 
         # Criando a matriz de custo acumulado com os valores iguais a infinito
-        matriz_custo_acumulado = collections.defaultdict(lambda: (float('inf'),))
+        matriz_custo_acumulado = collections.defaultdict(lambda: (float('inf'),0, 0))
 
         # Definindo o primeiro valor da matriz
         matriz_custo_acumulado[0, 0] = (0, 0, 0)
+        matriz_retorno[0, 0] = 0
 
         # Interando pelo tamanho da janela
         for i, j in janela:
@@ -111,6 +115,9 @@ class DerivativeDynamicTimeWarping(WarpingPathAlgorithm):
                                                (matriz_custo_acumulado[i, j - 1][0]+derivada_t, i, j-1),
                                                (matriz_custo_acumulado[i-1, j-1][0]+derivada_t, i-1, j-1), key=lambda a: a[0]
                                                )
+
+            if i < tamanho_derivada_s1 and j < tamanho_derivada_s2:
+                matriz_retorno[i, j] = matriz_custo_acumulado[i, j][0]
 
         # Matriz de rastreamento
         matriz_rastreamento = []
@@ -127,4 +134,7 @@ class DerivativeDynamicTimeWarping(WarpingPathAlgorithm):
         # Invertendo a ordem dos elementos
         matriz_rastreamento.reverse()
 
-        return matriz_custo_acumulado[tamanho_derivada_s1, tamanho_derivada_s2][0], numpy.array(matriz_rastreamento)
+        # Obtendo a distância final
+        distancia_final = matriz_custo_acumulado[tamanho_derivada_s1, tamanho_derivada_s2][0]
+
+        return distancia_final, numpy.array(matriz_retorno)
