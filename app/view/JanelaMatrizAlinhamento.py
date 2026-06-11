@@ -4,6 +4,7 @@ import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
+from model.WarpingPathAlgorithm import WarpingPathAlgorithm
 from model.DynamicTimeWarping import DynamicTimeWarping
 from model.Distancia import Distancia
 from model.MatrizAlinhamento import MatrizAlinhamento
@@ -14,9 +15,10 @@ class JanelaMatrizAlinhamento(tkinter.Toplevel):
     Janela utilizada para exibir uma matriz de alinhamento.
     """
 
-    def __init__(self, matriz_alinhamento: MatrizAlinhamento):
+    def __init__(self, matriz_alinhamento: MatrizAlinhamento, algoritmo: WarpingPathAlgorithm):
         tkinter.Toplevel.__init__(self)
         self.title("Matriz de Alinhamento")
+        self.algoritmo = algoritmo
         self.matriz_alinhamento = matriz_alinhamento
 
         # Configurando o tamanho da janela
@@ -40,12 +42,9 @@ class JanelaMatrizAlinhamento(tkinter.Toplevel):
         s1 = self.matriz_alinhamento.serie_1.dados
         s2 = self.matriz_alinhamento.serie_2.dados
 
-        # Criando uma nova instância de Dynamic Time Warping
-        dynamic_time_warping = DynamicTimeWarping(None, Distancia.EUCLIDIANA)
-
         # Plotando matriz de alinhamento
-        distancia, matriz_custo = dynamic_time_warping.warping_paths(s1, s2)
-        melhor_caminho = dynamic_time_warping.obter_melhor_caminho(matriz_custo)
+        distancia, matriz_custo = self.algoritmo.warping_paths(s1, s2)
+        melhor_caminho = self.algoritmo.obter_melhor_caminho(matriz_custo)
         gs = fig.add_gridspec(2, 2, width_ratios=[1, 4], height_ratios=[1, 4],
                               wspace=0.05, hspace=0.05)
 
