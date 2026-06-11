@@ -375,7 +375,57 @@ class ContinuousDynamicTimeWarping(WarpingPathAlgorithm):
         self.r = r
 
     def warping_paths(self, serie1, serie2) -> tuple[float | int, numpy.ndarray]:
-        pass
+        """
+        Realiza o cálculo da distância de duas séries temporais através do algoritmo Continuous Dynamic Time Warping.
+        :param serie1: Primeira série temporal.
+        :param serie2: Segunda série temporal.
+        :return: Custo acumulado e matriz de rastreamento.
+        """
+        # Retirando o array dados do objeto SerieTemporal da serie1
+        c1 = None
+        if type(serie1).__name__ == 'SerieTemporal':
+            c1 = CurvaCdtw.from_serie_temporal(serie1)
+        elif isinstance(serie1, list):
+            c1 = CurvaCdtw.from_array(serie1)
+
+        # Retirando o array dados do objeto SerieTemporal da serie2
+        c2 = None
+        if type(serie2).__name__ == 'SerieTemporal':
+            c2 = CurvaCdtw.from_serie_temporal(serie2)
+        elif isinstance(serie2, list):
+            c2 = CurvaCdtw.from_array(serie2)
+
+        # Obtendo os tamanhos das curvas
+        h = len(c1)
+        w = len(c2)
+
+        # Construindo a Janela de Sakoe-Chiba
+        if self.r == 0:
+            janela_sakoe_chiba = numpy.zeros((2, w))
+            janela_sakoe_chiba[0, :] = h
+        else:
+            janela_sakoe_chiba = numpy.zeros((2, w))
+            escala = h / w
+            for i in range(0, w):
+                h_preencher_centro = int(numpy.ceil(i * escala))
+                h_preencher_cima = min(h, h_preencher_centro + self.r)
+                h_preencher_baixo = max(0, h_preencher_centro - self.r)
+                janela_sakoe_chiba[0, i] = h_preencher_cima
+                janela_sakoe_chiba[1, i] = h_preencher_baixo
+
+        distancia, mapa_distancias = self._cdtw(c1, c2, janela_sakoe_chiba)
+
+        # Construindo matriz de alinhamento
+        matriz = numpy.full((h + 1, w + 1), numpy.inf)
+
+        # Definindo a primeira posição da matriz
+        matriz[0, 0] = 0
+
+        # Preenchendo a matriz
+        for (i, j), valor in mapa_distancias.items():
+            matriz[i + 1, j + 1] = valor
+
+        return distancia, matriz
 
     def cdtw_distance(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> float:
         """
