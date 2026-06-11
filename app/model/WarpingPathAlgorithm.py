@@ -17,6 +17,24 @@ class WarpingPathAlgorithm(ABC):
         """
         pass
 
+
+    def warping_path(self, serie1, serie2) -> list:
+        """
+        Obtém o warping path (caminho de alinhamento ótimo) entre duas séries temporais.
+        :param serie1: Primeira série.
+        :param serie2: Segunda série.
+        :return: Warping path (caminho de alinhamento ótimo) entre duas séries temporais.
+        Fonte: https://github.com/wannesm/dtaidistance/blob/master/src/dtaidistance/dtw.py
+        """
+        # Obtendo os caminhos
+        _, caminhos = self.warping_paths(serie1, serie2)
+
+        # Obtendo os melhores caminhos
+        caminhos = self.obter_melhor_caminho(caminhos)
+
+        # Retornando caminhos
+        return caminhos
+
     def obter_melhor_caminho(self, caminhos):
         """
         Obtém o caminho ótimo a partir de uma matrix dtw.
