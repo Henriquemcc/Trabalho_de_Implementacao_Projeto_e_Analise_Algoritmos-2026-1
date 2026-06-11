@@ -17,7 +17,7 @@ class JanelaMatrizAlinhamento(tkinter.Toplevel):
 
     def __init__(self, matriz_alinhamento: MatrizAlinhamento, algoritmo: WarpingPathAlgorithm):
         tkinter.Toplevel.__init__(self)
-        self.title("Matriz de Alinhamento")
+        self.title("Matriz de Alinhamento {}".format(algoritmo.nome_algoritmo))
         self.algoritmo = algoritmo
         self.matriz_alinhamento = matriz_alinhamento
 
