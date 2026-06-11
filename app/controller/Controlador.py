@@ -14,6 +14,7 @@ from view.JanelaMatrizMapeamento import JanelaMatrizMapeamento
 from view.JanelaPrincipal import JanelaPrincipal
 from view.JanelaSelecionarSerieTemporal import JanelaSelecionarSerieTemporal
 from view.JanelaSerieTemporal import JanelaSerieTemporal
+from model.DynamicTimeWarping import DynamicTimeWarping
 
 import os
 
@@ -55,7 +56,7 @@ class Controlador:
         self.series_temporais.append(serie_temporal)
         janela_interna_serie_temporal = JanelaSerieTemporal(serie_temporal)
 
-    def gerar_matriz_alinhamento(self):
+    def gerar_matriz_alinhamento_dtw(self):
         """
         Realiza a geração de uma matriz de alinhamento.
         :return:
@@ -74,13 +75,16 @@ class Controlador:
         while serie_temporal_2 is None:
             serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2", "Selecione a segunda série temporal", self.series_temporais).mostrar()
 
+        # Criando algoritmo
+        dtw = DynamicTimeWarping()
+
         # Criando matriz de alinhamento
         matriz_alinhamento = MatrizAlinhamento(serie_temporal_1, serie_temporal_2)
 
         # Exibindo matriz de alinhamento
-        janela_matriz_alinhamento = JanelaMatrizAlinhamento(matriz_alinhamento)
+        janela_matriz_alinhamento = JanelaMatrizAlinhamento(matriz_alinhamento, dtw)
 
-    def gerar_matriz_mapeamento(self):
+    def gerar_matriz_mapeamento_dtw(self):
         """
         Realiza a geração de uma matriz de mapeamento.
         :return:
@@ -99,8 +103,11 @@ class Controlador:
         while serie_temporal_2 is None:
             serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2", "Selecione a segunda série temporal", self.series_temporais).mostrar()
 
+        # Criando algoritmo
+        dtw = DynamicTimeWarping()
+
         # Criando matriz de mapeamento
-        matriz_mapeamento = MatrizMapeamento(serie_temporal_1, serie_temporal_2)
+        matriz_mapeamento = MatrizMapeamento(serie_temporal_1, serie_temporal_2, dtw)
 
         # Exibindo matriz de mapeamento
         janela_matriz_mapeamento = JanelaMatrizMapeamento(matriz_mapeamento)
