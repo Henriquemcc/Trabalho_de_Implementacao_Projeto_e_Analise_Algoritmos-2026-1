@@ -107,10 +107,10 @@ class Controlador:
         dtw = DynamicTimeWarping()
 
         # Criando matriz de mapeamento
-        matriz_mapeamento = MatrizMapeamento(serie_temporal_1, serie_temporal_2, dtw)
+        matriz_mapeamento = MatrizMapeamento(serie_temporal_1, serie_temporal_2)
 
         # Exibindo matriz de mapeamento
-        janela_matriz_mapeamento = JanelaMatrizMapeamento(matriz_mapeamento)
+        janela_matriz_mapeamento = JanelaMatrizMapeamento(matriz_mapeamento, dtw)
 
     def executar_distancia_dynamic_time_warping(self):
         """
