@@ -1,6 +1,7 @@
 import copy
 import numbers
 from enum import Enum
+from model.WarpingPathAlgorithm import WarpingPathAlgorithm
 
 import numpy
 
@@ -358,7 +359,10 @@ class BlocoCdtw:
 
         self.atualizar_nos()
 
-class ContinuousDynamicTimeWarping:
+class ContinuousDynamicTimeWarping(WarpingPathAlgorithm):
+    def warping_paths(self, serie1, serie2) -> tuple[float | int, numpy.ndarray]:
+        pass
+
     @staticmethod
     def cdtw_distance(serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray, interpolacao= 0.3, num_stainer = 5, r = 100) -> float:
         """

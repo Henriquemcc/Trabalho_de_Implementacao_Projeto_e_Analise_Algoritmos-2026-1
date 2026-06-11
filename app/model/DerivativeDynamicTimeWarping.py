@@ -127,4 +127,4 @@ class DerivativeDynamicTimeWarping(WarpingPathAlgorithm):
         # Invertendo a ordem dos elementos
         matriz_rastreamento.reverse()
 
-        return matriz_custo_acumulado[tamanho_derivada_s1, tamanho_derivada_s2][0], matriz_rastreamento
+        return matriz_custo_acumulado[tamanho_derivada_s1, tamanho_derivada_s2][0], numpy.array(matriz_rastreamento)
