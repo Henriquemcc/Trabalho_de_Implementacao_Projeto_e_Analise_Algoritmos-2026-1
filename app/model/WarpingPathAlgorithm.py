@@ -48,6 +48,10 @@ class WarpingPathAlgorithm(ABC):
         :param caminhos: Matriz DTW.
         :return Array representando o melhor caminho.
         """
+
+        # Convertendo caminhos para um numpy array
+        caminhos = numpy.array(caminhos)
+
         # Definindo o ponto de partida: canto inferior direito
         i = int(caminhos.shape[0] - 1)
         j = int(caminhos.shape[1] - 1)
