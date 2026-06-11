@@ -58,7 +58,7 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
             ax.plot([idx1, idx2], [s1[idx1] + offset, s2[idx2]],
                     color='gray', linestyle='--', alpha=0.4, linewidth=1)
 
-        ax.set_title("Mapeamento de Alinhamento (${})".format(self.algoritmo.nome_algoritmo))
+        ax.set_title("Mapeamento de Alinhamento ({})".format(self.algoritmo.nome_algoritmo))
         ax.set_yticks([np.mean(s2), np.mean(s1) + offset])
         ax.set_yticklabels([self.matriz_mapeamento.serie_2.nome, self.matriz_mapeamento.serie_1.nome])
         ax.legend()
