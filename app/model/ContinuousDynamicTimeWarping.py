@@ -370,6 +370,7 @@ class ContinuousDynamicTimeWarping(WarpingPathAlgorithm):
         :param num_stainer: Número de Steiner, quantidade de pontos extras de interpolação adicionados artificialmente ao
         :param r: Raio da Janela de Sakoe-Chiba.
         """
+        WarpingPathAlgorithm.__init__('Continuous Dynamic Time Warping')
         self.interpolacao = interpolacao
         self.num_stainer = num_stainer
         self.r = r
