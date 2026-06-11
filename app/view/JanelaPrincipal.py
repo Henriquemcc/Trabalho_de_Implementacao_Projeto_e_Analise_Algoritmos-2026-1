@@ -44,12 +44,20 @@ class JanelaPrincipal(tkinter.Tk):
             command=lambda: controller.gerar_matriz_alinhamento_ddtw()
         )
         menu_transformar.add_command(
+            label="Gerar matriz de alinhamento Continuous Dynamic Time Warping",
+            command=lambda: controller.gerar_matriz_alinhamento_cdtw()
+        )
+        menu_transformar.add_command(
             label="Gerar matriz de mapeamento Dynamic Time Warping",
             command=lambda: controller.gerar_matriz_mapeamento_dtw(),
         )
         menu_transformar.add_command(
             label="Gerar matriz de mapeamento Derivative Dynamic Time Warping",
             command=lambda: controller.gerar_matriz_mapeamento_ddtw()
+        )
+        menu_transformar.add_command(
+            label="Gerar matriz de mapeamento Continuous Dynamic Time Warping",
+            command=lambda: controller.gerar_matriz_mapeamento_cdtw()
         )
         barra_menu.add_cascade(label="Transformar", menu=menu_transformar)
 
