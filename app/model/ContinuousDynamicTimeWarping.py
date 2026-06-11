@@ -189,6 +189,10 @@ class CurvaCdtw:
         return curva
 
     @staticmethod
+    def from_numpy_array(dados: numpy.ndarray) -> CurvaCdtw:
+        return CurvaCdtw.from_array(dados.tolist())
+
+    @staticmethod
     def __distancia_linha(ponto: NoCdtw, linha_inicio: NoCdtw, linha_fim: NoCdtw) -> numpy.float64:
         """
         Calcula a distância perpendicular do nó 'ponto' e a linha.
@@ -383,20 +387,22 @@ class ContinuousDynamicTimeWarping(WarpingPathAlgorithm):
         :return: Custo acumulado e matriz de rastreamento.
         """
         # Retirando o array dados do objeto SerieTemporal da serie1
-        c1 = None
         if type(serie1).__name__ == 'SerieTemporal':
             c1 = CurvaCdtw.from_serie_temporal(serie1)
         elif isinstance(serie1, list):
             c1 = CurvaCdtw.from_array(serie1)
+        elif isinstance(serie1, numpy.ndarray):
+            c1 = CurvaCdtw.from_numpy_array(serie1)
         else:
             c1 = serie1
 
         # Retirando o array dados do objeto SerieTemporal da serie2
-        c2 = None
         if type(serie2).__name__ == 'SerieTemporal':
             c2 = CurvaCdtw.from_serie_temporal(serie2)
         elif isinstance(serie2, list):
             c2 = CurvaCdtw.from_array(serie2)
+        elif isinstance(serie2, numpy.ndarray):
+            c2 = CurvaCdtw.from_numpy_array(serie2)
         else:
             c2 = serie2
 
