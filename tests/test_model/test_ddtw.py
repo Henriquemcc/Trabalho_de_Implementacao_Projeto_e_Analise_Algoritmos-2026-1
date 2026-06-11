@@ -11,5 +11,6 @@ class TestDDTW(unittest.TestCase):
     def test_ddtw_distancia_duas_series_temporais_iguais(self):
         serie1 = SerieTemporal([1, 2, 3, 4, 5], "Série Temporal 1")
         serie2 = SerieTemporal([1, 2, 3, 4, 5], "Série Temporal 2")
-        resultado, _ = DerivativeDynamicTimeWarping.ddtw(serie1, serie2)
+        ddtw = DerivativeDynamicTimeWarping()
+        resultado, _ = ddtw.warping_paths(serie1, serie2)
         self.assertEqual(resultado, 0)
