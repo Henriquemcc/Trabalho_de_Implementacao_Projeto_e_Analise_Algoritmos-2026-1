@@ -7,6 +7,13 @@ class WarpingPathAlgorithm(ABC):
     """
     Classe abstrata utilizada para padronizar os métodos comuns entre os algoritmos que implementam warping paths.
     """
+    def __init__(self, nome_algoritmo: str):
+        """
+        Constrói uma nova instância de WarpingPathAlgorithm.
+        :param nome_algoritmo: Nome do algoritmo a ser utilizado
+        """
+        self.nome_algoritmo = nome_algoritmo
+
     @abstractmethod
     def warping_paths(self, serie1, serie2) -> tuple[int, numpy.ndarray]:
         """
