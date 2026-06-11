@@ -1,13 +1,15 @@
 from model.Distancia import Distancia, distancia_euclidiana_ao_quadrado, distancia_euclidiana, distancia_manhattan
+from model.WarpingPathAlgorithm import WarpingPathAlgorithm
 import numpy
 
 from model.SerieTemporal import SerieTemporal
 
 
-class DynamicTimeWarping:
+class DynamicTimeWarping(WarpingPathAlgorithm):
     """
     Implementação do algoritmo Dynamic Time Warping com a opção janela de busca.
     """
+
     def __init__(self, janela_de_busca: int | None = None, distancia: Distancia = Distancia.EUCLIDIANA):
         """
         Inicializa o algoritmo Dynamic Time Warping.
@@ -105,12 +107,12 @@ class DynamicTimeWarping:
 
         return matriz_dtw
 
-    def dtw_warping_paths(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> tuple[int, numpy.ndarray]:
+    def warping_paths(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray) -> tuple[int, numpy.ndarray]:
         """
         Obtém o warping path (caminhos de alinhamento ótimo) entre as duas séries temporais.
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
-        :return: Warping path (caminhos de alinhamento ótimo), a distância final, estruturas de alinhamento e matrix dtw.
+        :return: Tupla contando a distância DTW e a matriz DTW.
         Fonte: https://github.com/wannesm/dtaidistance/blob/master/src/dtaidistance/dtw.py
         """
 
@@ -176,7 +178,7 @@ class DynamicTimeWarping:
         """
 
         # Obtendo os caminhos
-        _, caminhos = self.dtw_warping_paths(serie1, serie2)
+        _, caminhos = self.warping_paths(serie1, serie2)
 
         # Obtendo os melhores caminhos
         caminhos = self.obter_melhor_caminho(caminhos)
