@@ -10,7 +10,7 @@ class DerivativeDynamicTimeWarping(WarpingPathAlgorithm):
     Implementação do algoritmo Derivative Dynamic Time Warping
     """
 
-    def __init__(self, janela_de_busca: float | int):
+    def __init__(self, janela_de_busca: float | int = 10):
         super().__init__(nome_algoritmo='DerivativeDynamicTimeWarping')
         self.janela_de_busca = janela_de_busca
 
