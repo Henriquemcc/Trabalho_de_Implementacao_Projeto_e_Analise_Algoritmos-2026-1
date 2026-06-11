@@ -65,7 +65,7 @@ class TestDTW(unittest.TestCase):
         serie1 = SerieTemporal([1, 2, 3, 4, 5], "Série Temporal 1")
         serie2 = SerieTemporal([1, 2, 3, 4, 5], "Série Temporal 2")
         dtw = DynamicTimeWarping(10, Distancia.EUCLIDIANA)
-        resultado = dtw.dtw_warping_path(serie1, serie2)
+        resultado = dtw.warping_path(serie1, serie2)
         resultado_biblioteca = dtaidistance.dtw.warping_path(serie1.dados, serie2.dados, window=10)
         self.assertEqual(resultado, resultado_biblioteca)
 
