@@ -1,18 +1,20 @@
 import collections
-from typing import Any
 
 import numpy
 
-from model.SerieTemporal import SerieTemporal
+from model.WarpingPathAlgorithm import WarpingPathAlgorithm
 
 
-class DerivativeDynamicTimeWarping:
+class DerivativeDynamicTimeWarping(WarpingPathAlgorithm):
     """
     Implementação do algoritmo Derivative Dynamic Time Warping
     """
 
-    @staticmethod
-    def __estimar_derivadas(serie: numpy.ndarray) -> numpy.ndarray:
+    def __init__(self, janela_de_busca: float | int):
+        super().__init__(nome_algoritmo='DerivativeDynamicTimeWarping')
+        self.janela_de_busca = janela_de_busca
+
+    def __estimar_derivadas(self, serie: numpy.ndarray) -> numpy.ndarray:
         """
         Realiza o cálculo das derivadas.
         :param serie: Dados da série temporal.
@@ -32,8 +34,7 @@ class DerivativeDynamicTimeWarping:
 
         return derivada_serie
 
-    @staticmethod
-    def __gerar_janela(tamanho_derivada_s1: int, tamanho_derivada_s2: int, K: int):
+    def __gerar_janela(self, tamanho_derivada_s1: int, tamanho_derivada_s2: int, K: int):
         """
         Gera a janela do espaço de busca reduzido
         :param tamanho_derivada_s1: Tamanho da série temporal 1
@@ -60,13 +61,12 @@ class DerivativeDynamicTimeWarping:
                 for j in range(limite_inferior, tamanho_derivada_s2):
                     yield (i + 1, j + 1)
 
-    @staticmethod
-    def ddtw(serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray, K: int = 10) -> tuple[float, list[Any]]:
+    def warping_paths(self, serie1, serie2) -> tuple[float | int, numpy.ndarray]:
         """
         Realiza o cálculo da distância de duas séries temporais através do algoritmo Derivative Dynamic Time Warping.
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
-        :param K: Largura da janela de restrição global, também conhecido como Janela de Sakoe-Chiba.
+        :param self.janela_de_busca: Largura da janela de restrição global, também conhecido como Janela de Sakoe-Chiba.
         :return: Custo acumulado e matriz de rastreamento.
         Fonte: https://github.com/z2e2/fastddtw/blob/master/_fastddtw.py
         """
@@ -83,20 +83,20 @@ class DerivativeDynamicTimeWarping:
             s2 = numpy.array(serie2)
 
         # Calculando as derivadas de s1 e s2
-        derivada_s1 = DerivativeDynamicTimeWarping.__estimar_derivadas(s1)
-        derivada_s2 = DerivativeDynamicTimeWarping.__estimar_derivadas(s2)
+        derivada_s1 = self.__estimar_derivadas(s1)
+        derivada_s2 = self.__estimar_derivadas(s2)
 
         # Obtendo o tamanho das derivadas
         tamanho_derivada_s1 = len(derivada_s1)
         tamanho_derivada_s2 = len(derivada_s2)
 
-        # Alterando o valor de K
-        if K <= abs(tamanho_derivada_s1 - tamanho_derivada_s2):
-            K = 2 * abs(tamanho_derivada_s1 - tamanho_derivada_s2)
-            print('O valor de K foi alterado para {}'.format(K))
+        # Alterando o valor de self.janela_de_busca
+        if self.janela_de_busca <= abs(tamanho_derivada_s1 - tamanho_derivada_s2):
+            self.janela_de_busca = 2 * abs(tamanho_derivada_s1 - tamanho_derivada_s2)
+            print('O valor de self.janela_de_busca foi alterado para {}'.format(self.janela_de_busca))
 
         # Definido o valor da janela
-        janela = DerivativeDynamicTimeWarping.__gerar_janela(tamanho_derivada_s1, tamanho_derivada_s2, K)
+        janela = self.__gerar_janela(tamanho_derivada_s1, tamanho_derivada_s2, self.janela_de_busca)
 
         # Criando a matriz de custo acumulado com os valores iguais a infinito
         matriz_custo_acumulado = collections.defaultdict(lambda: (float('inf'),))

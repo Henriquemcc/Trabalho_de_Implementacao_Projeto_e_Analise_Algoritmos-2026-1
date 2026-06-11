@@ -60,7 +60,8 @@ class JanelaDistanciaDerivativeDynamicTimeWarping(tkinter.Toplevel):
         """
         try:
             janela_de_busca = int(self.variavel_janela_de_busca.get())
-            resultado, _ = DerivativeDynamicTimeWarping.ddtw(self.serie1, self.serie2, janela_de_busca)
+            ddtw = DerivativeDynamicTimeWarping(janela_de_busca)
+            resultado, _ = ddtw.warping_paths(self.serie1, self.serie2)
             self.resposta_label.config(text=f'Resposta: {resultado}')
         except Exception as e:
             tkinter.messagebox.showerror(title='Erro ao executar o Derivative Dynamic Time Warping', message=str(e))
