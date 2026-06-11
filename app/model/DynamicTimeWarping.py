@@ -16,7 +16,7 @@ class DynamicTimeWarping(WarpingPathAlgorithm):
         :param janela_de_busca: Tamanho da janela de busca.
         :param distancia: Tipo de distância a ser utilizado.
         """
-        WarpingPathAlgorithm.__init__(nome_algoritmo="Dynamic Time Warping")
+        WarpingPathAlgorithm.__init__(self, nome_algoritmo="Dynamic Time Warping")
         self.janela_de_busca = janela_de_busca
         self.distancia = None
         if distancia == Distancia.MANHATTAN:
