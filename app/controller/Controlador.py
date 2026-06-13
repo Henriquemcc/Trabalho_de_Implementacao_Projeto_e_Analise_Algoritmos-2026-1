@@ -13,6 +13,7 @@ from model.SoftDynamicTimeWarping import SoftDynamicTimeWarping
 from view.JanelaDistanciaContinuousDynamicTimeWarping import JanelaDistanciaContinuousDynamicTimeWarping
 from view.JanelaDistanciaDerivativeDynamicTimeWarping import JanelaDistanciaDerivativeDynamicTimeWarping
 from view.JanelaDistanciaDynamicTimeWarping import JanelaDistanciaDynamicTimeWarping
+from view.JanelaDistanciaSoftDynamicTimeWarping import JanelaDistanciaSoftDynamicTimeWarping
 from view.JanelaLongestCommonSubsequence import JanelaLongestCommonSubsequence
 from view.JanelaMatrizAlinhamento import JanelaMatrizAlinhamento
 from view.JanelaMatrizMapeamento import JanelaMatrizMapeamento
@@ -400,3 +401,24 @@ class Controlador:
 
         # Abrindo janela para execução do Derivative Dynamic Time Warping
         janela_derivative_dynamic_time_warping = JanelaDistanciaDerivativeDynamicTimeWarping(serie_temporal_1, serie_temporal_2)
+
+    def executar_distancia_soft_dynamic_time_warping(self):
+        # Verificando se há pelo menos duas séries temporais
+        if len(self.series_temporais) < 2:
+            return
+
+        # Obtendo as séries temporais
+        serie_temporal_1 = None
+        while serie_temporal_1 is None:
+            serie_temporal_1 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 1",
+                                                             "Selecione a primeira série temporal",
+                                                             self.series_temporais).mostrar()
+
+        serie_temporal_2 = None
+        while serie_temporal_2 is None:
+            serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2",
+                                                             "Selecione a segunda série temporal",
+                                                             self.series_temporais).mostrar()
+
+        # Abrindo janela para execução do Derivative Dynamic Time Warping
+        janela_soft_dynamic_time_warping = JanelaDistanciaSoftDynamicTimeWarping(serie_temporal_1, serie_temporal_2)
