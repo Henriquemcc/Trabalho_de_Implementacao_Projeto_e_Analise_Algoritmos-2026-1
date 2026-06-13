@@ -17,7 +17,7 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
         """
         self.gamma = gamma
 
-    def distancia_euclidiana_ao_quadrado(self, serie1: numpy.ndarray, serie2: numpy.ndarray) -> numpy.ndarray:
+    def calcular_distancia_euclidiana_ao_quadrado(self, serie1: numpy.ndarray, serie2: numpy.ndarray) -> numpy.ndarray:
         """
         Calcula a distância euclidiana ao quadrado entre duas séries temporais.
         :param serie1: Primeira série temporal.
@@ -131,4 +131,32 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
         return e[1:(n + 1), 1:(m + 1)]
 
     def warping_paths(self, serie1, serie2) -> tuple[float | int, numpy.ndarray]:
-        pass
+        """
+        Realiza o cálculo da distância de duas séries temporais através do algoritmo Soft Dynamic Time Warping.
+        :param serie1: Primeira série temporal.
+        :param serie2: Segunda série temporal.
+        :return: Custo acumulado e matriz de rastreamento.
+        """
+
+        # Retirando o array dados do objeto SerieTemporal da serie1
+        if type(serie1).__name__ == 'SerieTemporal':
+            s1 = numpy.array(serie1.dados)
+        else:
+            s1 = numpy.array(serie1)
+
+        # Retirando o array dados do objeto SerieTemporal da serie2
+        if type(serie2).__name__ == 'SerieTemporal':
+            s2 = numpy.array(serie2.dados)
+        else:
+            s2 = numpy.array(serie2)
+
+        # Calculando a distância euclidiana ao quadrado
+        d = self.calcular_distancia_euclidiana_ao_quadrado(serie1, serie2)
+
+        # Executando o Forward
+        distancia, r = self.soft_dtw_forward(d)
+
+        # Executando o Backward
+        e = self.soft_dtw_backward(d, r)
+
+        return distancia, e
