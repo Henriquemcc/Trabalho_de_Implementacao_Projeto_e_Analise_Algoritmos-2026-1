@@ -1,6 +1,8 @@
 from math import gamma
+from typing import Any
 
 import numpy
+from numpy import dtype, float64, ndarray
 
 from model.Distancia import distancia_euclidiana_ao_quadrado
 from model.WarpingPathAlgorithm import WarpingPathAlgorithm
@@ -130,7 +132,8 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
         # Retornando a matriz sem as bordas extras
         return e[1:(n + 1), 1:(m + 1)]
 
-    def warping_paths(self, serie1, serie2) -> tuple[float | int, numpy.ndarray]:
+    def warping_paths(self, serie1, serie2) -> tuple[
+        ndarray[tuple[Any, ...], dtype[Any]], ndarray[tuple[Any, ...], dtype[float64]]]:
         """
         Realiza o cálculo da distância de duas séries temporais através do algoritmo Soft Dynamic Time Warping.
         :param serie1: Primeira série temporal.
