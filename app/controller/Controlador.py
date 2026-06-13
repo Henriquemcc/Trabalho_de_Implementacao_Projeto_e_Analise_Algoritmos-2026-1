@@ -9,6 +9,7 @@ from model.DynamicTimeWarping import DynamicTimeWarping
 from model.MatrizAlinhamento import MatrizAlinhamento
 from model.MatrizMapeamento import MatrizMapeamento
 from model.SerieTemporal import SerieTemporal
+from model.SoftDynamicTimeWarping import SoftDynamicTimeWarping
 from view.JanelaDistanciaContinuousDynamicTimeWarping import JanelaDistanciaContinuousDynamicTimeWarping
 from view.JanelaDistanciaDerivativeDynamicTimeWarping import JanelaDistanciaDerivativeDynamicTimeWarping
 from view.JanelaDistanciaDynamicTimeWarping import JanelaDistanciaDynamicTimeWarping
@@ -148,6 +149,37 @@ class Controlador:
         # Exibindo matriz de alinhamento
         janela_matriz_alinhamento = JanelaMatrizAlinhamento(matriz_alinhamento, cdtw)
 
+    def gerar_matriz_alinhamento_softdtw(self):
+        """
+        Realiza a geração de uma matriz de alinhamento para o algoritmo Soft-DTW.
+        :return:
+        """
+        # Verificando se há pelo menos duas séries temporais
+        if len(self.series_temporais) < 2:
+            return
+
+        # Obtendo as séries temporais
+        serie_temporal_1 = None
+        while serie_temporal_1 is None:
+            serie_temporal_1 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 1",
+                                                             "Selecione a primeira série temporal",
+                                                             self.series_temporais).mostrar()
+
+        serie_temporal_2 = None
+        while serie_temporal_2 is None:
+            serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2",
+                                                             "Selecione a segunda série temporal",
+                                                             self.series_temporais).mostrar()
+
+        # Criando algoritmo
+        soft_dtw = SoftDynamicTimeWarping()
+
+        # Criando matriz de alinhamento
+        matriz_alinhamento = MatrizAlinhamento(serie_temporal_1, serie_temporal_2)
+
+        # Exibindo matriz de alinhamento
+        janela_matriz_alinhamento = JanelaMatrizAlinhamento(matriz_alinhamento, soft_dtw)
+
 
     def gerar_matriz_mapeamento_dtw(self):
         """
@@ -236,6 +268,38 @@ class Controlador:
 
         # Exibindo matriz de mapeamento
         janela_matriz_mapeamento = JanelaMatrizMapeamento(matriz_mapeamento, ddtw)
+
+    def gerar_matriz_mapeamento_softdtw(self):
+        """
+        Realiza a geração de uma matriz de mapeamento para o algoritmo SoftDTW.
+        :return:
+        """
+
+        # Verificando se há pelo menos duas séries temporais
+        if len(self.series_temporais) < 2:
+            return
+
+        # Obtendo as séries temporais
+        serie_temporal_1 = None
+        while serie_temporal_1 is None:
+            serie_temporal_1 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 1",
+                                                             "Selecione a primeira série temporal",
+                                                             self.series_temporais).mostrar()
+
+        serie_temporal_2 = None
+        while serie_temporal_2 is None:
+            serie_temporal_2 = JanelaSelecionarSerieTemporal("Selecionar Série Temporal 2",
+                                                             "Selecione a segunda série temporal",
+                                                             self.series_temporais).mostrar()
+
+        # Criando algoritmo
+        soft_dtw = SoftDynamicTimeWarping()
+
+        # Criando matriz de mapeamento
+        matriz_mapeamento = MatrizMapeamento(serie_temporal_1, serie_temporal_2)
+
+        # Exibindo matriz de mapeamento
+        janela_matriz_mapeamento = JanelaMatrizMapeamento(matriz_mapeamento, soft_dtw)
 
     def executar_distancia_dynamic_time_warping(self):
         """
