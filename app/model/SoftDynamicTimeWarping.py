@@ -54,39 +54,39 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
         # Retornando soft-min
         return rmin - self.gamma * numpy.log(e0 + e1 + e2)
 
-    def soft_dtw_forward(self, D):
+    def soft_dtw_forward(self, d: numpy.ndarray):
         """
         Realiza a passagem para frente (Forward) do algoritmo Soft Dynamic Time Warping.
-        :param D: Matriz de distâncias locais de tamanho N por M.
-        :return: Tupla com a distância Soft-DTW final, e a matriz de custos acumulados de tamanho N+2 por M+2 usada no backward.
+        :param d: Matriz de distâncias locais de tamanho n por m.
+        :return: Tupla com a distância Soft-DTW final, e a matriz de custos acumulados de tamanho n+2 por m+2 usada no backward.
         """
 
         # Obtendo o tamanho das séries temporais
-        n, m = D.shape
+        n, m = d.shape
 
-        # Criando matriz R com bordas extras para simplificar os índices (tamanho N+2 por M+2)
-        R = numpy.full((n + 2, m + 2), numpy.inf)
+        # Criando matriz r com bordas extras para simplificar os índices (tamanho n+2 por m+2)
+        r = numpy.full((n + 2, m + 2), numpy.inf)
 
         # Definindo o primeiro valor da matriz como 0
-        R[0, 0] = 0.0
+        r[0, 0] = 0.0
 
         # Realizando o preenchimento da matriz de custos acumulados de esquerda-superior para a direita-inferior
         for i in range(1, n + 1):
             for j in range(1, m + 1):
                 # Calculando os vizinhos: esquerda, cima, diagonal superior esquerda
-                r0 = R[i, j - 1]
-                r1 = R[i - 1, j]
-                r2 = R[i - 1, j - 1]
+                r0 = r[i, j - 1]
+                r1 = r[i - 1, j]
+                r2 = r[i - 1, j - 1]
 
                 # Calculando o custo atual
                 # custo atual = distância local + softmin dos vizinhos
-                R[i, j] = D[i - 1, j - 1] + self.softmin(r0, r1, r2)
+                r[i, j] = d[i - 1, j - 1] + self.softmin(r0, r1, r2)
 
         # Obtendo a distância final
-        distancia_final = R[n, m]
+        distancia_final = r[n, m]
 
         # Retornando a distância final e a matriz de custos acumulados
-        return distancia_final, R
+        return distancia_final, r
 
     def warping_paths(self, serie1, serie2) -> tuple[float | int, numpy.ndarray]:
         pass
