@@ -21,7 +21,7 @@ class JanelaDistanciaSoftDynamicTimeWarping(tkinter.Toplevel):
         self.variavel_gamma = tkinter.StringVar(value='1.0')
 
         # Configurando o tamanho da janela
-        creen_width = 800
+        screen_width = 800
         screen_height = 600
         self.geometry(f"{screen_width}x{screen_height}+0+0")
 
