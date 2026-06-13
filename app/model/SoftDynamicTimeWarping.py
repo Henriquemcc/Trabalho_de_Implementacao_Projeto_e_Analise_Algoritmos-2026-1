@@ -62,6 +62,7 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
         Realiza a passagem para frente (Forward) do algoritmo Soft Dynamic Time Warping.
         :param d: Matriz de distâncias locais de tamanho n por m.
         :return: Tupla com a distância Soft-DTW final, e a matriz de custos acumulados de tamanho n+2 por m+2 usada no backward.
+        Fonte: https://github.com/toinsson/pysdtw
         """
 
         # Obtendo o tamanho das séries temporais
@@ -97,6 +98,7 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
         :param d: Matriz de distâncias locais de tamanho n por m.
         :param r: Matriz de custos acumulados gerada no Forward (de tamanho n+2 por m+2).
         :return: Matriz de alinhamento suave (de tamanho n por m).
+        Fonte: https://github.com/toinsson/pysdtw
         """
         # Obtendo o tamanho das séries temporais
         n, m = d.shape
@@ -140,6 +142,7 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
         :param serie1: Primeira série temporal.
         :param serie2: Segunda série temporal.
         :return: Custo acumulado e matriz de rastreamento.
+        Fonte: https://github.com/mblondel/soft-dtw
         """
 
         # Retirando o array dados do objeto SerieTemporal da serie1
