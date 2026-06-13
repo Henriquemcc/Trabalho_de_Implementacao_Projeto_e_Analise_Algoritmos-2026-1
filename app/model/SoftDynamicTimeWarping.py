@@ -155,7 +155,7 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
             s2 = numpy.array(serie2)
 
         # Calculando a distância euclidiana ao quadrado
-        d = self.calcular_distancia_euclidiana_ao_quadrado(serie1, serie2)
+        d = self.calcular_distancia_euclidiana_ao_quadrado(s1, s2)
 
         # Executando o Forward
         distancia, r = self.soft_dtw_forward(d)
