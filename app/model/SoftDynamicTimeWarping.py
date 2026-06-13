@@ -1,10 +1,8 @@
-from math import gamma
 from typing import Any
 
 import numpy
 from numpy import dtype, float64, ndarray
 
-from model.Distancia import distancia_euclidiana_ao_quadrado
 from model.WarpingPathAlgorithm import WarpingPathAlgorithm
 
 

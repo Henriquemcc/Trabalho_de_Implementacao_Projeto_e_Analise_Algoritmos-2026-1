@@ -1,11 +1,11 @@
 import copy
 import numbers
 from enum import Enum
-from model.WarpingPathAlgorithm import WarpingPathAlgorithm
 
 import numpy
 
 from model.SerieTemporal import SerieTemporal
+from model.WarpingPathAlgorithm import WarpingPathAlgorithm
 
 
 class TipoNoCdtw(Enum):
