@@ -94,3 +94,13 @@ class WarpingPathAlgorithm(ABC):
 
         # Retornando o caminho ótimo
         return caminho_otimo
+
+    def obter_distancia(self, serie1, serie2) -> float:
+        """
+        Obtém a distância do algoritmo Warping Path.
+        :param serie1: Primeira série temporal.
+        :param serie2: Segunda série temporal.
+        :return: Distância do algoritmo Warping Path.
+        """
+        distancia, _ = self.warping_paths(serie1, serie2)
+        return distancia
