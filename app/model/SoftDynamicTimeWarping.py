@@ -88,5 +88,47 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
         # Retornando a distância final e a matriz de custos acumulados
         return distancia_final, r
 
+    def soft_dtw_backward(self, d: numpy.ndarray, r: numpy.ndarray):
+        """
+        Realiza a passagem para trás (Backward) do algoritmo Soft Dynamic Time Warping.
+        :param d: Matriz de distâncias locais de tamanho n por m.
+        :param r: Matriz de custos acumulados gerada no Forward (de tamanho n+2 por m+2).
+        :return: Matriz de alinhamento suave (de tamanho n por m).
+        """
+        # Obtendo o tamanho das séries temporais
+        n, m = d.shape
+
+        # Criando uma matriz inicializada com bordas extras (de tamanho n+2 por m+2)
+        e = numpy.zeros((n + 2, m + 2))
+
+        # Inicializando o primeiro elemento dessa matriz (canto inferior direito) com 1
+        e[n, m] = 1.0
+
+        # Adicionando uma linha e uma coluna fantasma em r
+        r[n + 1, :] = numpy.inf
+        r[:, m + 1] = numpy.inf
+        r[n + 1, m + 1] = r[n, m]
+
+        # Iterando da direita canto inferior para a esquerda canto superior
+        for j in range(m, 0, -1):
+            for i in range(n, 0, -1):
+                # Contribuição vinda do vizinho direito
+                a = numpy.exp((r[i, j + 1] - r[i, j] - d[i - 1, j]) / self.gamma) if j < m else 0.0
+
+                # Contribuição vinda do vizinho de baixo
+                b = numpy.exp((r[i + 1, j] - r[i, j] - d[i, j - 1]) / self.gamma) if i < n else 0.0
+
+                # Contribuição vinda do vizinho da diagonal do canto inferior direito
+                c = numpy.exp(r[i + 1, j + 1] - r[i, j] - d[i, j] / self.gamma) if (i < n and j < m) else 0.0
+
+                # Atualizando o alinhamento esperado da célula atual baseado no fluxo reverso
+                if i == n and j == m:
+                    e[i, j] = 1.0
+                else:
+                    e[i, j] = e[i, j + 1] * a + e[i + 1, j] * b + e[i + 1, j + 1] * c
+
+        # Retornando a matriz sem as bordas extras
+        return e[1:(n + 1), 1:(m + 1)]
+
     def warping_paths(self, serie1, serie2) -> tuple[float | int, numpy.ndarray]:
         pass
