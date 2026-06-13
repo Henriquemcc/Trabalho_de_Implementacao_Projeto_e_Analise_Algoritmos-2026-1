@@ -17,6 +17,7 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
         Constrói uma nova instância da classe SoftDynamicTimeWarping.
         :param gamma: Parâmetro de regularização.
         """
+        WarpingPathAlgorithm.__init__(self, nome_algoritmo='Soft Dynamic Time Warping')
         self.gamma = gamma
 
     def calcular_distancia_euclidiana_ao_quadrado(self, serie1: numpy.ndarray, serie2: numpy.ndarray) -> numpy.ndarray:
