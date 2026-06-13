@@ -122,7 +122,7 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
                 b = numpy.exp((r[i + 1, j] - r[i, j] - d[i, j - 1]) / self.gamma) if i < n else 0.0
 
                 # Contribuição vinda do vizinho da diagonal do canto inferior direito
-                c = numpy.exp(r[i + 1, j + 1] - r[i, j] - d[i, j] / self.gamma) if (i < n and j < m) else 0.0
+                c = numpy.exp((r[i + 1, j + 1] - r[i, j] - d[i, j]) / self.gamma) if (i < n and j < m) else 0.0
 
                 # Atualizando o alinhamento esperado da célula atual baseado no fluxo reverso
                 if i == n and j == m:
