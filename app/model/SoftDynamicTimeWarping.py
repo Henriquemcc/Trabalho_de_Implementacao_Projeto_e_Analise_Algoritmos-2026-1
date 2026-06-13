@@ -1,3 +1,5 @@
+from math import gamma
+
 import numpy
 
 from model.Distancia import distancia_euclidiana_ao_quadrado
@@ -35,6 +37,22 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
                 distancia[i, j] = (serie1[i] - serie2[j]) ** 2
 
         return distancia
+
+    def softmin(self, r0, r1, r2):
+        """
+        Realiza o cálculo do operador soft-min.
+        """
+
+        # Encontrando o valor de estabilização
+        rmin = min(r0, r1, r2)
+
+        # Calculando as exponenciais estabilizadoras
+        e0 = numpy.exp(-(r0 - rmin) / self.gamma)
+        e1 = numpy.exp(-(r1 - rmin) / self.gamma)
+        e2 = numpy.exp(-(r2 - rmin) / self.gamma)
+
+        # Retornando soft-min
+        return rmin - self.gamma * numpy.log(e0 + e1 + e2)
 
     def warping_paths(self, serie1, serie2) -> tuple[float | int, numpy.ndarray]:
         pass
