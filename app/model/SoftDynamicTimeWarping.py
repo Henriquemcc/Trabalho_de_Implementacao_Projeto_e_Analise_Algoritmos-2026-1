@@ -164,3 +164,26 @@ class SoftDynamicTimeWarping(WarpingPathAlgorithm):
         e = self.soft_dtw_backward(d, r)
 
         return distancia, e
+
+    def warping_path(self, serie1, serie2) -> list:
+        """
+        Obtém o warping path (caminho de alinhamento ótimo) entre duas séries temporais, adaptado ao Soft Dynamic Time Warping.
+        :param serie1: Primeira série temporal.
+        :param serie2: Segunda série temporal.
+        :return: Warping path (caminho de alinhamento ótimo) entre duas séries temporais.
+        """
+        # Obtendo matriz de alinhamento suave entre os valores 0 e 1
+        _, matriz_alinhamento = self.warping_paths(serie1, serie2)
+
+        # Obtendo os tamanhos da matriz de alinhamento
+        n, m = matriz_alinhamento.shape
+
+        # Criando matriz para armazenar o caminho suave
+        caminho_suave = []
+
+        # Para cada ponto de série 1 (i), encontrando o ponto correspondente provável da série 2 (j)
+        for i in range(n):
+            j_max = int(numpy.argmax(matriz_alinhamento[i, :]))
+            caminho_suave.append((i, j_max))
+
+        return caminho_suave
