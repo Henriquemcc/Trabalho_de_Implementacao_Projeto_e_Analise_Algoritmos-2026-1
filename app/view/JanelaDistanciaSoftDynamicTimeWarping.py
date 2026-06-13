@@ -60,7 +60,7 @@ class JanelaDistanciaSoftDynamicTimeWarping(tkinter.Toplevel):
         try:
             gamma = float(self.variavel_gamma.get())
             soft_dtw = SoftDynamicTimeWarping(gamma=gamma)
-            _, resultado = soft_dtw.warping_paths(self.serie_temporal1, self.serie_temporal2)
+            resultado, _ = soft_dtw.warping_paths(self.serie_temporal1, self.serie_temporal2)
             self.resposta_label.config(text=f'Resposta: {resultado}')
         except Exception as e:
             tkinter.messagebox.showerror(title='Erro ao executar o Soft Dynamic Time Warping', message=str(e))
