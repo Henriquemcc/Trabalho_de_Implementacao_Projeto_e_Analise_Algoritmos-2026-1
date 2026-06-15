@@ -71,7 +71,7 @@ class LongestCommonSubsequence(WarpingPathAlgorithm):
         while i > 0 and j > 0:
             # Se o elemento da primeira série for igual ao elemento da segunda série na posição atual
             if s1[i - 1] == s2[j - 1]:
-                maior_subsequencia.insert(0, s1[i - 1])
+                maior_subsequencia.insert(0, [i - 1, j - 1])
                 i -= 1
                 j -= 1
 
@@ -82,4 +82,3 @@ class LongestCommonSubsequence(WarpingPathAlgorithm):
                 j -= 1
 
         return tamanho_maior_subsequencia, numpy.array(maior_subsequencia)
-
