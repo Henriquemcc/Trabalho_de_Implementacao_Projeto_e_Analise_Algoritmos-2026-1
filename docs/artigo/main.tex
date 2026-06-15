@@ -17,7 +17,51 @@
 
 \maketitle
 
+\section{Introdução}
 
+\paragraph{}Séries temporais são coleções de observações realizadas sequencialmente ao longo do tempo, sendo bastante utilizadas em áreas como estatística, matemática aplicada e processamento de sinais \cite{wiki:xxx}. Um dos desafios de se trabalhar com séries temporais consiste na análise da correspondência de duas séries temporais, seja em relação ao alinhamento, ao casamento ou à deformação.\cite{trab}
+
+\paragraph{}Este trabalho tem como objetivo o desenvolvimento de um programa para a análise de séries temporais, através da implementação de algoritmos de análise de padrões de série temporais, seguido do uso dos dados gerados a partir desses algoritmos na classificação das séries através de algoritmos classificadores.
+
+\section{Solução Proposta}
+
+\paragraph{}Para esta solução, foram utilizados os seguintes algoritmos: Dynamic Time Warping (DTW)\cite{sakoe1978dynamic}, Continuous Dynamic Time Warping (CDTW)\cite{munich1999continuous}, Longest Common Subsequence (LCS)\cite{vlachos2002discovering} e Soft Dynamic Time Warping (Soft-DTW)\cite{cuturi2017soft}. Cada uma dessas soluções foram implementadas em Python, possibilitando que elas pudessem ser testadas juntas das séries temporais.
+
+\begin{figure}
+    \centering
+    \begin{verbatim}
+int DTWDistance(s: array [1..n], t: array [1..m], w: int) {
+    DTW := array [0..n, 0..m]
+
+    w := max(w, abs(n-m)) // adapt window size (*)
+
+    for i := 0 to n
+        for j:= 0 to m
+            DTW[i, j] := infinity
+    DTW[0, 0] := 0
+    for i := 1 to n
+        for j := max(1, i-w) to min(m, i+w)
+            DTW[i, j] := 0
+
+    for i := 1 to n
+        for j := max(1, i-w) to min(m, i+w)
+            cost := d(s[i], t[j])
+            DTW[i, j] := cost + minimum(DTW[i-1, j  ],    // insertion
+                                        DTW[i  , j-1],    // deletion
+                                        DTW[i-1, j-1])    // match
+    return DTW[n, m]
+}        
+
+    \end{verbatim}
+    \caption{Pseudocódigo do algoritmo Dynamic Time Warping. \cite{enwiki:1329173867}}
+    \label{fig:placeholder}
+\end{figure}
+
+\section{Implementação}
+
+\section{Relatório de Testes}
+
+\section{Conclusão}
 
 
 \bibliographystyle{sbc}
