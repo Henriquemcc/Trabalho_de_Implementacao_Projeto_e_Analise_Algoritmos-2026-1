@@ -16,6 +16,9 @@ class LongestCommonSubsequence:
         :param serie2: Segunda série temporal
         :return: Número inteiro contendo o comprimento da LongestCommonSubsequence
         """
+        # Limpando o dicionário de programação dinâmica
+        self.__programacao_dinamica = {}
+
         # Retirando o array dados do objeto SerieTemporal da serie1
         if type(serie1).__name__ == 'SerieTemporal':
             s1 = serie1.dados
