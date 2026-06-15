@@ -77,6 +77,8 @@ class Controlador:
             algoritmo = ContinuousDynamicTimeWarping()
         elif nome == 'Soft-DTW':
             algoritmo = SoftDynamicTimeWarping()
+        elif nome == 'LCS':
+            algoritmo = LongestCommonSubsequence()
 
         return algoritmo
 
