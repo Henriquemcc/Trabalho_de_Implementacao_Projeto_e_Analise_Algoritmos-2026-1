@@ -37,35 +37,38 @@ class JanelaPrincipal(tkinter.Tk):
         menu_transformar = tkinter.Menu(barra_menu, tearoff=0)
         menu_transformar.add_command(
             label="Gerar matriz de alinhamento Dynamic Time Warping",
-            command=lambda: controller.gerar_matriz_alinhamento_dtw(),
+            command=lambda: controller.gerar_matriz_alinhamento('DTW'),
         )
         menu_transformar.add_command(
             label="Gerar matriz de alinhamento Derivative Dynamic Time Warping",
-            command=lambda: controller.gerar_matriz_alinhamento_ddtw()
+            command=lambda: controller.gerar_matriz_alinhamento('DDTW')
         )
         menu_transformar.add_command(
             label="Gerar matriz de alinhamento Continuous Dynamic Time Warping",
-            command=lambda: controller.gerar_matriz_alinhamento_cdtw()
+            command=lambda: controller.gerar_matriz_alinhamento('CDTW')
+        )
+        menu_transformar.add_command(
+            label='Gerar matriz de alinhamento '
         )
         menu_transformar.add_command(
             label="Gerar matriz de alinhamento Soft Dynamic Time Warping",
-            command=lambda: controller.gerar_matriz_alinhamento_softdtw()
+            command=lambda: controller.gerar_matriz_alinhamento('Soft-DTW')
         )
         menu_transformar.add_command(
             label="Gerar matriz de mapeamento Dynamic Time Warping",
-            command=lambda: controller.gerar_matriz_mapeamento_dtw(),
+            command=lambda: controller.gerar_matriz_mapeamento('DTW'),
         )
         menu_transformar.add_command(
             label="Gerar matriz de mapeamento Derivative Dynamic Time Warping",
-            command=lambda: controller.gerar_matriz_mapeamento_ddtw()
+            command=lambda: controller.gerar_matriz_mapeamento('DDTW')
         )
         menu_transformar.add_command(
             label="Gerar matriz de mapeamento Continuous Dynamic Time Warping",
-            command=lambda: controller.gerar_matriz_mapeamento_cdtw()
+            command=lambda: controller.gerar_matriz_mapeamento('CDTW')
         )
         menu_transformar.add_command(
             label="Gerar matriz de mapeamento Soft Dynamic Time Warping",
-            command=lambda: controller.gerar_matriz_mapeamento_softdtw()
+            command=lambda: controller.gerar_matriz_mapeamento('Soft-DTW')
         )
         barra_menu.add_cascade(label="Transformar", menu=menu_transformar)
 
