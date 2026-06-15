@@ -48,7 +48,8 @@ class JanelaPrincipal(tkinter.Tk):
             command=lambda: controller.gerar_matriz_alinhamento('CDTW')
         )
         menu_transformar.add_command(
-            label='Gerar matriz de alinhamento '
+            label='Gerar matriz de alinhamento Longest Common Subsequence',
+            command=lambda: controller.gerar_matriz_alinhamento('LCS')
         )
         menu_transformar.add_command(
             label="Gerar matriz de alinhamento Soft Dynamic Time Warping",
@@ -65,6 +66,10 @@ class JanelaPrincipal(tkinter.Tk):
         menu_transformar.add_command(
             label="Gerar matriz de mapeamento Continuous Dynamic Time Warping",
             command=lambda: controller.gerar_matriz_mapeamento('CDTW')
+        )
+        menu_transformar.add_command(
+            label='Gerar matriz de mapeamento Longest Common Subsequence',
+            command=lambda: controller.gerar_matriz_mapeamento('LCS')
         )
         menu_transformar.add_command(
             label="Gerar matriz de mapeamento Soft Dynamic Time Warping",
