@@ -309,3 +309,9 @@ pyrightconfig.json
 
 # Dataset
 Dataset/*
+docs/artigo/main.aux
+docs/artigo/main.bbl
+docs/artigo/main.fdb_latexmk
+docs/artigo/main.fls
+docs/artigo/main.pdf
+docs/artigo/main.synctex.gz
