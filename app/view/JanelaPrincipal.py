@@ -81,7 +81,7 @@ class JanelaPrincipal(tkinter.Tk):
         )
         menu_algoritmo.add_command(
             label='Distância Longest Common Subsequence',
-            command=lambda: controller.executar_longest_common_subsequence(),
+            command=lambda: controller.executar_distancia_longest_common_subsequence(),
         )
         menu_algoritmo.add_command(
             label='Distância Derivative Dynamic Time Warping',
