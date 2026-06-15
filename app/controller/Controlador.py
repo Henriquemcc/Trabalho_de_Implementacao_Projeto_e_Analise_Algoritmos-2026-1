@@ -377,7 +377,7 @@ class Controlador:
         # Abrindo janela para execução do Longest Common Subsequence
         janela_longest_common_subsequence = JanelaLongestCommonSubsequence(serie_temporal_1, serie_temporal_2)
 
-    def executar_derivative_dynamic_time_warping(self):
+    def executar_distancia_derivative_dynamic_time_warping(self):
         """
         Realiza a execução do algoritmo Derivative Dynamic Time Warping.
         :return:
