@@ -59,7 +59,7 @@ class JanelaLongestCommonSubsequence(tkinter.Toplevel):
         """
         try:
             lcs_pd = LongestCommonSubsequence()
-            resultado = lcs_pd.lcs(
+            resultado, _ = lcs_pd.warping_paths(
                 serie1=self.serie_temporal1,
                 serie2=self.serie_temporal2
             )
