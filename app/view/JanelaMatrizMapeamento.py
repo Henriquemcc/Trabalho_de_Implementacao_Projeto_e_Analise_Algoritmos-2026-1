@@ -20,7 +20,7 @@ class JanelaMatrizMapeamento(tkinter.Toplevel):
         self.algoritmo = algoritmo
 
         # Configurando o tamanho da janela
-        screen_width = 800
+        screen_width = 1200
         screen_height = 600
         self.geometry(f"{screen_width}x{screen_height}+0+0")
 

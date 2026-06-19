@@ -18,8 +18,8 @@ class JanelaPrincipal(tkinter.Tk):
         self.title("Trabalho de Implementação - Projeto e Análise de Algoritmos - Mestrado em Informática - PUC Minas")
 
         # Configurando o tamanho da janela
-        screen_width = 1000
-        screen_height = 350
+        screen_width = 1200
+        screen_height = 600
         self.geometry(f"{screen_width}x{screen_height}+0+0")
 
         # Barra de Menu
