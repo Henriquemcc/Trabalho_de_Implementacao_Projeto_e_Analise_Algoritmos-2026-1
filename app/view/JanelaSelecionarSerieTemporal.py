@@ -15,7 +15,7 @@ class JanelaSelecionarSerieTemporal(tkinter.Toplevel):
 
         # Definindo janela
         self.title(titulo)
-        screen_width = 800
+        screen_width = 1200
         screen_height = 600
         self.geometry(f"{screen_width}x{screen_height}+0+0")
         self.grab_set()

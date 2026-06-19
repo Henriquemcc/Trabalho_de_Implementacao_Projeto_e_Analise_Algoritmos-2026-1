@@ -18,8 +18,8 @@ class JanelaPrincipal(tkinter.Tk):
         self.title("Trabalho de Implementação - Projeto e Análise de Algoritmos - Mestrado em Informática - PUC Minas")
 
         # Configurando o tamanho da janela
-        screen_width = 1000
-        screen_height = 350
+        screen_width = 1200
+        screen_height = 600
         self.geometry(f"{screen_width}x{screen_height}+0+0")
 
         # Barra de Menu
@@ -33,73 +33,77 @@ class JanelaPrincipal(tkinter.Tk):
         )
         barra_menu.add_cascade(label="Arquivo", menu=menu_arquivo)
 
-        # Menu transformar
-        menu_transformar = tkinter.Menu(barra_menu, tearoff=0)
-        menu_transformar.add_command(
-            label="Gerar matriz de alinhamento Dynamic Time Warping",
+        # Menu matriz de alinhamento
+        menu_matriz_alinhamento = tkinter.Menu(barra_menu, tearoff=0)
+        menu_matriz_alinhamento.add_command(
+            label="Dynamic Time Warping",
             command=lambda: controller.gerar_matriz_alinhamento('DTW'),
         )
-        menu_transformar.add_command(
-            label="Gerar matriz de alinhamento Derivative Dynamic Time Warping",
+        menu_matriz_alinhamento.add_command(
+            label="Derivative Dynamic Time Warping",
             command=lambda: controller.gerar_matriz_alinhamento('DDTW')
         )
-        menu_transformar.add_command(
-            label="Gerar matriz de alinhamento Continuous Dynamic Time Warping",
+        menu_matriz_alinhamento.add_command(
+            label="Continuous Dynamic Time Warping",
             command=lambda: controller.gerar_matriz_alinhamento('CDTW')
         )
-        menu_transformar.add_command(
-            label='Gerar matriz de alinhamento Longest Common Subsequence',
+        menu_matriz_alinhamento.add_command(
+            label='Longest Common Subsequence',
             command=lambda: controller.gerar_matriz_alinhamento('LCS')
         )
-        menu_transformar.add_command(
-            label="Gerar matriz de alinhamento Soft Dynamic Time Warping",
+        menu_matriz_alinhamento.add_command(
+            label="Soft Dynamic Time Warping",
             command=lambda: controller.gerar_matriz_alinhamento('Soft-DTW')
         )
-        menu_transformar.add_command(
-            label="Gerar matriz de mapeamento Dynamic Time Warping",
+        barra_menu.add_cascade(label='Matriz de Alinhamento', menu=menu_matriz_alinhamento)
+
+        # Menu matriz_mapeamento
+        menu_matriz_mapeamento = tkinter.Menu(barra_menu, tearoff=0)
+        menu_matriz_mapeamento.add_command(
+            label="Dynamic Time Warping",
             command=lambda: controller.gerar_matriz_mapeamento('DTW'),
         )
-        menu_transformar.add_command(
-            label="Gerar matriz de mapeamento Derivative Dynamic Time Warping",
+        menu_matriz_mapeamento.add_command(
+            label="Derivative Dynamic Time Warping",
             command=lambda: controller.gerar_matriz_mapeamento('DDTW')
         )
-        menu_transformar.add_command(
-            label="Gerar matriz de mapeamento Continuous Dynamic Time Warping",
+        menu_matriz_mapeamento.add_command(
+            label="Continuous Dynamic Time Warping",
             command=lambda: controller.gerar_matriz_mapeamento('CDTW')
         )
-        menu_transformar.add_command(
-            label='Gerar matriz de mapeamento Longest Common Subsequence',
+        menu_matriz_mapeamento.add_command(
+            label='Longest Common Subsequence',
             command=lambda: controller.gerar_matriz_mapeamento('LCS')
         )
-        menu_transformar.add_command(
-            label="Gerar matriz de mapeamento Soft Dynamic Time Warping",
+        menu_matriz_mapeamento.add_command(
+            label='Soft Dynamic Time Warping',
             command=lambda: controller.gerar_matriz_mapeamento('Soft-DTW')
         )
-        barra_menu.add_cascade(label="Transformar", menu=menu_transformar)
+        barra_menu.add_cascade(label='Matriz de Mapeamento', menu=menu_matriz_mapeamento)
 
-        # Menu algoritmo
-        menu_algoritmo = tkinter.Menu(barra_menu, tearoff=0)
-        menu_algoritmo.add_command(
-            label="Distância Dynamic Time Warping",
+        # Menu distância
+        menu_distancia = tkinter.Menu(barra_menu, tearoff=0)
+        menu_distancia.add_command(
+            label="Dynamic Time Warping",
             command=lambda: controller.executar_distancia_dynamic_time_warping(),
         )
-        menu_algoritmo.add_command(
-            label="Distância Continuous Dynamic Time Warping",
+        menu_distancia.add_command(
+            label="Continuous Dynamic Time Warping",
             command=lambda: controller.executar_distancia_continuous_dynamic_time_warping(),
         )
-        menu_algoritmo.add_command(
-            label='Distância Longest Common Subsequence',
+        menu_distancia.add_command(
+            label='Longest Common Subsequence',
             command=lambda: controller.executar_distancia_longest_common_subsequence(),
         )
-        menu_algoritmo.add_command(
-            label='Distância Derivative Dynamic Time Warping',
+        menu_distancia.add_command(
+            label='Derivative Dynamic Time Warping',
             command=lambda: controller.executar_distancia_derivative_dynamic_time_warping(),
         )
-        menu_algoritmo.add_command(
-            label='Distância Soft Dynamic Time Warping',
+        menu_distancia.add_command(
+            label='Soft Dynamic Time Warping',
             command=lambda: controller.executar_distancia_soft_dynamic_time_warping(),
         )
-        barra_menu.add_cascade(label="Algoritmo", menu=menu_algoritmo)
+        barra_menu.add_cascade(label="Distância", menu=menu_distancia)
 
         # Adicionando menu
         self.config(menu=barra_menu)
