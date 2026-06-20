@@ -1,3 +1,5 @@
+[English Version](Enunciado.EN.md)
+
 # Trabalho de Implementação - Projeto e Análise de Algoritmos - 2026-1 - Mestrado em Informática
 
 Trabalho de implementação da matéria Projeto e Análise de Algoritmos do Mestrado em Informática da PUC Minas.
