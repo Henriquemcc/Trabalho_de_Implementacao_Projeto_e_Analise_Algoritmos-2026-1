@@ -14,7 +14,7 @@ class LongestCommonSubsequence(WarpingPathAlgorithm):
         """
         WarpingPathAlgorithm.__init__(self, nome_algoritmo='Longest Common Subsequence')
 
-    def warping_paths(self, serie1: SerieTemporal | list | numpy.ndarray, serie2: SerieTemporal | list | numpy.ndarray)-> tuple[float | int, numpy.ndarray]:
+    def warping_paths(self, serie1, serie2)-> tuple[float | int, numpy.ndarray]:
         """
         Realiza o cálculo do comprimento da LongestCommonSubsequence (Sequência Comum Mais Longa) utilizando sua implementação com programação dinâmica.
         :param serie1: Primeira série temporal

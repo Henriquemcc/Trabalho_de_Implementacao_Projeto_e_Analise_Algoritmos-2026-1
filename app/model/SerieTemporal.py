@@ -18,7 +18,7 @@ class SerieTemporal:
         self.nome = nome
 
     @staticmethod
-    def abrir_arquivo_txt(caminho) -> SerieTemporal:
+    def abrir_arquivo_txt(caminho):
         """
         Realiza a abertura de um arquivo de uma série temporal em txt.
         :param caminho: Caminho do arquivo da série temporal em txt.
@@ -32,7 +32,7 @@ class SerieTemporal:
         return SerieTemporal(dados, nome)
 
     @staticmethod
-    def abrir_arquivo_tsv(caminho, indice) -> SerieTemporal:
+    def abrir_arquivo_tsv(caminho, indice):
         """
         Realiza a abertura de um arquivo de uma série temporal em tsv.
         :param caminho: Caminho do arquivo da série temporal em tsv.
