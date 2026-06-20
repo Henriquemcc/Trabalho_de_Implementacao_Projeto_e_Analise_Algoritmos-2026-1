@@ -2,7 +2,7 @@
 
 # Implementation Assignment - Algorithm Design and Analysis - 2026-1 - Master's Program in Computer Science
 
-Implementation assignment for the Algorithm Design and Analysis course within the Master's Program in Computer Science at PUC Minas.
+Implementation assignment for the Algorithm Project and Analysis course within the Master's Program in Computer Science at PUC Minas.
 
 ## Assignment Brief
 
