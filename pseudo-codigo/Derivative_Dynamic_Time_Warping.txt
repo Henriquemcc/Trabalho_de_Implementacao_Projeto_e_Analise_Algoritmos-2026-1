@@ -1,0 +1,67 @@
+DDTW(s1, s2, janela_busca):
+    // Estimando derivadas
+    d_s1 <- estimar_derivadas(s1)
+    d_s2 <- estimar_derivadas(s2)
+
+    // Construindo uma matriz (tamanho_derivada_s1 por tamanho_derivada_s2)
+    matriz_retorno <- criar_matriz(tam(d_s1), tam(s_s2))
+
+    // Preenchendo a matriz com infinito
+    preencher_matriz(matriz_retorno, infinito)
+
+    // Alterando o valor da janela de busca
+    se janela_busca <= |tam(d_s1) - tam(d_s2)|
+        janela_busca <- 2 * |tam(d_s1) - tam(s2)|
+    
+    // Definindo o valor da janela
+    janela <- gerar_janela(tam(d_s1), tam(d_s2), janela_busca)
+
+    // Criando matriz de custo acumulado
+    matriz_custo <- Dicionário onde chaves não encontradas retornam (infinito, 0, 0)
+
+    // Definindo o primeiro valor da matriz
+    matriz_custo[0, 0] <- (0, 0, 0)
+    matriz_retorno[0, 0] <- 0
+
+    // Interando pelo tamanho da janela
+    para i e j em janela:
+
+        // Obtendo o custo mínimo e o atribuindo de volta na matriz
+        d_t <- |d_s1[i - 1] - d_s2[j - 2]|
+        custo_esquerda <- matriz_custo[i - 1, j] + d_t
+        custo_baixo <- matriz_custo[i, j - 1] + d_t
+        custo_diagonal <- matriz_custo[i - 1, j - 1] _ d_t
+        matriz_custo[i, j] <- min(custo_esquerda, custo_baixo, custo_diagonal)
+
+        se i < tam(d_s1) e j < tam(d_s2):
+            matriz_retorno[i, j] <- matriz_custo[i, j][0]
+
+    // Matriz de rastreamento
+    matriz_rastreamento <- criar_matriz()
+
+    // Definindo os valores para i e j
+    i <- tam(d_s1)
+    j <- tam(d_s2)
+    enquanto não (i = 0 ou j = 0):
+        matriz_rastreamento.adiciona(i - 1, j - 1)
+
+        // Definindo os novos valores para i e j
+        novo_i <- matriz_custo[i, j][1]
+        novo_j <- matriz_custo[i, j][2]
+        i <- novo_i
+        j <- novo_j
+
+    // Invertendo a ordem dos elementos
+    matriz_rastreamento <- inverter(matriz_rastreamento)
+
+    // Obtendo a distância final
+    distancia_final = matriz_custo_acumulado[tam(d_s1), tam(d_s2)][0]
+
+    retorna distancia_final e matriz_retorno
+
+
+
+
+
+
+
