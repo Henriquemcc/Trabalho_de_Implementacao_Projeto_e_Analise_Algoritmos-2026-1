@@ -1,3 +1,48 @@
+LCS(x, y):
+    lcs <- inicializar(tamanho(x), tamanho(y), 0)
+
+    para i até tamanho(x):
+        para j até tamanho(y):
+            // Caso base: Se ambos os arrays tiverem sido preenchidos, o tamanho de LCS será 0
+            se i = 0 ou j = 0:
+                lcs[i][j] <- 0
+
+            // Se ambos arrays baterem
+            senão se x[i - 1] = y[j - 1]:
+                lcs[i][j] <- lcs[i - 1][j - 1] + 1
+
+            // Se os elementos de ambos os arrays não baterem
+            vizinho_cima <- lcs[i - 1][j]
+            vizinho_baixo <- lcs[i][j - 1]
+
+    // O valor contido na última célula da matriz é o tamanho da maior subsequência
+    tamanho_maior_subsequencia <- lcs[tamanho(x)][tamanho(y)]
+
+    // Obtendo maior subsequência
+    // Criando um array para armazenar a maior subsequência
+    maior_subsequencia <- criar_array()
+
+    // Realizando Backtracking da matriz utilizada na programação dinâmica
+    i <- tamanho(x)
+    j <- tamanho(y)
+    enquanto i > 0 e j > 0:
+        // Se o elemento da primeira série for igual ao elemento da segunda série na posição atual
+        se x[i - 1] = y[j - 1]:
+            maior_subsequencia.inserir(0, [i - 1, j - 1])
+            i <- i - 1
+            j <- j - 1
+
+        // Se o elemento da primeira série for diferente do elemento da segunda série na posição atual, será analisado o maior valor
+        senão se lcs[i - 1][j] > lcs[i][j - 1]:
+            i <- i - 1
+            j <- j - 1
+        
+    retorne tamanho_maior_subsequencia, maior_subsequencia
+
+
+
+
+
 X and Y be two given sequences
 Initialize a table LCS of dimension X.length * Y.length
 X.label = X
