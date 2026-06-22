@@ -1,0 +1,118 @@
+CDTW(s1, s2, interpolacao, num_stainer, r):
+    
+    // Transformando séries temporais em curvas
+    c1 <- CurvaCdtw(s1);
+    c2 <- CurvaCdtw(s2);
+
+
+    // Construindo Janela de Sakoe-Chiba
+    se r = 0:
+        janela_sakoe_chiba <- preencher_zero(2, tamanho(c2));
+        janela_sakoe_chiba[0, :] <- tamanho(s1);
+    senão:
+        janela_sakoe_chiba <- preencher_zero(2, tamanho(c2));
+        escala <- tamanho(c1) / tamanho(c2);
+        para i de 0 até w - 1:
+            h_preencher_centro <- teto(i * escala);
+            h_preencher_cima <- min(h, h_preencher_centro + r);
+            h_preencher_baixo <- max(0, h_preencher_centro - r);
+            janela_sakoe_chiba[0, i] <- h_preencher_cima;
+            janela_sakoe_chiba[1, i] <- h_preencher_baixo;
+
+    // Matriz que armazena os valores da programação dinâmica
+    matriz_de_baixo <- preencher_zero(tamanho(curva1) - 1);
+
+    // Bloco ou célula da malha geométrica que o algoritmo está a processar e a calcular no exato momento da iteração dentro do duplo loop
+    bloco_atual <- criar_matriz();
+
+    // Guarda o bloco completo calculado imediatamente à direita do bloco atual
+    bloco_direita <- criar_matriz();
+
+    // Guarda todas as distâncias acumuladas calculadas para os nós principais da malha geométrica
+    mapa_distancias <- criar_dicionario();
+
+    // Iterando do canto inferior direito para o canto superior esquerdo da matriz
+    para i de (tamanho(curva2) - 1) até 0 passo -1:
+        para j de (tamanho(curva1) - 1) até 0 passo -1:
+
+            // Caso esteja fora da máscara, podemos pular este elemento
+            mascara_superior <- mascara[0, j];
+            mascara_inferior <- mascara[1, j];
+            se i < mascara_inferior ou i > mascara_superior:
+                matriz_de_baixo[j][0..num_stainer+1] <- infinito;
+                continue;
+
+            // Construindo blocos com stainers
+            bloco_atual <- construir_bloco(curva1, curva2, j, i);
+            bloco_atual.adicionar_steiner(UNIFORME, num_stainer);
+
+            // Lida com casos de borda nas bordas á direita e no canto inferior
+            // No primeiro nó, inicializa o canto inferior direito como zero
+            se (i = tamanho(curva2) - 2) e (j = tamanho(curva1) - 2):
+                bloco_atual.canto_inferior_direito.distancias <- 0;
+                bloco_atual.inicializar_distancias();
+                bloco_direita <- bloco_atual;
+
+            // Caso estejamos na linha do canto inferior
+            senão se i = tamanho(curva2) - 2:
+                // o atual nó da direita é o nó anterior da esquerda
+                para n de 0 até num_stainer+1:
+                    bloco_atual[n].distancia <- bloco_direita.esquerda[n].distancia;
+                    bloco_atual[n].visitado <- verdadeiro;
+
+                bloco_atual.inicializar_distancias();
+                bloco_direita <- bloco_atual;
+
+            // Caso estejamos na borda da direita
+            senão se j = tamanho(curva2) - 2:
+                // Definindo o canto inferior autal o topo anterior
+                para n de 0 até num_stainer + 1:
+                    bloco_atual[n].distancia <- matriz_baixo[j][n]
+                    bloco_atual[n].visitado = verdadeiro;
+
+                bloco_atual.inicializar_distancias();
+                bloco_direita <- bloco_atual;
+
+            // caso no qual estejamos na borda do SCB
+            senão se i > mascara[0, j + 1] ou i < mascara[1, j + 1]:
+                // Definindo o canto inferior atual o topo anterior
+                para n de 0 até num_stainer + 1:
+                    bloco_atual.canto_inferior[n].distancia <- matriz_baixo[j][n];
+                    bloco_atual.canto_inferior[n].visitado = verdadeiro;
+
+                bloco_atual.canto_inferior_direito.distancia <- bloco_atual.canto_inferior[-1].distancia;
+                bloco_atual.inicializar_distancias();
+                bloco_direita <- bloco_atual;
+
+            // Caso estejamos no meio do grafo
+            senão:
+                para n de 0 até num_stainer + 1:
+                    bloco_atual.canto_inferior[n].distancia <- matriz_de_baixo[j][n];
+                    bloco_atual.canto_inferior[n].visitado <- verdadeiro;
+
+                para n de 0 até num_stainer + 1:
+                    bloco_atual.direita[n].distancia <- bloco_direita.esquerda[n].distancia;
+                    bloco_atual.direita[n].visitado <- verdadeiro;
+
+                bloco_direita <- bloco_atual;
+
+                // Definindo a distância para os nós esquerda/topo do bloco atual
+                bloco_atual.definir_distancia();
+
+                para n de 0 até num_stainer + 1:
+                    matriz_baixo[j][n] <- bloco_atual.topo[n].distancia;
+
+                // Atualizando o mapa de distâncias com as distâncias do nó atual
+                mapa_distancias[i, j] = bloco.atual.topo_esquerdo.distancia;
+
+    // Construindo matriz de alinhamento
+    matriz <- preencher_matriz(tamanho(c1) + 1, tamanho(c2) + 1, infinito);
+
+    // Definindo a primeira posição da matriz
+    matriz[0, 0] <- 0;
+
+    // Preenchendo a matriz
+    para i e j em mapa_distancias.items():
+        matriz[i + 1, j + 1] <- valor;
+
+    retorne distancia, matriz;
