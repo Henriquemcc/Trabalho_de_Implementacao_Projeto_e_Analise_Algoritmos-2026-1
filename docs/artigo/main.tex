@@ -1,17 +1,20 @@
+\UseRawInputEncoding
 \documentclass[12pt]{article}
 
+\usepackage{authblk}
 \usepackage{sbc-template}
 \usepackage{graphicx,url}
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
-%\usepackage[latin1]{inputenc}  
+\usepackage{listings}
 
      
 \sloppy
 
 \title{Trabalho de Implementação - Projeto e Análise de Algoritmos}
 
-\author{Henrique Mendonça Castelar Campos}
+\author{Henrique Mendonça Castelar Campos\inst{1}}
+\address{Pontifícia Universidade Católica de Minas Gerais}
 
 \begin{document} 
 
@@ -25,67 +28,144 @@
 
 \section{Solução Proposta}
 
-\paragraph{}Para esta solução, foram utilizados os seguintes algoritmos: Dynamic Time Warping (DTW)\cite{sakoe1978dynamic}, Continuous Dynamic Time Warping (CDTW)\cite{munich1999continuous}, Longest Common Subsequence (LCS)\cite{vlachos2002discovering} e Soft Dynamic Time Warping (Soft-DTW)\cite{cuturi2017soft}. Cada uma dessas soluções foram implementadas em Python, possibilitando que elas pudessem ser testadas juntas das séries temporais.
+\paragraph{}Para esta solução, foram utilizados os seguintes algoritmos: Dynamic Time Warping (DTW)\cite{sakoe1978dynamic}, Continuous Dynamic Time Warping (CDTW)\cite{munich1999continuous}, Longest Common Subsequence (LCS)\cite{vlachos2002discovering} e Soft Dynamic Time Warping (Soft-DTW)\cite{cuturi2017soft}.
 
-\begin{figure}
-    \centering
-    \begin{verbatim}
-int DTWDistance(s: array [1..n], t: array [1..m], w: int) {
-    DTW := array [0..n, 0..m]
+\lstinputlisting[
+    breaklines=true,
+    language={},
+    caption={Pseudocódigo do algoritmo Dynamic Time Warping.},
+    label={alg:dtw}
+]{Pseudocodigo/Dynamic_Time_Warping.txt}
 
-    w := max(w, abs(n-m)) // adapt window size (*)
+\lstinputlisting[
+    breaklines=true,
+    language={},
+    caption={Pseudocódigo do algoritmo Continuous Dynamic Time Warping.},
+    label={alg:cdtw}
+]{Pseudocodigo/Continuous_Dynamic_Time_Warping.txt}
 
-    for i := 0 to n
-        for j:= 0 to m
-            DTW[i, j] := infinity
-    DTW[0, 0] := 0
-    for i := 1 to n
-        for j := max(1, i-w) to min(m, i+w)
-            DTW[i, j] := 0
+\lstinputlisting[
+    breaklines=true,
+    language={},
+    caption={Pseudocódigo do algoritmo Derivative Dynamic Time Warping.},
+    label={alg:ddtw}
+]{Pseudocodigo/Derivative_Dynamic_Time_Warping.txt}
 
-    for i := 1 to n
-        for j := max(1, i-w) to min(m, i+w)
-            cost := d(s[i], t[j])
-            DTW[i, j] := cost + minimum(DTW[i-1, j  ],    // insertion
-                                        DTW[i  , j-1],    // deletion
-                                        DTW[i-1, j-1])    // match
-    return DTW[n, m]
-}        
-    \end{verbatim}
-    \caption{Pseudocódigo do algoritmo Dynamic Time Warping. \cite{enwiki:1329173867}}
-    \label{pesudocodigo:dynamictimewarping}
-\end{figure}
+\lstinputlisting[
+    breaklines=true,
+    language={},
+    caption={Pseudocódigo do algoritmo Longest Common Subsequence.},
+    label={alg:lcs}
+]{Pseudocodigo/Longest_Common_Subsequence_nao_recursivo.txt}
 
-\begin{figure}
-    \centering
-    \begin{verbatim}
-X and Y be two given sequences
-Initialize a table LCS of dimension X.length * Y.length
-X.label = X
-Y.label = Y
-LCS[0][] = 0
-LCS[][0] = 0
-Start from LCS[1][1]
-Compare X[i] and Y[j]
-    If X[i] = Y[j]
-        LCS[i][j] = 1 + LCS[i-1, j-1]   
-        Point an arrow to LCS[i][j]
-    Else
-        LCS[i][j] = max(LCS[i-1][j], LCS[i][j-1])
-        Point an arrow to max(LCS[i-1][j], LCS[i][j-1])        
-    \end{verbatim}
-    \caption{Pesudocódigo do algoritmo Longest Common Subsequence. \cite{programiz:longestcommonsubsequence}}
-    \label{fig:placeholder}
-\end{figure}
+\lstinputlisting[
+    breaklines=true,
+    language={},
+    caption={Pseudocódigo do algoritmo Soft Dynamic Time Warping.},
+    label={alg:softdtw}
+]{Pseudocodigo/Soft_Dynamic_Time_Warping.txt}
 
 \section{Implementação}
+
+\paragraph{}A implementação do programa que permite rodar os algoritmos sobre séries temporais foi feita em Python. Para isso foi criada uma janela principal na qual permite que o usuário possa executar os algoritmos desejados. Essa janela é composta dos menus ‘Arquivo’, ‘Matriz de alinhamento’, ‘Matriz de Mapeamento’ e ‘Distância’. O menu ‘Arquivo’, através do botão  ‘Abrir série temporal’, possibilita abrir um arquivo de uma série temporal, resultando na abertura da janela de exibição de série temporal, conforme exibido na Figura 2. O menu ‘Matriz de Alinhamento’ permite abrir uma janela matriz de alinhamento com base no algoritmo para geração da matriz de alinhamento, escolhido através dos botões desse menu. O menu ‘Matriz de Mapeamento’ permite a abertura de uma janela de matriz de mapeamento com base no algoritmo de geração da matriz de mapeamento, escolhido também através dos seus respectivos botões. Já o menu distância possibilita calcular a distância com base no algoritmo de geração de distância, que também é escolhido através dos seus botões.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/fig1-janela-principal.png}
+    \caption{Janela principal do programa}
+    \label{fig1}
+\end{figure}
+
+\paragraph{}A janela de exibição de uma série temporal é a janela que possibilita a visualização de um gráfico de uma série temporal. Conforme dá para ver na Figura 2, ela em seu título, mostra o nome da série temporal.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/fig2-janela-exibicao-serie-temporal.png}
+    \caption{Janela de exibição de Série Temporal}
+    \label{fig2}
+\end{figure}
+
+\paragraph{}Já a janela de exibição da matriz de alinhamento possibilita visualizar a matriz de alinhamento gerada a partir de duas séries temporais. Conforme dá para ver na Figura 3, ela exibe um gráfico relacionando uma série temporal com a outra. Ela suporta diferentes algoritmos: Dynamic Time Warping, Derivative Dynamic Time Warping, Continuous Dynamic Time Warping, Longest Common Subsequence e Soft Dynamic Time Warping.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/fig3-janela-matriz-alinhamento.png}
+    \caption{Janela de exibição da matriz de alinhamento}
+    \label{fig3}
+\end{figure}
+
+A janela de exibição de uma matriz de mapeamento possibilita a visualização de uma matriz mapeando uma série temporal à outra. Conforme mostra a Figura 4, ela possibilita entender a relação entre uma série temporal e outra. Ela possuí modularidade, possibilitando ser executada a partir de diferentes algoritmos: Dynamic Time Warping, Derivative Dynamic Time Warping, Continuous Dynamic Time Warping, Longest Common Subsequence e Soft Dynamic Time Warping.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/fig4-janela-matriz-mapeamento.png}
+    \caption{Janela de exibição da matriz de mapeamento}
+    \label{fig4}
+\end{figure}
+
+\paragraph{}Para o algoritmo Dynamic Time Warping foi desenvolvida uma janela que possibilita a execução do DTW e a obtenção de sua distância. Conforme dá para ver na Figura 5, ela possibilita que o usuário escolha o algoritmo de distância utilizado pelo Dynamic Time Warping além da Janela de Busca.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/fig5-janela-distancia-dynamic-time-warping.png}
+    \caption{Janela distância Dynamic Time Warping}
+    \label{fig5}
+\end{figure}
+
+\paragraph{}A janela da distância Continuous Dynamic Time Warping possibilita a obtenção da distância do Continuous Dynamic Time Warping. Conforme dá para ver na Figura 6, ela possibilita o usuário escolher a Interpolação, o Número de Stainer. além do valor de r.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/fig6-janela-distancia-continuous-dynamic-time-warping.png}
+    \caption{Janela distância Continuous Dynamic Time Warping}
+    \label{fig6}
+\end{figure}
+
+\paragraph{}A janela da distância do Longest Common Subsequence possibilita que o usuário execute o algoritmo Longest Common Subsequence e obtenha a distância. Conforme dá para ver na Figura 7, diferentemente dos outros algoritmos, ela não possuí nenhum parâmetro.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/fig7-janela-distancia-longest-common-subsequence.png}
+    \caption{Janela distância Longest Common Subsequence}
+    \label{fig7}
+\end{figure}
+
+\paragraph{}Para a distância do Derivative Dynamic Time Warping, foi desenvolvido uma janela à qual permite a obtenção de sua distância. Conforme dá para ver na Figura 8, ela possibilita ao usuário obter a distância do Derivative Dynamic Time Warping definido a janela de busca.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/fig8-janela-distancia-derivative-dynamic-time-warping.png}
+    \caption{Janela distância Derivative Dynamic Time Warping}
+    \label{fig8}
+\end{figure}
+
+\paragraph{}E para o algoritmo Soft Dynamic Time Warping foi desenvolvida uma janela para a obtenção de sua distância. Conforme dá para ver na Figura 9, ela permite ao usuário definir o valor do parâmetro Gamma.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/fig9-janela-soft-dynamic-time-warping.png}
+    \caption{Janela distância Soft Dynamic Time Warping}
+    \label{fig9}
+\end{figure}
+
+\paragraph{}A construção da interface gráfica foi feita utilizando os recursos providos pela biblioteca Tkinter do Python. Através dos recursos providos por essa biblioteca, foram construídas as seguintes classes: ‘JanelaDistanciaContinuousDynamicTimeWarping’ para a  Janela distância Continuous Dynamic Time Warping (Figura 6); ‘JanelaDistanciaDerivativeDynamicTimeWarping’, para a Janela distância Derivative Dynamic Time Warping (Figura 8); ‘JanelaDistanciaDynamicTimeWarping’ para a Janela distância Dynamic Time Warping (Figura 5), ‘JanelaDistanciaLongestCommonSubsequence’ para a Janela distância Longest Common Subsequence (Figura 7); ‘JanelaDistanciaSoftDynamicTimeWarping’ para a Janela distância Soft Dynamic Time Warping (Figura 9); ‘JanelaMatrizAlinhamento’ para a Janela de exibição da Matriz de Alinhamento (Figura 3); ‘JanelaMatrizMapeamento’ para a Janela de exibição da Matriz de Mapeamento (Figura 4); JanelaPrincipal para a Janela Principal (Figura 1); ‘JanelaSelecionarSerieTemporal’ para a janela que permite ao usuário selecionar uma série temporal; e ‘JanelaSerieTemporal’ para a Janela de exibição de Série Temporal (Figura 2). Cada uma dessas classes herdam da classe Tkiner.Topleve (exceto a JanelaPrincipal, que herda de Tkinter.Tk).
+
+\paragraph{}No que tange à implementação manual dos algoritmos, ela foi feita nas seguintes classes: ‘DerivativeDynamicTimeWarping’, que implementa o algoritmo Derivative Time Warping; ‘LongestCommonSubsequence’, que implementa o algoritmo Longest Common Subsequence; ‘DynamicTimeWarping’, que implemente o algoritmo Dynamic Time Warping;
+‘ContinuousDynamicTimeWarping’, que implementa o algoritmo Continuous Dynamic Time Warping;
+e ‘SoftDynamicTimeWarping’, que implementa o algoritmo Soft Dynamic Time Warping. Todas essas classes herdam da classe abstrata ‘WarpingPathAlgorithm’ que exige a implementação do método ‘warping_paths’, no qual é realizada a execução de cada algoritmo.
+
+\paragraph{}Em relação ao fluxo de execução do programa, ele é controlado pela classe Controlador, que implementa a realização dos principais procedimentos do programa. Para isso foram implementados os seguintes métodos: ‘abrir_arquivo_serie_temporal’, que realiza a abertura de um arquivo de uma série temporal; ‘obter_algoritmo’ que retorna uma instância de cada algoritmo para os demais métodos do controlador; ‘gerar_matriz_alinhamento’ que realiza a geração de uma matriz de alinhamento com base no algoritmo passado por parâmetro; ‘gerar_matriz_mapeamento’, que realiza a geração de uma matriz de mapeamento com base no algoritmo passado por parâmetro; ‘executar_distancia_dynamic_time_warping’, que realiza a execução da Janela da Distância do Dynamic Time Warping; ‘executar_distancia_continuous_dynamic_time_warping’, que realiza a execução da Janela da Distância do Continuous Dynamic Time Warping; ‘executar_distancia_longest_common_subsequence’, que realiza a execução da Janela da Distância do Longest Common Subsequence; ‘executar_distancia_derivative_dynamic_time_warping’, que realiza a execução da Janela do Derivative Dynamic Time Warping; e ‘executar_distancia_soft_dynamic_time_warping’, que executa a Janela do Soft Dynamic Time Warping.
+
 
 \section{Relatório de Testes}
 
 \section{Conclusão}
 
-
 \bibliographystyle{sbc}
 \bibliography{sbc-template}
+
+\section{Uso de Inteligência Artificial}
+
+\paragraph{}Para este trabalho foram utilizados os seguintes modelos de inteligência artificial generativa: Google Gemini, ChatGPT, Deep Seek e Qwen Studio. Esses modelos foram utilizados para a resolução de dúvidas e problemas relacionados ao desenvolvimento do programa para a análise de séries temporais, a realização dos experimentos com as séries temporais e os classificadores, além de dúvidas e problemas relacionados ao LaTeX.
 
 \end{document}
