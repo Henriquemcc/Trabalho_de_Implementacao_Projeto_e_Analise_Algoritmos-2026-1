@@ -13,6 +13,10 @@ python ./scripts/empacotar.py ./app ./entrega/programa.py
 # Copiando os arquivos LaTeX
 cp -r ./docs/artigo/. ./entrega
 
+# Copiando Notebooks
+cp ./notebooks/Experimentos_todo_dataset_alternativo.ipynb ./entrega/Experimentos.ipynb
+cp ./notebooks/Metricas.ipynb ./entrega/Metricas.ipynb
+
 # Zipando
 cd entrega || exit 1
 zip -9 -r Trabalho_Pratico_Henrique_Mendonca_Castelar_Campos.zip .
