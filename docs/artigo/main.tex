@@ -32,14 +32,14 @@
 
 \subsection{Dynamic Time Warping}
 
-\paragraph{}Analisando a complexidade do Dynamic Time Warping, é possível perceber que a parte dele que possuí o maior curso são os dois laços ‘para’ aninhados:
+\paragraph{}Analisando a complexidade do Dynamic Time Warping, é possível perceber que a parte dele que possuí o maior custo são os dois laços ‘para’ aninhados:
 
 \begin{verbatim}
 para i de 1 até tamanho(s):
     para j de j_inicio até j_fim:
 \end{verbatim}
 
-\paragraph{}Consequentemente a função de complexidade deve ser calculada levando em consideração a quantidade de vezes que esses laços serão executados. Dessa forma é possível perceber que como a variável janela\_busca influencia diretamente na execução do laço mais interno, essa função de complexidade terá como entrada três variáveis: n, que é o tamanho da primeira série temporal; m, que é o tamanho da segunda série temporal; e w, que é o tamanho da janela de busca.
+\paragraph{}Consequentemente a função de complexidade deve ser calculada levando em consideração a quantidade de vezes que esses laços serão executados. Dessa forma, é possível perceber que como a variável janela\_busca influencia diretamente na execução do laço mais interno, essa função de complexidade terá como entrada três variáveis: n, que é o tamanho da primeira série temporal; m, que é o tamanho da segunda série temporal; e w, que é o tamanho da janela de busca.
 
 \paragraph{}O laço mais interno do loop será executado min(m, i + w) + 1 - (max(1, i - w)) + 1 vezes. Consequentemente a função de complexidade será $f(n, m, w) = \sum_{i=1}^{n}(min(m, i + w) + 1 - (max(1, i - w)) + 1)$.
 
@@ -52,12 +52,25 @@ para i de 1 até tamanho(s):
     label={alg:dtw}
 ]{Pseudocodigo/Dynamic_Time_Warping.txt}
 
+\subsection{Continuous Dynamic Time Warping}
+
+\paragraph{}Para o algoritmo Continuous Dynamic Time Warping, a parte que possuí maior custo são os ‘para’ aninhados:
+
+\begin{verbatim}
+para i de (tamanho(curva2) - 2) até 0 passo -1:
+    para j de (tamanho(curva1) - 2) até 0 passo -1:
+\end{verbatim}
+
+\paragraph{}Consequentemente, a função de complexidade é calculada em função de n, que é o tamanho de s1 e m, que é o tamanho de s2. Dessa forma, a função será $f(n, m) = (m - 2 - 0 + 1) * (n-2-0 + 1)$. Dessa forma é possível afirmar que sua ordem de complexidade é $\theta(m * n)$.
+
 \lstinputlisting[
     breaklines=true,
     language={},
     caption={Pseudocódigo do algoritmo Continuous Dynamic Time Warping.},
     label={alg:cdtw}
 ]{Pseudocodigo/Continuous_Dynamic_Time_Warping.txt}
+
+\subsection{Derivative Dynamic Time Warping}
 
 \lstinputlisting[
     breaklines=true,
@@ -66,12 +79,16 @@ para i de 1 até tamanho(s):
     label={alg:ddtw}
 ]{Pseudocodigo/Derivative_Dynamic_Time_Warping.txt}
 
+\subsection{Longest Common Subsequence}
+
 \lstinputlisting[
     breaklines=true,
     language={},
     caption={Pseudocódigo do algoritmo Longest Common Subsequence.},
     label={alg:lcs}
 ]{Pseudocodigo/Longest_Common_Subsequence_nao_recursivo.txt}
+
+\subsection{Soft Dynamic Time Warping}
 
 \lstinputlisting[
     breaklines=true,

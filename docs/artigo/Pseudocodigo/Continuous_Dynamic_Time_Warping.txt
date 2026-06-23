@@ -32,8 +32,8 @@ CDTW(s1, s2, interpolacao, num_stainer, r):
     mapa_distancias <- criar_dicionario();
 
     // Iterando do canto inferior direito para o canto superior esquerdo da matriz
-    para i de (tamanho(curva2) - 1) ate 0 passo -1:
-        para j de (tamanho(curva1) - 1) ate 0 passo -1:
+    para i de (tamanho(curva2) - 2) ate 0 passo -1:
+        para j de (tamanho(curva1) - 2) ate 0 passo -1:
 
             // Caso esteja fora da mascara, podemos pular este elemento
             mascara_superior <- mascara[0, j];
