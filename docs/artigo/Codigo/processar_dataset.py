@@ -59,7 +59,7 @@ def processar_dataset(nome_dataset: str):
     except Exception as e:
         print(e)
 
-    # Obtendo acurácia
+    # Obtendo acuracia
     print('Obtendo acuracia')
     acuracia_dtw = accuracy_score(y_test, y_dtw)
     acuracia_ddtw = accuracy_score(y_test, y_ddtw)
@@ -70,7 +70,7 @@ def processar_dataset(nome_dataset: str):
     print('Acuracia LCS: {}'.format(acuracia_lcs))
     print('Acuracia Soft DTW: {}'.format(acuracia_soft_dtw))
 
-    # Salvando as métricas no dicionário
+    # Salvando as metricas no dicionario
     print('Salvando as metricas no dicionario')
     metricas_i = {}
     metricas_i[(nome_dataset, 'dtw')] = acuracia_dtw

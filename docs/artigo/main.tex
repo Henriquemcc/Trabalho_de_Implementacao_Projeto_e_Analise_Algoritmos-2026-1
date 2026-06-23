@@ -28,7 +28,22 @@
 
 \section{Solução Proposta}
 
-\paragraph{}Para esta solução, foram utilizados os seguintes algoritmos: Dynamic Time Warping (DTW)\cite{sakoe1978dynamic}, Continuous Dynamic Time Warping (CDTW)\cite{munich1999continuous}, Longest Common Subsequence (LCS)\cite{vlachos2002discovering} e Soft Dynamic Time Warping (Soft-DTW)\cite{cuturi2017soft}.
+\paragraph{}Para esta solução, foram utilizados os seguintes algoritmos: Dynamic Time Warping (DTW)\cite{sakoe1978dynamic}, Continuous Dynamic Time Warping (CDTW)\cite{munich1999continuous}, Longest Common Subsequence (LCS)\cite{vlachos2002discovering} e Soft Dynamic Time Warping (Soft-DTW)\cite{cuturi2017soft}. Todos eles foram escritos em Pseudo-Código, visando possibilitar a análise da sua complexidade.
+
+\subsection{Dynamic Time Warping}
+
+\paragraph{}Analisando a complexidade do Dynamic Time Warping, é possível perceber que a parte dele que possuí o maior curso são os dois laços ‘para’ aninhados:
+
+\begin{verbatim}
+para i de 1 até tamanho(s):
+    para j de j_inicio até j_fim:
+\end{verbatim}
+
+\paragraph{}Consequentemente a função de complexidade deve ser calculada levando em consideração a quantidade de vezes que esses laços serão executados. Dessa forma é possível perceber que como a variável janela\_busca influencia diretamente na execução do laço mais interno, essa função de complexidade terá como entrada três variáveis: n, que é o tamanho da primeira série temporal; m, que é o tamanho da segunda série temporal; e w, que é o tamanho da janela de busca.
+
+\paragraph{}O laço mais interno do loop será executado min(m, i + w) + 1 - (max(1, i - w)) + 1 vezes. Consequentemente a função de complexidade será $f(n, m, w) = \sum_{i=1}^{n}(min(m, i + w) + 1 - (max(1, i - w)) + 1)$.
+
+\paragraph{}No pior caso, os tamanhos das séries temporais serão iguais (m=n), e a janela de busca será nula. Portanto o algoritmo executará definindo a janela de busca como o máximo entre m e n, que é n, e logo o laço interno executará $min(n, i + n) + 1 - max(1, i - n) + 1$ vezes. Consequentemente a função de complexidade será $f(n, m) = \sum_{i=1}^{n} (min(n, i + n) + 1 - max(1, i - n) + 1)$.
 
 \lstinputlisting[
     breaklines=true,
@@ -169,7 +184,7 @@ e ‘SoftDynamicTimeWarping’, que implementa o algoritmo Soft Dynamic Time War
 
 \subsection{Formatação do DataSet}
 
-\paragraph{}Após a abertura dos arquivos das séries temporais, foi necessário formatá-las em um formato compatível com os classificadores. Para isso, foi desenvolvida a função ‘formatar_dataset’ à qual foi utilizada para esse fim. Essa função gerava um novo DataSet com os seguintes atributos: ‘classe’ e ‘SérieTemporal’.
+\paragraph{}Após a abertura dos arquivos das séries temporais, foi necessário formatá-las em um formato compatível com os classificadores. Para isso, foi desenvolvida a função ‘formatar\_dataset’ à qual foi utilizada para esse fim. Essa função gerava um novo DataSet com os seguintes atributos: ‘classe’ e ‘SérieTemporal’.
 
 \lstinputlisting[
     breaklines=true,

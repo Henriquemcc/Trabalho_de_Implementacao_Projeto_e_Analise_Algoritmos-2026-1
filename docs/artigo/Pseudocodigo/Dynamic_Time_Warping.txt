@@ -14,12 +14,12 @@ DTW(s, t, janela_busca):
     matrix_dtw[0, 0] <- 0;
 
     // Preenchendo a matriz por Programacao dinamica
-    para i de 1 ate tamanho(s) + 1:
+    para i de 1 ate tamanho(s):
         // Definido os limites inferior e superior
         j_inicio <- max(1, i - janela_busca);
         j_fim <- min(tamanho(t), i + janela_busca) + 1;
 
-        para j de j_inicio ate j_fim:
+        para j de j_inicio ate j_fim - 1:
             // Calculando o custo local
             custo_local <- distancia(s[i - 1], t[j - 1]);
 
