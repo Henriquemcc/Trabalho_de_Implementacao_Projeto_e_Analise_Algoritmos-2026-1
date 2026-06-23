@@ -10,6 +10,9 @@ mkdir -p "entrega"
 # Gerando programa.py
 python ./scripts/empacotar.py ./app ./entrega/programa.py
 
+# Copiando requisitos
+cp ./requirements.txt ./entrega/requirements.txt
+
 # Copiando os arquivos LaTeX
 cp -r ./docs/artigo/. ./entrega
 
