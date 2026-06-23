@@ -1,0 +1,83 @@
+Soft_DTW(s1, s2, γ):
+    // Obtendo distância euclidiana ao quadrado
+    d <- Distancia_Euclidiana_Ao_Quadrado(s1, s2);
+
+    // Executando o Forward
+    distancia, r <- forward(d, tamanho(s1), tamanho(s2));
+
+    // Executando o Backward
+    e <- backward(d, r, tamanho(s1), tamanho(s2), γ);
+    
+    retorne distancia, e;
+
+
+Distancia_Euclidiana_Ao_Quadrado(s1, s2):
+    d <- criar_matriz()
+    para i de 0 até tamanho(s1) - 1:
+        para j de 0 até tamanho(s2) - 1:
+            d[i, j] <- (s1[i] - s2[j])^2
+    retorne d;
+
+Forward(d, n, m):
+
+    // Criando matriz r
+    r <- criar_matriz();
+
+    // Definindo primeiro valor da matriz
+    r[0, 0] <- 0;
+
+    // Preenchendo a matriz
+    para i de 1 até n + 1:
+        para j de 1 até m + 1:
+            // Calculando os vizinhos
+            esquerda <- r[i, j - 1];
+            cima <- r[i - 1, j];
+            diagonal_superior_esquerda <- r[i - 1, j - 1]
+
+            // Calculando o custo atual
+            r[i, j] <- d[i - 1, j - 1] + softmin(esquerda, cima, diagonal_superior_esquerda);
+
+    // Obtendo distância final
+    distancia_final <- r[n, m];
+
+    // retornando distância final e a matriz de custos acumulados
+    retorne distancia_final, r;
+
+Backward(d, r, n, m, γ):
+
+    // Criando uma matriz
+    e <- criar_matriz()
+
+    // Inicializando o primeiro elemento
+    e[n, m] <- 1
+
+    // Iterando sobre a matriz
+    para j de m até 0 passo -1:
+        para i de n até 0 passo -1:
+            // Contribuição do vizinho direito
+            se j < m:
+                a <- e^((r[i, j+1] - r[i, j] - d[i-1, j]) / γ);
+            senão:
+                a <- 0;
+
+            // Contribuição do nizinho de baixo
+            se i < n:
+                b <- e^((r[i + 1, j] - r[i, j] - d[i, j - 1]) / γ);
+            senão:
+                b <- 0;
+
+            // Contribuição do vizinho da diagonal do canto inferior direito
+            se (i < n e j < m):
+                c <- e^((r[i + 1, j + 1] - r[i, j] - d[i, j]) / γ)
+            senão:
+                c <- 0;
+
+            // Atualizando o alinhamento esperado da célula atual baseado no fluxo reverso
+            se i == m e j == n:
+                e[i, j] = 1.0
+            senão:
+                e[i, j] = e[i, j + 1] * a + e[i + 1, j] * b + e[i + 1, j + 1] * c
+
+
+    // Retornando a matriz
+    returne e
