@@ -159,14 +159,95 @@ e ‘SoftDynamicTimeWarping’, que implementa o algoritmo Soft Dynamic Time War
 
 \section{Relatório de Testes}
 
+\subsection{Importação e Filtragem do Data Frame}
+
 \paragraph{}Para o desenvolvimento dos testes com os algoritmos foi criado um notebook jupyter no qual foi importado o dataset do trabalho. Para isso foi utilizado a biblioteca Pandas, á qual foi utilizada para gerar um DataFrame a partir do arquivo CSV da planilha da base de dados, baixado do site oficial. Após o carregamento da planilha no notebook jupyter, foram filtradas as linhas do DataFrame às quais foram sorteadas para o meu trabalho. E dessa forma, foi construído o Data Frame contendo 32 linhas.
 
-\paragraph{}Com o Data Frame carregado e filtrado, foi necessário obter uma lista com os nomes dos datasets. Para isso foi utilizado o atributo ‘iloc’ do Pandas DataFrame ao qual foi filtrado o atributo ‘Name’. Para cada elemento da lista do dataset foi necessário realizar os procedimentos desde a abertura dos arquivos até a obtenção das métricas dos algoritmos. Para isso, foi desenvolvida a função ‘processar\_dataset’ à qual ficou responsável por realizar a abertura dos arquivos do dataset, transformando-os em Pandas Data Frame; formatá-los para um formato que permite treinar os modelos; separar o conjunto de treino do conjunto de testes, criar os modelos dos algoritmos, treinar os modelos, testar os algoritmos, e no final obter as métricas.
+\subsection{Abertura das Séries Temporais}
 
-\paragraph{}Como os modelos demandam bastante tempo para serem devidamente treinados e testados, a função ‘processar\_dataset’ foi executada de forma paralela para cada série temporal, possibilitando que o processo de treinamento e de teste aproveitassem do paralelismo da máquina à qual foi executado. A implementação do paralelismo se deu a partir do uso do ThreadPoolExecutor da biblioteca nativa do python.
+\paragraph{}Com o Data Frame devidamente importado e filtrado, foi necessário obter o caminho dos nomes dos arquivos das séries temporais. Para isso foi extraído do Data Frame os valores do atributo ‘Name’, resultando em uma lista com os nomes de todas as séries temporais. A partir dessa lista foi gerado o caminho dos arquivos das séries temporais a partir da concatenação de strings em Python. As strings resultantes foram utilizadas para a abertura dos arquivos das séries temporais a partir do Pandas.
 
+\subsection{Formatação do DataSet}
+
+\paragraph{}Após a abertura dos arquivos das séries temporais, foi necessário formatá-las em um formato compatível com os classificadores. Para isso, foi desenvolvida a função ‘formatar_dataset’ à qual foi utilizada para esse fim. Essa função gerava um novo DataSet com os seguintes atributos: ‘classe’ e ‘SérieTemporal’.
+
+\lstinputlisting[
+    breaklines=true,
+    language={Python},
+    caption={Função formatar\_dataset},
+    label={codigo:fotmatar\_dataset}
+]{Codigo/formatar_dataset.py}
+
+\subsection{Separação dos Conjuntos X e Y}
+
+\paragraph{}Com o DataSet formatado, foi necessário a separação do x e y dos datasets. Para isso foi desenvolvida a função ‘separar\_x\_y’ à qual extraí os valores do atributo ‘SérieTemporal’ para o x e os valores do atributo ‘classe’ para y. Essa função foi utilizada tanto para o conjunto de treino, resultando em x\_treino e y\_treino, quanto para o conjunto de teste, resultando em x\_teste e y\_teste.
+
+\lstinputlisting[
+    breaklines=true,
+    language={Python},
+    caption={Função separar\_x\_y},
+    label={codigo:separar\_x\_y}
+]{Codigo/separar_x_y.py}
+
+\subsection{Implementação do One Nearest Neighbour}
+
+\paragraph{}Foi implementado a classe OneNearestNeighbour, responsável pela implementação do algoritmo One Nearest Neighbour nos experimentos do dataset. Essa classe quando instanciada recebe o algoritmo de distância da série temporal e o utiliza para treinamento e predição do modelo.
+
+\lstinputlisting[
+    breaklines=true,
+    language={Python},
+    caption={Classe OneNearestNeighbour},
+    label={codigo:OneNearestNeighbour}
+]{Codigo/OneNearestNeighbour.py}
+
+\subsection{Instanciação dos Algoritmos}
+
+\paragraph{}Após criada a classe OneNearestNeighbour, foi necessário instanciar os modelos com os respectivos algoritmos de séries temporais. Para isso, foi criado um dicionário no qual iria armazenar os modelos para cada série temporal e para cada algoritmo de série temporal. Dessa forma, os modelos poderiam ser testados individualmente no futuro.
+
+\subsection{Treinamento dos Algoritmos}
+
+\paragraph{}Com os modelos instanciados, foi necessário realizar o treinamento dos modelos. Para isso para cada modelo, foi executado o seu respectivo método ‘fit’, que é responsável por realizar o treinamento com as séries temporais de treino. Dessa forma, foi possível o modelo aprender quais padrões de séries temporais são de quais classes.
+
+\subsection{Teste dos Algoritmos}
+
+\paragraph{}Após o treinamento dos modelos, foi necessário realizar os testes dos mesmos. Para isso, foi chamado o método ‘predict’ de cada modelo, passando as séries temporais. Essa foi a parte que mais demandou tempo de processamento, tendo em vista que foi necessário para cada elemento de treino obter a distância dele e compará-la com os modelos de teste, identificando qual classe possuí menor distância. Durante os testes, foram coletados o y predito pelo modelo e armazenado em uma variável.
+
+\subsection{Obtenção das Métricas}
+
+\paragraph{}Com o modelo treinado e testado, foi necessário avaliar a qualidade do modelo. Para isso, foi utilizada a função ‘accuracy\_score’ da biblioteca sklearn. Dessa forma foi calculada a acurácia de cada modelo, possibilitando identificar qual modelo obteve a melhor acurácia. Essas métricas foram salvas em um dicionário indexado pela tupla com o nome da série temporal e o nome do modelo, possibilitando identificar qual modelo saiu melhor para cada série temporal.
+
+\subsection{Paralelização do Processamento do DataSet}
+
+\paragraph{}Como o tempo gasto pelo treinamento e pela realização de testes do modelo é longo, foi realizada a paralelização do código no qual foi realizado o processamento do DataSet. Para isso, foi desenvolvida a função ‘processar\_dataset’ à qual ficou responsável por realizar a abertura dos arquivos do dataset, transformando-os em Pandas Data Frame; formatá-los para um formato que permite treinar os modelos; separar o conjunto de treino do conjunto de testes, criar os modelos dos algoritmos, treinar os modelos, testar os algoritmos, e no final obter as métricas. Essa função foi chamada para cada nome de série temporal, possibilitando executar várias séries temporais diferentes ao mesmo tempo.
+
+\lstinputlisting[
+    breaklines=true,
+    language={Python},
+    caption={Função processar\_dataset},
+    label={codigo:processar\_dataset}
+]{Codigo/processar_dataset.py}
+
+\paragraph{}Para a implementação do paralelismo, foi utilizado o recurso ThreadPoolExecutor, nativo do Python, possibilitando executar a função ‘processar\_dataset’ para cada thread de CPU disponível. Dessa forma, foi possível obter um desempenho considerável na realização dos experimentos do DataSet.
+
+\lstinputlisting[
+    breaklines=true,
+    language={Python},
+    caption={Função treinar\_modelo},
+    label={codigo:treinar\_modelo}
+]{Codigo/treinar_modelo.py}
+
+\subsection{Hardware Utilizado}
+
+\paragraph{}Os experimentos realizados foram feitos em um computador Desktop com um Processador Intel Core Ultra 7 265K de 20 núcleos, Memória RAM: 32GiB DDR5 e Placa de Vídeo NVIDIA GeForce RTX 5060 Ti. O sistema operacional utilizado foi o Fedora Linux 44 (Workstation Edition) e a versão do Python utilizada foi a 3.14.6.
 
 \section{Conclusão}
+
+\paragraph{}Infelizmente, devido ao tamanho da entrada de dados, o tempo de execução dos experimentos ultrapassou 1 dia, 19 horas e 40 minutos, no momento em que está sendo escrito este artigo. Como está bem próximo do prazo limite para a entrega do trabalho, não foi possível obter todos os resultados dos experimentos. Porém como a função ‘processar_dataset’ imprime os resultados das acurácias, foi possível copiá-las manualmente para outra planilha jupyter e com isso obter a média da acurácia dos modelos.
+
+\paragraph{}O algoritmo Dynamic Time Warping (DTW) foi o que obteve a maior acurácia: 93,95320227076811\%, já o Soft Dynamic Time Warping (Soft DTW) foi o que obteve a segunda melhor acurácia: 92,75263429517717\%. Já o Derivative Dynamic Time Warping (DDTW) obteve a terceira melhor acurácia: 92,28562733306986\%. E por último o Longest Common Subsequence (LCS) foi o que obteve a pior acurácia: 33,88581709247693\%. Dessa forma foi possível concluir que para a comparação de duas séries temporais, o melhor algoritmo é o Dynamic Time Warping.
+
+\paragraph{}Através deste trabalho, foi possível compreender o funcionamento desses diferentes algoritmos para trabalhar com séries temporais, além de compreender qual desses algoritmos obteve o melhor a melhor solução.
+
 
 
 
