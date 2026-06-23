@@ -17,7 +17,7 @@ DDTW(s1, s2, janela_busca):
     janela <- gerar_janela(tam(d_s1), tam(d_s2), janela_busca);
 
     // Criando matriz de custo acumulado
-    matriz_custo <- Dicionário onde chaves não encontradas retornam (infinito, 0, 0);
+    matriz_custo <- Dicionario onde chaves nao encontradas retornam (infinito, 0, 0);
 
     // Definindo o primeiro valor da matriz
     matriz_custo[0, 0] <- (0, 0, 0);
@@ -26,7 +26,7 @@ DDTW(s1, s2, janela_busca):
     // Interando pelo tamanho da janela
     para i e j em janela:
 
-        // Obtendo o custo mínimo e o atribuindo de volta na matriz
+        // Obtendo o custo minimo e o atribuindo de volta na matriz
         d_t <- |d_s1[i - 1] - d_s2[j - 2]|;
         custo_esquerda <- matriz_custo[i - 1, j] + d_t;
         custo_baixo <- matriz_custo[i, j - 1] + d_t;
@@ -42,7 +42,7 @@ DDTW(s1, s2, janela_busca):
     // Definindo os valores para i e j
     i <- tam(d_s1);
     j <- tam(d_s2);
-    enquanto não (i = 0 ou j = 0):
+    enquanto nao (i = 0 ou j = 0):
         matriz_rastreamento.adiciona(i - 1, j - 1);
 
         // Definindo os novos valores para i e j
@@ -54,7 +54,7 @@ DDTW(s1, s2, janela_busca):
     // Invertendo a ordem dos elementos
     matriz_rastreamento <- inverter(matriz_rastreamento);
 
-    // Obtendo a distância final
+    // Obtendo a distancia final
     distancia_final = matriz_custo_acumulado[tam(d_s1), tam(d_s2)][0];
 
     retorna distancia_final e matriz_retorno;
