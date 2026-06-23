@@ -5,7 +5,7 @@ def treinar_modelo(planilha: pandas.DataFrame) -> tuple[dict[Any, Any], dict[Any
     :return: Dicionario contendo as metricas de cada algoritmo
     """
 
-    # Dicionários com as métricas e modelos dos algoritmos
+    # Dicionarios com as metricas e modelos dos algoritmos
     metricas = {}
     modelos = {}
 
